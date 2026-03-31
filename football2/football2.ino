@@ -2,11 +2,15 @@
 #include "MPU6050.h"
 #include "HTInfraredSeeker.h"
 
+Gyro gyro;
+
 void setup()
 {
   Serial.begin(115200);
   Wire.begin();
   //1. GYRO CALIBRATE
+  gyro.init();
+  gyro.calibrate();
   //2. SET ZERO_ANGLE
 }
 
