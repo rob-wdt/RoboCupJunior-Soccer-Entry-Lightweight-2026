@@ -11,6 +11,7 @@ void setup()
   //0. Initialization
   Serial.begin(115200);
   Wire.begin();
+
   gyro.init();
   btn.init();
   ir.init();
@@ -33,6 +34,8 @@ void loop()
   ir.read();
 
   //4. READ GYRO
+  gyro.read();
+
   //5. IF THE BALL IS FAR
     //IF THE BALL IS BEHIND US
       //VELOCITY = LINEAR_SPEED, IR.angle + 30, PDC(GYRO.YAW - ZERO_ANGLE)
