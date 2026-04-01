@@ -1,0 +1,41 @@
+#include "IR.h"
+
+IR::IR(int pin = A14) : _pin{pin}, _angle{}, _distance{} {}
+
+void IR::init()
+{
+  _IR.Initialize();
+
+  if (!_IR.Test())
+  {
+    Serial.println("IR Seeker: INITIALIZATION FAILED");
+  }
+}
+
+void IR::read()
+{
+  InfraredResult res{_IR.ReadAC()};
+  _angle = (res.Direction - 5) * 30;
+  _strength = res.Strength;
+}
+
+float IR::angle()
+{
+  return _angle;
+}
+
+float IR::strength()
+{
+  return _strength;
+}
+
+void IR::debug()
+{
+  Serial.print("IR Seeker:\t");
+  Serial.print("Angle:\t");
+  Serial.print(_angle);
+  Serial.print("Strength:\t");
+  Serial.println(_strength);
+  Serial.println("==============================================");
+  delay(1000);
+}
