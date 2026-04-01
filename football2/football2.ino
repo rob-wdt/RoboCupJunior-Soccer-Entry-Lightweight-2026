@@ -1,11 +1,13 @@
 #include "I2Cdev.h"
-#include "MPU6050.h"
+//#include "MPU6050.h"
 #include "HTInfraredSeeker.h"
 
 #include "gyro.h"
 #include "button.h"
 #include "IR.h"
 #include "motor.h"
+#include "PDC.h"
+#include "camera.h"
 
 #define M1_1 8
 #define M1_2 9
@@ -14,13 +16,19 @@
 #define M4_1 10
 #define M4_2 11
 
+//------------------------------------------SPEED------------------------------------------
+#define SPEED 50
+
 Gyro gyro;
 Button btn{A3};
+Button z_btn{A5};
 IR ir{A14};
 Motor m1{60, M1_1, M1_2, 1, 1};
 Motor m2{180, M2_1, M2_2, 1, -1};
-Motor m3{300, M4_1, M4_2, 1, -1}; //если не будет работать, поменять на -60   СПРОСИТЬ ПРО ЭТО!!!!!!!!!   И ЕЩЕ ПРО СКОБКИ (ВНУТРИ Motor::set_velocity())
-PDC pdc{0.8, 1.0, 0.5};
+Motor m3{-60, M4_1, M4_2, 1, -1}; //если не будет работать, поменять на -60   СПРОСИТЬ ПРО ЭТО!!!!!!!!!   И ЕЩЕ ПРО СКОБКИ (ВНУТРИ Motor::set_velocity())
+
+PDC pdc{0.05, 0.5, 0.00005};
+Camera cam;
 
 void setup()
 {
@@ -28,66 +36,70 @@ void setup()
   Serial.begin(115200);
   Wire.begin();
 
+  Serial.println("Init");
+  ir.init();
   gyro.init();
   btn.init();
-  ir.init();
+  Serial.println("Init complete");
 
   //1. GYRO CALIBRATE
-  gyro.calibrate();
-
-  //2. SET ZERO_ANGLE
+  Serial.println("Press A3 btn to start calibrating");
   while (!btn.is_pressed())
   {
     btn.read();
+  }
+  gyro.calibrate();
+  Serial.println("Finish calibrating");
+
+  //2. SET ZERO_ANGLE
+  Serial.println("Press A5 btn to set zero angle");
+  while (!z_btn.is_pressed())
+  {
+    z_btn.read();
     gyro.read();
   }
   gyro.set_zero_angle(gyro.yaw());
+  Serial.print("Zero angle set:\t");
+  Serial.println(gyro.zero_angle());
+  delay(1000);
 }
 
 void loop()
 {
-  //3. READ IR
+  //3. READING
   ir.read();
-
-  //4. READ GYRO
   gyro.read();
+  cam.read();
 
-  //5. IF THE BALL IS FAR
-  if (ir.strength() < 180)
+  //-----------------------------------------------------------MAIN CODE--------------------------------------------------
+  if (ir.strength() > 0)  // МЫ ВИДИМ МЯЧ
   {
-    //IF THE BALL IS BEHIND US
-    if (abs(ir.angle()) >= 60)
+    if (ir.angle() == 0)  //ОН ПРЯМО ПЕРЕД НАМИ
     {
-      if (ir.angle() < 0)
+      m1.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
+      m2.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
+      m3.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
+    }
+    else  //ОН СБОКУ ИЛИ СЗАДИ
+    {
+      if (ir.strength() >= 10) //ОН БЛИЗКО
       {
-        //VELOCITY = LINEAR_SPEED, IR.angle + 30, PDC(GYRO.YAW - ZERO_ANGLE)
-        m1.set_velocity(50, ir.angle() - 30, pdc.get(gyro.yaw() - gyro.zero_angle()));
-        m2.set_velocity(50, ir.angle() - 30, pdc.get(gyro.yaw() - gyro.zero_angle()));
-        m3.set_velocity(50, ir.angle() - 30, pdc.get(gyro.yaw() - gyro.zero_angle()));
+        m1.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
+        m2.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
+        m3.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
       }
-      else
+      else  //ОН ДАЛЕКО
       {
-        //VELOCITY = LINEAR_SPEED, IR.angle + 30, PDC(GYRO.YAW - ZERO_ANGLE)
-        m1.set_velocity(50, ir.angle() + 30, pdc.get(gyro.yaw() - gyro.zero_angle()));
-        m2.set_velocity(50, ir.angle() + 30, pdc.get(gyro.yaw() - gyro.zero_angle()));
-        m3.set_velocity(50, ir.angle() + 30, pdc.get(gyro.yaw() - gyro.zero_angle()));
+        m1.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
+        m2.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
+        m3.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
       }
     }
-
-    //IF THE BALL IS AHEAD
-    else
-    {
-      //VELOCITY = LINEAR_SPEED, IR.angle, PDC(GYRO.YAW - ZERO_ANGLE)
-      m1.set_velocity(50, ir.angle(), pdc.get(gyro.yaw() - gyro.zero_angle()));
-      m2.set_velocity(50, ir.angle(), pdc.get(gyro.yaw() - gyro.zero_angle()));
-      m3.set_velocity(50, ir.angle(), pdc.get(gyro.yaw() - gyro.zero_angle()));
-    }
-  //IF WE HAVE THE BALL
-  else
+  }
+  else  //МЫ НЕ ВИДИМ МЯЧ
   {
-    //VELOCITY = LINEAR_SPEED, 0, PDC(GYRO.YAW - ZERO_ANGLE)
-    m1.set_velocity(50, 0, pdc.get(gyro.yaw() - gyro.zero_angle()));
-    m2.set_velocity(50, 0, pdc.get(gyro.yaw() - gyro.zero_angle()));
-    m3.set_velocity(50, 0, pdc.get(gyro.yaw() - gyro.zero_angle()));
+    m1.set_velocity(SPEED, 150, pdc.get(cam.error()));
+    m2.set_velocity(SPEED, 150, pdc.get(cam.error()));
+    m3.set_velocity(SPEED, 150, pdc.get(cam.error()));
   }
 }
