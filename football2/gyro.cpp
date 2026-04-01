@@ -1,8 +1,10 @@
-#include "helper_3dmath.h"
+#pragma once
 #include "Arduino.h"
+#include "MPU6050_6Axis_MotionApps20.h"
+#include "helper_3dmath.h"
 #include "gyro.h"
 
-Gyro::Gyro(uint8_t I2C_address = 0x68) : _mpu{I2C_address} {}
+Gyro::Gyro(uint8_t I2C_address = 0x68) : _mpu{I2C_address}, _zero_angle{} {}
 
 void Gyro::init()
 {
@@ -13,7 +15,9 @@ void Gyro::init()
     Serial.println("Gyroscope: NO CONNECTION");
   }
 
-  _mpu.setDMPEnabled(true);   
+  _mpu.dmpInitialize();
+
+  _packet_size = _mpu.dmpGetFIFOPacketSize();
 }
 
 void Gyro::calibrate()
@@ -24,29 +28,36 @@ void Gyro::calibrate()
   _mpu.setYGyroOffset(0);
   _mpu.setZGyroOffset(0);
 
-  _mpu.CalibrateGyro();
+  _mpu.CalibrateGyro(100);
   _mpu.PrintActiveOffsets();
+
+  _mpu.setDMPEnabled(true);
 }
 
 void Gyro::read()
 {
-  if(_mpu.dmpGetCurrentFIFOPacket(_fifo_buffer))
+  if (_mpu.dmpGetCurrentFIFOPacket(_fifo_buffer))
   {
-    Quaternion q;
-    VectorFloat gravity;
-    float ypr[3];
+    _mpu.dmpGetQuaternion(&_q, _fifo_buffer);
+    _mpu.dmpGetGravity(&_gravity, &_q);
+    _mpu.dmpGetYawPitchRoll(_ypr, &_q, &_gravity);
 
-    _mpu.dmpGetQuaternion(&q, _fifo_buffer);
-    _mpu.dmpGetGravity(&gravity, &q);
-    _mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    _yaw = -_ypr[0] * RAD_TO_DEG - _zero_angle;
+    Serial.print(_yaw);
+    Serial.print(" = ");
+    Serial.print(-_ypr[0] * RAD_TO_DEG);
+    Serial.print(" - ");
+    Serial.println(_zero_angle);
 
-    _yaw = ypr[0];
+    if (_yaw < -180)
+    {
+      _yaw += 360;
+    }
+    else if (_yaw > 180)
+    {
+      _yaw -= 360;
+    }
   }
-}
-
-float Gyro::yaw()
-{
-  return _yaw;
 }
 
 float Gyro::zero_angle()
@@ -59,14 +70,16 @@ void Gyro::set_zero_angle(float new_angle)
   _zero_angle = new_angle;
 }
 
+float Gyro::yaw()
+{
+  return _yaw;
+}
+
 void Gyro::debug()
 {
   Serial.print("Gyro:\t");
-  Serial.print("Zero angle:\t");
-  Serial.print(_zero_angle);
-  Serial.print('\t');
   Serial.print("Current yaw:\t");
   Serial.println(_yaw);
   Serial.println("==============================================");
-  delay(1000);
+  delay(100);
 }

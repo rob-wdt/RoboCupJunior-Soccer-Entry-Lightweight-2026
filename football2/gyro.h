@@ -1,5 +1,7 @@
+#pragma once
 #include <stdint.h>
-#include "MPU6050.h"
+//#include "MPU6050.h"
+#include "MPU6050_6Axis_MotionApps20.h"
 
 class Gyro
 {
@@ -14,7 +16,11 @@ public:
   void debug();
 private:
   MPU6050 _mpu;
-  float _zero_angle;
+  float _zero_angle{};
   uint8_t _fifo_buffer[64];
+  uint16_t _packet_size;
+  Quaternion _q;
+  VectorFloat _gravity;
+  float _ypr[3];
   float _yaw;
 };
