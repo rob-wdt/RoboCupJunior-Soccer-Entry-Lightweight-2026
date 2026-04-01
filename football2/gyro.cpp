@@ -61,6 +61,7 @@ void Gyro::set_zero_angle(float new_angle)
 
 void Gyro::debug()
 {
+  Serial.print("Gyro:\t");
   Serial.print("Zero angle:\t");
   Serial.print(_zero_angle);
   Serial.print('\t');
