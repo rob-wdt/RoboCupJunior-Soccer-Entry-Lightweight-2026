@@ -2,12 +2,13 @@
 class Button
 {
 public:
-  Button(int pin = A3);
-  void init();
-  void read();
-  bool is_pressed();
-  void debug();
+    Button(int pin = A3);
+    void init();
+    void read();
+    bool is_pressed();
+    void debug();
+
 private:
-  int _pin;
-  bool _is_pressed{};
+    int _pin;
+    bool _is_pressed{};
 };

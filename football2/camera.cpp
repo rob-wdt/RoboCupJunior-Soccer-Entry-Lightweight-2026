@@ -3,19 +3,19 @@
 
 void Camera::read()
 {
-  Serial.begin(115200);
-  _error = Serial.read();
+    Serial.begin(115200);
+    _error = Serial.read();
 }
 
 float Camera::error()
 {
-  return _error;
+    return _error;
 }
 
-void debug()
+void Camera::debug()
 {
-  Serial.print("Camera:\t");
-  Serial.print("Error:\t");
-  Serial.println(_error);
-  Serial.println("==============================================")
+    Serial.print("Camera:\t");
+    Serial.print("Error:\t");
+    Serial.println(_error);
+    Serial.println("==============================================")
 }
