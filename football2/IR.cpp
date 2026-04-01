@@ -1,15 +1,11 @@
 #include "IR.h"
 
-IR::IR(int pin = A14) : _pin{pin}, _angle{}, _distance{} {}
+IR::IR(int pin = A14) : _pin{pin}, _angle{}, _strength{} {}
 
 void IR::init()
 {
-  _IR.Initialize();
-
-  if (!_IR.Test())
-  {
-    Serial.println("IR Seeker: INITIALIZATION FAILED");
-  }
+  pinMode(_pin, OUTPUT);
+  digitalWrite(_pin, HIGH);
 }
 
 void IR::read()
