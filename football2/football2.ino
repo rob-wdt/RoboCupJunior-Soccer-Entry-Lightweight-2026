@@ -3,6 +3,7 @@
 #include "HTInfraredSeeker.h"
 
 Gyro gyro;
+Button btn(A3);
 
 void setup()
 {
@@ -11,7 +12,14 @@ void setup()
   //1. GYRO CALIBRATE
   gyro.init();
   gyro.calibrate();
+
   //2. SET ZERO_ANGLE
+  while (!btn.is_pressed())
+  {
+    btn.read();
+    gyro.read();
+  }
+  gyro.set_zero_angle(gyro.yaw());
 }
 
 void loop()
