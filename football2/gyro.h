@@ -11,6 +11,7 @@ public:
   float yaw();
   float zero_angle();
   void set_zero_angle(float new_angle);
+  void debug();
 private:
   MPU6050 _mpu;
   float _zero_angle;
