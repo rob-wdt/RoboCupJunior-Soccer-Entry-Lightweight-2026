@@ -33,5 +33,6 @@ void Button::debug()
   Serial.print("\':\t");
   Serial.print("Pressed:\t");
   Serial.println(_is_pressed);
-  Serial.println("==============================================")
+  Serial.println("==============================================");
+  delay(1000);
 }

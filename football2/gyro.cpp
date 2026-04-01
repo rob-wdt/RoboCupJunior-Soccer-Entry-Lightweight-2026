@@ -68,4 +68,5 @@ void Gyro::debug()
   Serial.print("Current yaw:\t");
   Serial.println(_yaw);
   Serial.println("==============================================");
+  delay(1000);
 }
