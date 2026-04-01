@@ -3,14 +3,19 @@
 #include "HTInfraredSeeker.h"
 
 Gyro gyro;
-Button btn(A3);
+Button btn{A3};
+IR ir{A14};
 
 void setup()
 {
+  //0. Initialization
   Serial.begin(115200);
   Wire.begin();
-  //1. GYRO CALIBRATE
   gyro.init();
+  btn.init();
+  ir.init();
+
+  //1. GYRO CALIBRATE
   gyro.calibrate();
 
   //2. SET ZERO_ANGLE
@@ -25,6 +30,8 @@ void setup()
 void loop()
 {
   //3. READ IR
+  ir.read();
+
   //4. READ GYRO
   //5. IF THE BALL IS FAR
     //IF THE BALL IS BEHIND US
