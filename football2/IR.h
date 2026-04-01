@@ -14,4 +14,4 @@ private:
   int _pin;
   float _angle;
   float _strength;  
-}
+};

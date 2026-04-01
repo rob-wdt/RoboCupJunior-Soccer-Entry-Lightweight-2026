@@ -5,7 +5,7 @@ public:
   Button(int pin = A3);
   void init();
   void read();
-  bool _is_pressed();
+  bool is_pressed();
   void debug();
 private:
   int _pin;

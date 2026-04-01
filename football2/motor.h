@@ -6,7 +6,7 @@ public:
   void run();
   void debug();
 private:
-  int location_angle;
+  int _location_angle;
   int _pin_1;
   int _pin_2;
   int _direction;
