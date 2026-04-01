@@ -37,4 +37,5 @@ void Motor::debug()
   Serial.print("\tSpeed:\t");
   Serial.println(_rotation_speed);
   Serial.println("==============================================");
+  delay(1000);
 }
