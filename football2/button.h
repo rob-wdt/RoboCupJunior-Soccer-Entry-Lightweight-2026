@@ -3,10 +3,10 @@ class Button
 {
 public:
     Button(int pin = A3);
-    void init();
-    void read();
-    bool is_pressed();
-    void debug();
+    void init() noexcept;
+    void read() noexcept;
+    bool is_pressed() const noexcept;
+    void debug() const noexcept;
 
 private:
     int _pin;

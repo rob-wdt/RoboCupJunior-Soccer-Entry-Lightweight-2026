@@ -10,10 +10,10 @@ public:
     void init();
     void calibrate();
     void read();
-    float yaw();
-    float zero_angle();
-    void set_zero_angle(float new_angle);
-    void debug();
+    float yaw() const noexcept;
+    float zero_angle() const noexcept;
+    void set_zero_angle(float new_angle) noexcept;
+    void debug() const noexcept;
 
 private:
     MPU6050 _mpu;

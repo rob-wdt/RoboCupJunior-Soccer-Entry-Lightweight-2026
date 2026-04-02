@@ -4,11 +4,11 @@ class IR
 {
 public:
     IR(int pin = A14);
-    void init();
+    void init() noexcept;
     void read();
-    float angle();
-    float strength(); // если больше 180, мяч у нас
-    void debug();
+    float angle() const noexcept;
+    float strength() const noexcept; // если больше 180, мяч у нас
+    void debug() const noexcept;
 
 private:
     InfraredSeeker _IR;

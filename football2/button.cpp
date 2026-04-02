@@ -3,14 +3,14 @@
 
 Button::Button(int pin = A3) : _pin{pin}, _is_pressed{false} {}
 
-void Button::init()
+void Button::init() noexcept
 {
     pinMode(_pin, INPUT);
 }
 
-void Button::read()
+void Button::read() noexcept
 {
-    unsigned short _data{analogRead(_pin)};
+    unsigned int _data{analogRead(_pin)};
     if (_data > 200)
     {
         _is_pressed = true;
@@ -21,12 +21,12 @@ void Button::read()
     }
 }
 
-bool Button::is_pressed()
+bool Button::is_pressed() const noexcept
 {
     return _is_pressed;
 }
 
-void Button::debug()
+void Button::debug() const noexcept
 {
     Serial.print("Button \'");
     Serial.print(_pin);
