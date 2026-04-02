@@ -67,20 +67,25 @@ def getError(gate_center_x):
 
 def SendMessage(CamError):
     # Формируем сообщение
-    message = "CAM_ERROR:{}\n".format(CamError)
+    #message = "CAM_ERROR:{}\n".format(CamError)
+    message = CamError
 
     # Отправляем через UART
-    uart.write(message)
+    #uart.write(message)
+    uart.writechar(message)
 
     # Для отладки
     print("Sent: {}".format(message.strip()))
 
 
 def test_connection():
-    val = 0
-    while val != 1:
-        val = uart.read(1)
-    uart.write(1)
+    val = 0x00
+    while val != 0xFF:
+        if uart.any():
+            val = uart.read()
+        print("Waiting for signal")
+    uart.writechar(0xFF)
+    print("Test connection succeed")
 
 
 test_connection()
