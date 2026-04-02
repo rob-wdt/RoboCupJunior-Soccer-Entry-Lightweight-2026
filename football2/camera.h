@@ -3,6 +3,7 @@
 class Camera
 {
 public:
+    void init();
     void read();
     float error(); // разница между центральным пикселем камеры и центральным пикселем ворот
     void debug();

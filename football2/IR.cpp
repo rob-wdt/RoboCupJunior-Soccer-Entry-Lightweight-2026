@@ -2,7 +2,7 @@
 
 IR::IR(int pin = A14) : _pin{pin}, _angle{}, _strength{} {}
 
-void IR::init()
+void IR::init() noexcept
 {
     pinMode(_pin, OUTPUT);
     digitalWrite(_pin, HIGH);
@@ -15,17 +15,17 @@ void IR::read()
     _strength = res.Strength;
 }
 
-float IR::angle()
+float IR::angle() const noexcept
 {
     return _angle;
 }
 
-float IR::strength()
+float IR::strength() const noexcept
 {
     return _strength;
 }
 
-void IR::debug()
+void IR::debug() const noexcept
 {
     Serial.print("IR Seeker:\t");
     Serial.print("Angle:\t");

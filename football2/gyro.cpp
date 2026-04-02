@@ -60,22 +60,22 @@ void Gyro::read()
     }
 }
 
-float Gyro::zero_angle()
+float Gyro::zero_angle() const noexcept
 {
     return _zero_angle;
 }
 
-void Gyro::set_zero_angle(float new_angle)
+void Gyro::set_zero_angle(float new_angle) noexcept
 {
     _zero_angle = new_angle;
 }
 
-float Gyro::yaw()
+float Gyro::yaw() const noexcept
 {
     return _yaw;
 }
 
-void Gyro::debug()
+void Gyro::debug() const noexcept
 {
     Serial.print("Gyro:\t");
     Serial.print("Current yaw:\t");

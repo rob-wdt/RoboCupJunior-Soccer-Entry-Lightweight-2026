@@ -1,10 +1,31 @@
+#include "HardwareSerial.h"
 #include "Arduino.h"
 #include "camera.h"
 
+void Camera::init()
+{
+    Serial.println("Camera: INIT BEGIN");
+    Serial1.begin(115200);
+
+    int _val{};
+    while (_val != 0xFF)
+    {
+        if (Serial1.available())
+        {
+            _val = Serial1.read();
+        }
+        Serial1.write(0xFF);
+        //Serial.println("Camera: WAIT FOR SIGNAL");
+    }
+    Serial.println("Camera: TEST CONNECTION SUCCEED");
+}
+
 void Camera::read()
 {
-    Serial.begin(115200);
-    _error = Serial.read();
+    if (Serial1.available())
+    {
+        _error = Serial1.read();
+    }
 }
 
 float Camera::error()

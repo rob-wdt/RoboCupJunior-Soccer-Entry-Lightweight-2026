@@ -3,12 +3,12 @@ from pyb import UART
 import json
 
 # Инициализация UART
-uart = UART(3, 115200)
+uart = UART(1, 115200)
 uart.init(115200, bits=8, parity=None, stop=1)
 
 
 def CamSetup():
-    import sensor, image, time
+    import sensor, time
 
     # Сброс и базовая настройка
     sensor.reset()
@@ -67,15 +67,28 @@ def getError(gate_center_x):
 
 def SendMessage(CamError):
     # Формируем сообщение
-    message = "CAM_ERROR:{}\n".format(CamError)
+    #message = "CAM_ERROR:{}\n".format(CamError)
+    message = CamError
 
     # Отправляем через UART
-    uart.write(message)
+    #uart.write(message)
+    uart.writechar(message)
 
     # Для отладки
     print("Sent: {}".format(message.strip()))
 
 
+def test_connection():
+    val = 0x00
+    while val != 0xFF:
+        if uart.any():
+            val = uart.read()
+        print("Waiting for signal")
+    uart.writechar(0xFF)
+    print("Test connection succeed")
+
+
+test_connection()
 # Основной цикл
 while True:
     img = sensor.snapshot()
