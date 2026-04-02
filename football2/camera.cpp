@@ -17,5 +17,5 @@ void Camera::debug()
     Serial.print("Camera:\t");
     Serial.print("Error:\t");
     Serial.println(_error);
-    Serial.println("==============================================")
+    Serial.println("==============================================");
 }
