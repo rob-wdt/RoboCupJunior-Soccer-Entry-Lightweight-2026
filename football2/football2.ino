@@ -77,37 +77,35 @@ void loop()
         gyro.set_zero_angle(gyro.yaw());
     }
 
-    // //-----------------------------------------------------------MAIN CODE--------------------------------------------------
-    // if (ir.strength() > 0) // МЫ ВИДИМ МЯЧ
-    // {
-    //     if (ir.angle() == 0) // ОН ПРЯМО ПЕРЕД НАМИ
-    //     {
-    //         m1.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
-    //         m2.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
-    //         m3.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
-    //     }
-    //     else // ОН СБОКУ ИЛИ СЗАДИ
-    //     {
-    //         if (ir.strength() >= 10) // ОН БЛИЗКО
-    //         {
-    //             m1.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
-    //             m2.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
-    //             m3.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
-    //         }
-    //         else // ОН ДАЛЕКО
-    //         {
-    //             m1.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
-    //             m2.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
-    //             m3.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
-    //         }
-    //     }
-    // }
-    // else // МЫ НЕ ВИДИМ МЯЧ
-    // {
-    //     m1.set_velocity(SPEED, 150, pdc.get(cam.error()));
-    //     m2.set_velocity(SPEED, 150, pdc.get(cam.error()));
-    //     m3.set_velocity(SPEED, 150, pdc.get(cam.error()));
-    // }
-
-    cam.debug();
+    //-----------------------------------------------------------MAIN CODE--------------------------------------------------
+    if (ir.strength() > 0) // МЫ ВИДИМ МЯЧ
+    {
+        if (ir.angle() == 0) // ОН ПРЯМО ПЕРЕД НАМИ
+        {
+            m1.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
+            m2.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
+            m3.set_velocity(SPEED, ir.angle(), pdc.get(cam.error()));
+        }
+        else // ОН СБОКУ ИЛИ СЗАДИ
+        {
+            if (ir.strength() >= 10) // ОН БЛИЗКО
+            {
+                m1.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
+                m2.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
+                m3.set_velocity(SPEED, ir.angle() + 40, pdc.get(cam.error()));
+            }
+            else // ОН ДАЛЕКО
+            {
+                m1.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
+                m2.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
+                m3.set_velocity(SPEED, ir.angle() + 10, pdc.get(cam.error()));
+            }
+        }
+    }
+    else // МЫ НЕ ВИДИМ МЯЧ
+    {
+        m1.set_velocity(SPEED, 150, pdc.get(cam.error()));
+        m2.set_velocity(SPEED, 150, pdc.get(cam.error()));
+        m3.set_velocity(SPEED, 150, pdc.get(cam.error()));
+    }
 }

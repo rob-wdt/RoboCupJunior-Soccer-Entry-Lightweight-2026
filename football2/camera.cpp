@@ -2,9 +2,15 @@
 #include "Arduino.h"
 #include "camera.h"
 
+Camera::Camera(bool debug = false) : _debug{debug} {}
+
 void Camera::init()
 {
-    Serial.println("Camera: INIT BEGIN");
+    if (_debug)
+    {
+        Serial.println("Camera: INIT BEGIN");
+    }
+
     Serial1.begin(115200);
 
     int _val{};
@@ -15,7 +21,11 @@ void Camera::init()
             _val = Serial1.read();
         }
         Serial1.write(0xFF);
-        //Serial.println("Camera: WAIT FOR SIGNAL");
+
+        if (_debug)
+        {
+            Serial.println("Camera: WAIT FOR SIGNAL");
+        }
     }
     Serial.println("Camera: TEST CONNECTION SUCCEED");
 }

@@ -6,7 +6,7 @@
 class Gyro
 {
 public:
-    Gyro(uint8_t I2C_address = 0x68);
+    Gyro(uint8_t I2C_address = 0x68, bool debug = false);
     void init();
     void calibrate();
     void read();
@@ -24,4 +24,6 @@ private:
     VectorFloat _gravity;
     float _ypr[3];
     float _yaw;
+
+    bool _debug{};
 };

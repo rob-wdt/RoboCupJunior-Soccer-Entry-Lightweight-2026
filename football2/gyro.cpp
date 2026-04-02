@@ -4,7 +4,7 @@
 #include "helper_3dmath.h"
 #include "gyro.h"
 
-Gyro::Gyro(uint8_t I2C_address = 0x68) : _mpu{I2C_address}, _zero_angle{} {}
+Gyro::Gyro(uint8_t I2C_address = 0x68, bool debug = false) : _mpu{I2C_address}, _debug{debug}, _zero_angle{} {}
 
 void Gyro::init()
 {
@@ -43,11 +43,15 @@ void Gyro::read()
         _mpu.dmpGetYawPitchRoll(_ypr, &_q, &_gravity);
 
         _yaw = -_ypr[0] * RAD_TO_DEG - _zero_angle;
-        Serial.print(_yaw);
-        Serial.print(" = ");
-        Serial.print(-_ypr[0] * RAD_TO_DEG);
-        Serial.print(" - ");
-        Serial.println(_zero_angle);
+
+        if (_debug)
+        {
+            Serial.print(_yaw);
+            Serial.print(" = ");
+            Serial.print(-_ypr[0] * RAD_TO_DEG);
+            Serial.print(" - ");
+            Serial.println(_zero_angle);
+        }
 
         if (_yaw < -180)
         {
