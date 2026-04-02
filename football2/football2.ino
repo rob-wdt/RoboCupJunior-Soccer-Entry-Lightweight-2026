@@ -21,12 +21,11 @@
 
 Gyro gyro;
 Button btn{A3};
-Button z_btn{A5};
+Button set_btn{A5};
 IR ir{A14};
 Motor m1{60, M1_1, M1_2, 1, 1};
 Motor m2{180, M2_1, M2_2, 1, -1};
 Motor m3{-60, M4_1, M4_2, 1, -1}; // если не будет работать, поменять на -60   СПРОСИТЬ ПРО ЭТО!!!!!!!!!   И ЕЩЕ ПРО СКОБКИ (ВНУТРИ Motor::set_velocity())
-
 PDC pdc{0.05, 0.5, 0.00005};
 Camera cam;
 
@@ -53,9 +52,9 @@ void setup()
 
     // 2. SET ZERO_ANGLE
     Serial.println("Press A5 btn to set zero angle");
-    while (!z_btn.is_pressed())
+    while (!set_btn.is_pressed())
     {
-        z_btn.read();
+        set_btn.read();
         gyro.read();
     }
     gyro.set_zero_angle(gyro.yaw());
@@ -70,6 +69,12 @@ void loop()
     ir.read();
     gyro.read();
     cam.read();
+    set_btn.read();
+
+    if (set_btn.is_pressed())
+    {
+        gyro.set_zero_angle(gyro.yaw());
+    }
 
     //-----------------------------------------------------------MAIN CODE--------------------------------------------------
     if (ir.strength() > 0) // МЫ ВИДИМ МЯЧ
