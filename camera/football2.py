@@ -1,59 +1,64 @@
 import sensor, image, time
 from pyb import UART
 import json
+import gc
 
 # Инициализация UART
-uart = UART(1, 115200)
-uart.init(115200, bits=8, parity=None, stop=1)
+uart = UART(3, 115200)
+uart.init(115200, bits=8, parity=None, stop=0)
 
 
 def CamSetup():
     import sensor, time
 
-    # Сброс и базовая настройка
+    # Сброс
     sensor.reset()
-    sensor.set_pixformat(sensor.RGB565)
-    sensor.set_framesize(sensor.QVGA)  # 320x240
 
-    # Ручные настройки для стабильного изображения
+    # Настройка размера буфера ДО других настроек
+    sensor.set_framesize(sensor.QQVGA80)  # 160x120 или 320x240
+    sensor.set_pixformat(sensor.RGB565)
+
+    # Установка буфера кадров (попробуйте 2 или 3)
+    sensor.set_framebuffers(2)  # Изменено с 1 на 2
+
+    # Ручные настройки
     sensor.set_auto_exposure(False)
     sensor.set_auto_whitebal(False)
-    sensor.set_auto_gain(False)
+    sensor.set_auto_gain(False)  # Если проблема - закомментируйте
 
     sensor.set_exposure_us(15000)
     sensor.set_gainceiling(8)
-    sensor.set_brightness(0)  # яркость
-    sensor.set_contrast(0)  # контраст
-    sensor.set_saturation(0)  # Насыщенность
+    sensor.set_brightness(0)
+    sensor.set_contrast(0)
+    sensor.set_saturation(0)
 
-    # sensor.set_rgb_gain(1.0, 1.0, 1.0)  #опционально ргб коэффициенты
+    # ВАЖНО: пропустить кадры для стабилизации
+    for i in range(50):  # Пропускаем 50 кадров
+        sensor.snapshot()
+        time.sleep_ms(10)
 
-    # время на стабилизацию
-    time.sleep_ms(500)
+    gc.collect()
 
     print("Camera manual mode initialized")
     print("Resolution: {}x{}".format(sensor.width(), sensor.height()))
 
 
 def GetGates():
-    green_threshold = (0, 0, 0, 0, 0, 0)  # (R_min, R_max, G_min, G_max, B_min, B_max)
+    green_threshold = (0, 0, 0, 0, 0, 0)  # ЗАМЕНИТЕ на реальные значения!
 
-    # Ищем пятна зеленого цвета
-    blobs = img.find_blobs([green_threshold], pixels_threshold=100, area_threshold=100, merge=True, margin=10)
+    try:
+        # Ищем пятна зеленого цвета
+        blobs = img.find_blobs([green_threshold], pixels_threshold=100,
+                               area_threshold=100, merge=True, margin=10)
 
-    if blobs:
-        # Сортируем по площади и берем самый большой
-        blobs.sort(key=lambda b: b.area(), reverse=True)
-        gate = blobs[0]
-
-        # Характеристики ворот
-        gate_center_x = gate.cx()
-
-        # Функция ошибки
-        getError(gate_center_x)
-
-        # Отправляем ошибку в другую программу
-        SendMessage(CamError)
+        if blobs:
+            blobs.sort(key=lambda b: b.area(), reverse=True)
+            gate = blobs[0]
+            gate_center_x = gate.cx()
+            CamError = getError(gate_center_x)
+            SendMessage(CamError)
+    except Exception as e:
+        print("Error in GetGates:", e)
 
 
 def getError(gate_center_x):
@@ -79,12 +84,11 @@ def SendMessage(CamError):
 
 
 def test_connection():
-    val = 0x00
-    while val != 0xFF:
-        if uart.any():
-            val = uart.read()
-        print("Waiting for signal")
-    uart.writechar(0xFF)
+    data = 0
+    while data != b'\xff':
+        uart.write(b'\xff')
+        data = uart.read()
+        print(data)
     print("Test connection succeed")
 
 
