@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "motor.h"
 
-Motor::Motor(int location_angle, int pin_1, int pin_2, int direction, int angle_coef, bool debug = false) : _location_angle{location_angle}, _pin_1{pin_1}, _pin_2{pin_2}, _direction{direction}, _angle_coef{angle_coef}, _debug{debug} _rotation_speed{} {}
+Motor::Motor(int location_angle, int pin_1, int pin_2, int direction, int angle_coef, bool debug = false) : _location_angle{location_angle}, _pin_1{pin_1}, _pin_2{pin_2}, _direction{direction}, _angle_coef{angle_coef}, _debug{debug}, _rotation_speed{} {}
 
 void Motor::set_velocity(float linear_speed, float angle, float angular_speed)
 {
