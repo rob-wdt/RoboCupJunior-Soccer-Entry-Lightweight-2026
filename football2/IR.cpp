@@ -30,8 +30,8 @@ void IR::debug() const noexcept
     Serial.print("IR Seeker:\t");
     Serial.print("Angle:\t");
     Serial.print(_angle);
-    Serial.print("Strength:\t");
+    Serial.print("\tStrength:\t");
     Serial.println(_strength);
     Serial.println("==============================================");
-    delay(1000);
+    delay(100);
 }
