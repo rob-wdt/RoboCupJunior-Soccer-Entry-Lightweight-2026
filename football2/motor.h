@@ -4,6 +4,7 @@ public:
     Motor(int location_angle, int pin_1, int pin_2, int direction, int angle_coef, bool debug = false);
     void set_velocity(float linear_speed, float angle, float angular_speed);
     void run();
+    void run(int speed);
     void debug();
 
 private:
