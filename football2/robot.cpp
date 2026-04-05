@@ -127,11 +127,25 @@ void Robot::set_angle()
     {
         if (_angle < 0)
         {
-            _angle = -90;
+            if (_angle > -150)
+            {
+                _angle += 60;
+            }
+            else
+            {
+                _angle += 30;
+            }
         }
         else if (_angle > 0)
         {
-            _angle += 90;
+            if (_angle < 150)
+            {
+                _angle += 60;
+            }
+            else
+            {
+                _angle += 30;
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ Motor m1{60, M1_1, M1_2, 1, 1, 1, MIN_SPEED};     //M1
 Motor m2{180, M2_1, M2_2, -1, 1, 1, MIN_SPEED};    //M2
 Motor m3{60, M4_1, M4_2, -1, -1, 1, MIN_SPEED};    //M3 
 PDC cam_pdc{1, 1, 1};               //CAMERA REGULATOR
-PDC gyro_pdc{0.07, 0.5, 0.0001};    //GYRO REGULATOR
+PDC gyro_pdc{0.05, 0.5, 0.00005};    //GYRO REGULATOR
 Camera cam{};
 
 Robot robot{gyro, gyro_btn, set_btn, ir, m1, m2, m3, cam_pdc, gyro_pdc, cam, true};
