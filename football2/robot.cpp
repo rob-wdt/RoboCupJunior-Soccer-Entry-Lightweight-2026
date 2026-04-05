@@ -1,3 +1,4 @@
+#include "config.h"
 #include "HardwareSerial.h"
 #include "robot.h"
 
@@ -125,26 +126,15 @@ void Robot::set_angle()
 
     if (_angle)
     {
-        if (_angle < 0)
+        if(_ir.strength() > MIN_STRENGTH)  //ЕСЛИ БЛИЗКО
         {
-            if (_angle > -150)
+            if (_angle < 0)
             {
-                _angle += 60;
+                _angle -= 90;
             }
             else
             {
-                _angle += 30;
-            }
-        }
-        else if (_angle > 0)
-        {
-            if (_angle < 150)
-            {
-                _angle += 60;
-            }
-            else
-            {
-                _angle += 30;
+                _angle += 90;
             }
         }
     }
