@@ -1,16 +1,6 @@
-#include "I2Cdev.h"
-// #include "MPU6050.h"
-#include "HTInfraredSeeker.h"
-
+#include "include.h"
 #include "config.h"
 #include "robot.h"
-
-#define M1_1 8
-#define M1_2 9
-#define M2_1 4
-#define M2_2 5
-#define M4_1 10
-#define M4_2 11
 
 Gyro gyro{0x68, true};
 Button gyro_btn{A3}; //GYRO START CALIBRATING BUTTON
@@ -31,7 +21,10 @@ void setup()
     Serial.begin(115200);
     Wire.begin();
 
-    pinMode(49, OUTPUT);    //SIGNAL LED
+    pinMode(47, OUTPUT);    //SIGNAL LED
+    digitalWrite(47, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ НАЧАЛА
+    delay(100);
+    digitalWrite(47, LOW);
 
     Serial.println("Init");
     robot.init();
@@ -39,15 +32,15 @@ void setup()
 
     // 1. GYRO CALIBRATE
     robot.calibrate_gyro();
-    digitalWrite(49, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ ОКОНЧАНИЯ КАЛИБРОВКИ
+    digitalWrite(47, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ ОКОНЧАНИЯ КАЛИБРОВКИ
     delay(100);
-    digitalWrite(49, LOW);
+    digitalWrite(47, LOW);
 
     // 2. SET ZERO_ANGLE
     robot.set_gyro_zero_angle();
-    digitalWrite(49, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ ОКОНЧАНИЯ КАЛИБРОВКИ
+    digitalWrite(47, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ УСТАНОВКИ НУЛЕВОГО УГЛА
     delay(100);
-    digitalWrite(49, LOW);
+    digitalWrite(47, LOW);
 }
 
 void loop()
