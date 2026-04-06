@@ -119,7 +119,7 @@ void Robot::set_angle()
 
     if (_angle)
     {
-        if(_ir.strength() > MIN_STRENGTH)  //ЕСЛИ БЛИЗКО
+        if(_ir.strength() > _ir.min_strength())  //ЕСЛИ БЛИЗКО
         {
             if (_angle < 0)
             {
@@ -151,21 +151,21 @@ void Robot::set_speed(float linear_speed)
     set_angle();
     _m1.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
     _m2.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
-    _m4.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
+    _m3.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
 }
 
 void Robot::move()
 {
     _m1.run();
     _m2.run();
-    _m4.run();
+    _m3.run();
 }
 
 void Robot::stop()
 {
     _m1.stop();
     _m2.stop();
-    _m4.stop();
+    _m3.stop();
 }
 
 Gyro *Robot::gyro()
@@ -173,17 +173,17 @@ Gyro *Robot::gyro()
     return &_gyro;
 }
 
-Button *Robot::A3_btn()
+Button *Robot::start_btn()
 {
     return &_gyro_btn;
 }
 
-Button *Robot::A5_btn()
+Button *Robot::set_btn()
 {
     return &_set_btn;
 }
 
-LED *Robot::D47_led()
+LED *Robot::signal_led()
 {
     return &_signal;
 }
@@ -193,19 +193,19 @@ IR *Robot::ir_seeker()
     return &_ir;
 }
 
-Motor *Robot::M1_motor()
+Motor *Robot::motor_1()
 {
     return &_m1;
 }
 
-Motor *Robot::M2_motor()
+Motor *Robot::motor_2()
 {
     return &_m2;
 }
 
-Motor *Robot::M4_motor()
+Motor *Robot::motor_3()
 {
-    return &_m4;
+    return &_m3;
 }
 
 PDC *Robot::camera_control()

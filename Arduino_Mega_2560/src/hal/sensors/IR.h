@@ -2,7 +2,7 @@
 class IR
 {
 public:
-    IR(int pin = A14, float min_strength, bool debug = false);
+    IR(int pin, float min_strength, bool debug = false);
     void init() noexcept;
     void read();
     float angle() const noexcept;

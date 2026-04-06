@@ -9,7 +9,7 @@ Robot robot{
     Button{A3},
     Button{A5},
     LED{47},
-    IR{A14, true},
+    IR{A14, MIN_SPEED, true},
     Motor{60, M1_1, M1_2, 1, 1, 1, MIN_SPEED},
     Motor{180, M2_1, M2_2, -1, 1, 1, MIN_SPEED},
     Motor{60, M4_1, M4_2, -1, -1, 1, MIN_SPEED},
