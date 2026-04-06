@@ -3,24 +3,24 @@
 #include "robot.h"
 
 Robot::Robot(
-    Gyro &gyro, 
-    Button &gyro_btn, 
-    Button &set_btn,
-    LED &signal, 
-    IR &ir, 
-    Motor &m1, 
-    Motor &m2, 
-    Motor &m3, 
-    PDC &cam_pdc, 
-    PDC &gyro_pdc, 
-    Camera &cam,
+    Gyro gyro, 
+    Button start_btn, 
+    Button set_btn,
+    LED signal_led, 
+    IR ir, 
+    Motor m1, 
+    Motor m2, 
+    Motor m3, 
+    PDC cam_pdc, 
+    PDC gyro_pdc, 
+    Camera cam,
     bool debug = false
 ) 
 : 
 _gyro{gyro}, 
-_gyro_btn{gyro_btn}, 
+_gyro_btn{start_btn}, 
 _set_btn{set_btn},
-_signal{signal}, 
+_signal{signal_led}, 
 _ir{ir}, 
 _m1{m1}, 
 _m2{m2}, 
@@ -41,30 +41,11 @@ void Robot::init()
     //_cam.init();
 }
 
-void Robot::calibrate_gyro()
+void Robot::signal()
 {
-    Serial.println("Press A3 btn to start calibrating");
-    while (!_gyro_btn.is_pressed())
-    {
-        _gyro_btn.read();
-    }
-    _gyro_btn.reset();
-    _gyro.calibrate();
-    Serial.println("Finish calibrating");
-}
-
-void Robot::set_gyro_zero_angle()
-{
-    Serial.println("Press A5 btn to set zero angle");
-    while (!_set_btn.is_pressed())
-    {
-        _set_btn.read();
-        _gyro.read();
-    }
-    _set_btn.reset();
-    _gyro.set_zero_angle(_gyro.yaw());
-    Serial.print("Zero angle set:\t");
-    Serial.println(_gyro.zero_angle());
+    _signal.on();
+    delay(100);
+    _signal.off();
 }
 
 void Robot::signal()
@@ -170,19 +151,74 @@ void Robot::set_speed(float linear_speed)
     set_angle();
     _m1.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
     _m2.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
-    _m3.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
+    _m4.set_velocity(linear_speed, _angle, _gyro_pdc.get(_gyro.yaw()));
 }
 
 void Robot::move()
 {
     _m1.run();
     _m2.run();
-    _m3.run();
+    _m4.run();
 }
 
 void Robot::stop()
 {
     _m1.stop();
     _m2.stop();
-    _m3.stop();
+    _m4.stop();
+}
+
+Gyro *Robot::gyro()
+{
+    return &_gyro;
+}
+
+Button *Robot::A3_btn()
+{
+    return &_gyro_btn;
+}
+
+Button *Robot::A5_btn()
+{
+    return &_set_btn;
+}
+
+LED *Robot::D47_led()
+{
+    return &_signal;
+}
+
+IR *Robot::ir_seeker()
+{
+    return &_ir;
+}
+
+Motor *Robot::M1_motor()
+{
+    return &_m1;
+}
+
+Motor *Robot::M2_motor()
+{
+    return &_m2;
+}
+
+Motor *Robot::M4_motor()
+{
+    return &_m4;
+}
+
+PDC *Robot::camera_control()
+{
+    return &_cam_pdc;
+}
+
+PDC *Robot::gyro_control()
+{
+    return &_gyro_pdc;
+}
+
+Camera *Robot::camera()
+{
+    return &_cam;
 }

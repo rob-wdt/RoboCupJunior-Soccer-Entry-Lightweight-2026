@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 // #include "MPU6050.h"
-#include "MPU6050_6Axis_MotionApps20.h"
+#include "include.h"
 
 class Gyro
 {

@@ -18,6 +18,8 @@ void Gyro::init()
     _mpu.dmpInitialize();
 
     _packet_size = _mpu.dmpGetFIFOPacketSize();
+
+    _mpu.setDMPEnabled(true);
 }
 
 void Gyro::calibrate()
@@ -29,9 +31,9 @@ void Gyro::calibrate()
     _mpu.setZGyroOffset(0);
 
     _mpu.CalibrateGyro(100);
-    _mpu.PrintActiveOffsets();
 
-    _mpu.setDMPEnabled(true);
+    Serial.println();
+    _mpu.PrintActiveOffsets();
 }
 
 void Gyro::read()
