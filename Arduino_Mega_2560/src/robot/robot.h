@@ -41,7 +41,7 @@ public:
     IR *ir_seeker();
     Motor *motor_1();
     Motor *motor_2();
-    Motor *motor_4();
+    Motor *motor_3();
     PDC *camera_control();
     PDC *gyro_control();
     Camera *camera();

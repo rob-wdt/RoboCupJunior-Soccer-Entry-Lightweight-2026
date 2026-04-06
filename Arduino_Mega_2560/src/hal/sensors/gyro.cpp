@@ -1,4 +1,3 @@
-#pragma once
 #include "Arduino.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 #include "helper_3dmath.h"
