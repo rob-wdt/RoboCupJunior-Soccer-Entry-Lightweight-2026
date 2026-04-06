@@ -6,6 +6,7 @@ public:
     void init() noexcept;
     void read() noexcept;
     bool is_pressed() const noexcept;
+    void reset();
     void debug() const noexcept;
 
 private:

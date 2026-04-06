@@ -73,6 +73,12 @@ void Motor::run(int speed)
     }
 }
 
+void Motor::stop()
+{
+    digitalWrite(_pin_1, HIGH);
+    digitalWrite(_pin_2, HIGH);
+}
+
 void Motor::debug()
 {
     Serial.print("Motor \'");

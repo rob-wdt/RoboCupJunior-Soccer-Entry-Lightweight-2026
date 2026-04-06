@@ -26,6 +26,11 @@ bool Button::is_pressed() const noexcept
     return _is_pressed;
 }
 
+void Button::reset()
+{
+    _is_pressed = false;
+}
+
 void Button::debug() const noexcept
 {
     Serial.print("Button \'");

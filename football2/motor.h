@@ -5,6 +5,7 @@ public:
     void set_velocity(float linear_speed, float angle, float angular_speed);
     void run();
     void run(int speed);
+    void stop();
     void debug();
 
 private:

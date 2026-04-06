@@ -9,6 +9,3 @@
 #define M2_2 5
 #define M4_1 10
 #define M4_2 11
-
-//----------------IR------------------
-#define MIN_STRENGTH 60

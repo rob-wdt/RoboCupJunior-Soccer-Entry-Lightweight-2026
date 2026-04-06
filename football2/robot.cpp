@@ -5,7 +5,8 @@
 Robot::Robot(
     Gyro &gyro, 
     Button &gyro_btn, 
-    Button &set_btn, 
+    Button &set_btn,
+    LED &signal, 
     IR &ir, 
     Motor &m1, 
     Motor &m2, 
@@ -18,7 +19,8 @@ Robot::Robot(
 : 
 _gyro{gyro}, 
 _gyro_btn{gyro_btn}, 
-_set_btn{set_btn}, 
+_set_btn{set_btn},
+_signal{signal}, 
 _ir{ir}, 
 _m1{m1}, 
 _m2{m2}, 
@@ -35,6 +37,7 @@ void Robot::init()
     _gyro.init();
     _gyro_btn.init();
     _set_btn.init();
+    _signal.init();
     //_cam.init();
 }
 
@@ -45,6 +48,7 @@ void Robot::calibrate_gyro()
     {
         _gyro_btn.read();
     }
+    _gyro_btn.reset();
     _gyro.calibrate();
     Serial.println("Finish calibrating");
 }
@@ -57,9 +61,17 @@ void Robot::set_gyro_zero_angle()
         _set_btn.read();
         _gyro.read();
     }
+    _set_btn.reset();
     _gyro.set_zero_angle(_gyro.yaw());
     Serial.print("Zero angle set:\t");
     Serial.println(_gyro.zero_angle());
+}
+
+void Robot::signal()
+{
+    _signal.on();
+    delay(100);
+    _signal.off();
 }
 
 void Robot::read_sensors()
@@ -166,4 +178,11 @@ void Robot::move()
     _m1.run();
     _m2.run();
     _m3.run();
+}
+
+void Robot::stop()
+{
+    _m1.stop();
+    _m2.stop();
+    _m3.stop();
 }

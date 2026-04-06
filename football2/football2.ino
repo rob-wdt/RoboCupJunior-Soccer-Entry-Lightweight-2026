@@ -12,8 +12,9 @@ Motor m3{60, M4_1, M4_2, -1, -1, 1, MIN_SPEED};    //M3
 PDC cam_pdc{1, 1, 1};               //CAMERA REGULATOR
 PDC gyro_pdc{0.05, 0.5, 0.00005};    //GYRO REGULATOR
 Camera cam{};
+LED signal{47};
 
-Robot robot{gyro, gyro_btn, set_btn, ir, m1, m2, m3, cam_pdc, gyro_pdc, cam, true};
+Robot robot{gyro, gyro_btn, set_btn, signal, ir, m1, m2, m3, cam_pdc, gyro_pdc, cam, true};
 
 void setup()
 {
@@ -21,35 +22,43 @@ void setup()
     Serial.begin(115200);
     Wire.begin();
 
-    pinMode(47, OUTPUT);    //SIGNAL LED
-    digitalWrite(47, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ НАЧАЛА
-    delay(100);
-    digitalWrite(47, LOW);
-
     Serial.println("Init");
     robot.init();
     Serial.println("Init complete");
+    robot.signal();
 
     // 1. GYRO CALIBRATE
     robot.calibrate_gyro();
-    digitalWrite(47, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ ОКОНЧАНИЯ КАЛИБРОВКИ
-    delay(100);
-    digitalWrite(47, LOW);
+    robot.signal();
 
     // 2. SET ZERO_ANGLE
     robot.set_gyro_zero_angle();
-    digitalWrite(47, HIGH); //СВЕТОДИОД, СИГНАЛИЗАЦИЯ УСТАНОВКИ НУЛЕВОГО УГЛА
-    delay(100);
-    digitalWrite(47, LOW);
+    robot.signal();
 }
 
 void loop()
 {
     // 3. READING
-    robot.read_sensors();
+    robot.read_sensors(); 
 
-    //-----------------------------------------------------------MAIN CODE--------------------------------------------------
+    if (robot._set_btn.is_pressed())
+    {
+        robot.stop();
+        delay(1000);
+        robot.set_gyro_zero_angle();
+        robot.signal();
+    }
+
+    if (robot._gyro_btn.is_pressed())
+    {
+        robot.stop();
+        delay(100);
+        robot.calibrate_gyro();
+        robot.signal();
+        robot.set_gyro_zero_angle();
+        robot.signal();
+    }
+
     robot.set_speed(SPEED);
     robot.move();
-    robot._ir.debug();  
 }
