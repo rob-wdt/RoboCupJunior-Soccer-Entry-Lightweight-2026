@@ -30,12 +30,39 @@ void setup()
     robot.signal();
 
     // 1. GYRO CALIBRATE
+    Serial.println("Press A3 btn to start calibrating");
+    robot.start_btn()->reset();
+    while (!robot.start_btn()->is_pressed())
+    {
+        robot.start_btn()->read();
+    }
+    robot.start_btn()->reset();
     robot.gyro()->calibrate();
+    Serial.println("Finish calibrating");
     robot.signal();
 
     // 2. SET ZERO_ANGLE
+    Serial.println("Press A5 btn to set zero angle");
+    robot.set_btn()->reset();
+    while (!robot.set_btn()->is_pressed())
+    {
+        robot.set_btn()->read();
+        robot.gyro()->read();
+    }
+    robot.set_btn()->reset();
     robot.gyro()->set_zero_angle(robot.gyro()->yaw());
+    Serial.print("Zero angle set:\t");
+    Serial.println(robot.gyro()->zero_angle());
     robot.signal();
+
+    //WAIT FOR BTN TO START THE PROGRAM
+    Serial.println("Press A3 btn to start the main code");
+    robot.start_btn()->reset();
+    while (!robot.start_btn()->is_pressed())
+    {
+        robot.start_btn()->read();
+    }
+    robot.start_btn()->reset();
 }
 
 void loop()
