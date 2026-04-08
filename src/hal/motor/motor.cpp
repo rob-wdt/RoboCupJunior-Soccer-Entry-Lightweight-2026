@@ -25,7 +25,7 @@ void Motor::set_velocity(float linear_speed, float angle, float angular_speed)
     {
         _rotation_speed = map(_rotation_speed, -255, 0, -255, -_min_speed);
     }
-    else
+    else if (_rotation_speed > 0)
     {
         _rotation_speed = map(_rotation_speed, 0, 255, _min_speed, 255);
     }

@@ -3,6 +3,7 @@
 #include "include.h"
 #include "config.h"
 #include ".\robot\robot.h"
+#include ".\control\exp.h"
 
 Robot robot{
     Gyro{0x68, true},
@@ -13,8 +14,10 @@ Robot robot{
     Motor{60, M1_1, M1_2, 1, 1, 1, MIN_SPEED},
     Motor{180, M2_1, M2_2, -1, 1, 1, MIN_SPEED},
     Motor{60, M4_1, M4_2, -1, -1, 1, MIN_SPEED},
-    PDC{1, 1, 1},
+    Regulator{},
     PDC{0.05, 0.5, 0.00005},
+    Exp{0.45, 0.4},
+    Exp{0.35, 0.7},
     Camera{},
     true};
 

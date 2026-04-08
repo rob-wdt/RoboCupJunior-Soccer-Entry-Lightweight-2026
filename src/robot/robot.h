@@ -7,25 +7,27 @@
 #include "..\hal\led\LED.h"
 #include "..\control\PDC.h"
 #include "..\perception\camera\camera.h"
+#include "..\control\regulator.h"
+#include "..\control\exp.h"
 
 class Robot
 {
 public:
-    Robot
-    (
-        Gyro gyro, 
-        Button start_btn, 
-        Button set_btn, 
-        LED signal_led, 
-        IR ir, 
-        Motor m1, 
-        Motor m2, 
-        Motor m3, 
-        PDC cam_pdc, 
-        PDC gyro_pdc, 
-        Camera cam, 
-        bool debug = false
-    );
+    Robot(
+        Gyro gyro,
+        Button start_btn,
+        Button set_btn,
+        LED signal_led,
+        IR ir,
+        Motor m1,
+        Motor m2,
+        Motor m3,
+        Regulator cam_control,
+        Regulator gyro_control,
+        Regulator angle_control,
+        Regulator distance_control,
+        Camera cam,
+        bool debug = false);
     void init();
     void signal();
     void read_sensors();
@@ -42,8 +44,8 @@ public:
     Motor *motor_1();
     Motor *motor_2();
     Motor *motor_3();
-    PDC *camera_control();
-    PDC *gyro_control();
+    Regulator *camera_control();
+    Regulator *gyro_control();
     Camera *camera();
 
 private:
@@ -55,12 +57,14 @@ private:
     Motor _m1;
     Motor _m2;
     Motor _m3;
-    PDC _cam_pdc;
-    PDC _gyro_pdc;
+    Regulator _cam_cont;
+    Regulator _gyro_cont;
+    Regulator _angle_cont;
+    Regulator _distance_cont;
     Camera _cam;
 
     float _angle{};
-    //float _prev_angle{};
+    // float _prev_angle{};
 
     bool _debug{};
 };

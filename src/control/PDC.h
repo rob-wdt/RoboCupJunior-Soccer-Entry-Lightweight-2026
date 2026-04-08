@@ -1,9 +1,12 @@
-class PDC
+#pragma once
+#include "regulator.h"
+
+class PDC : public Regulator
 {
 public:
     PDC(float kp, float kd, float kc, bool debug = false);
-    float get(float error); // САМ ПДК РЕГУЛЯТОР
-    void debug();
+    float get(float error) override final; // САМ ПДК РЕГУЛЯТОР
+    void debug() override final;
 
 private:
     float _kp;
