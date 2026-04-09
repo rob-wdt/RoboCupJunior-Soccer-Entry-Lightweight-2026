@@ -8,7 +8,7 @@
 #include ".\hal\sensors\bno055.h"
 
 Robot robot{
-    Mpu6050{0x68, true},
+    Bno055{0, 0x28, true},
     Button{A3},
     Button{A5},
     LED{47},
