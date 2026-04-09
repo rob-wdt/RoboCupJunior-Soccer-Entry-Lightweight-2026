@@ -1,14 +1,12 @@
 #pragma once
 
-#include "..\hal\sensors\gyro.h"
-#include "..\hal\button\button.h"
-#include "..\hal\sensors\IR.h"
+#include "..\hal\sensors\gyros\gyro.h"
+#include "..\hal\sensors\ir\IR.h"
 #include "..\hal\motor\motor.h"
-#include "..\hal\led\LED.h"
-#include "..\control\PDC.h"
-#include "..\perception\camera\camera.h"
 #include "..\control\regulator.h"
-#include "..\control\exp.h"
+#include "..\perception\camera\camera.h"
+#include "..\hal\button\button.h"
+#include "..\hal\led\LED.h"
 
 class Robot
 {
@@ -28,6 +26,7 @@ public:
         Regulator distance_control,
         Camera cam,
         bool debug = false);
+
     void init();
     void signal();
     void read_sensors();
@@ -50,7 +49,7 @@ public:
 
 private:
     Gyro _gyro;
-    Button _gyro_btn;
+    Button _start_btn;
     Button _set_btn;
     LED _signal;
     IR _ir;

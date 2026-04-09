@@ -1,9 +1,8 @@
 #pragma once
 
 #include <stdint.h>
-// #include "MPU6050.h"
 #include "include.h"
-#include "gyro.h"
+#include "..\gyro.h"
 
 class Mpu6050 : public Gyro
 {
@@ -12,9 +11,6 @@ public:
     void init() override final;
     void calibrate() override final;
     void read() override final;
-    float yaw() const noexcept override final;
-    float zero_angle() const noexcept override final;
-    void set_zero_angle(float new_angle) noexcept override final;
     void debug() const noexcept override final;
 
 private:

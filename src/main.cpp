@@ -2,10 +2,12 @@
 
 #include "include.h"
 #include "config.h"
+
 #include ".\robot\robot.h"
-#include ".\control\exp.h"
-#include ".\hal\sensors\mpu6050.h"
-#include ".\hal\sensors\bno055.h"
+#include ".\control\exponential\exp.h"
+#include ".\control\pdc\PDC.h"
+#include ".\hal\sensors\gyros\mpu6050\mpu6050.h"
+#include ".\hal\sensors\gyros\bno055\bno055.h"
 
 Robot robot{
     Bno055{0, 0x28, true},

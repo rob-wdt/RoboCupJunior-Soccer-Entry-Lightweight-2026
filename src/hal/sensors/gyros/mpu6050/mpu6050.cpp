@@ -1,6 +1,6 @@
 #include "Arduino.h"
-#include "MPU6050_6Axis_MotionApps20.h"
 #include "helper_3dmath.h"
+#include "include.h"
 #include "mpu6050.h"
 
 Mpu6050::Mpu6050(int address = 0x68, bool debug = false) : Gyro::Gyro{address, debug}, _mpu{address} {}
@@ -64,21 +64,6 @@ void Mpu6050::read()
             _yaw -= 360;
         }
     }
-}
-
-float Mpu6050::zero_angle() const noexcept
-{
-    return _zero_angle;
-}
-
-void Mpu6050::set_zero_angle(float new_angle) noexcept
-{
-    _zero_angle = new_angle;
-}
-
-float Mpu6050::yaw() const noexcept
-{
-    return _yaw;
 }
 
 void Mpu6050::debug() const noexcept

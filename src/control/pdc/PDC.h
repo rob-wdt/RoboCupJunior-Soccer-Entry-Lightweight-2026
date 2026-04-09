@@ -1,5 +1,5 @@
 #pragma once
-#include "regulator.h"
+#include "..\regulator.h"
 
 class PDC : public Regulator
 {

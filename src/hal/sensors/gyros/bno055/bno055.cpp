@@ -1,6 +1,6 @@
 #include "bno055.h"
 
-Bno055::Bno055(int id = 0, int address = 0x28, bool debug = false) : Gyro::Gyro(address, debug), _id{id}, _bno{_id, address} {}
+Bno055::Bno055(int id = 0, uint8_t address = 0x28, bool debug = false) : Gyro::Gyro(address, debug), _id{id}, _bno{_id, address} {}
 
 void Bno055::init()
 {
@@ -30,21 +30,15 @@ void Bno055::read()
 {
     _bno.getEvent(&_event);
     _yaw = _event.orientation.z - _zero_angle;
-}
 
-float Bno055::yaw() const noexcept
-{
-    return _yaw;
-}
-
-void Bno055::set_zero_angle(float new_angle)
-{
-    _zero_angle = new_angle;
-}
-
-float Bno055::zero_angle() const noexcept
-{
-    return _zero_angle;
+    if (_yaw < -180)
+    {
+        _yaw += 360;
+    }
+    else if (_yaw > 180)
+    {
+        _yaw -= 360;
+    }
 }
 
 void Bno055::debug() const noexcept

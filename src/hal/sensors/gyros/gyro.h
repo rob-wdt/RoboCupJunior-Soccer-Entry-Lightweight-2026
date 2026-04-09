@@ -7,9 +7,9 @@ public:
     virtual void init() {}
     virtual void calibrate() {}
     virtual void read() {}
-    virtual float yaw() const noexcept {}
-    virtual void set_zero_angle(float new_angle) {}
-    virtual float zero_angle() const noexcept {}
+    float yaw() const noexcept { return _yaw; }
+    void set_zero_angle(float new_angle) { _zero_angle = new_angle; }
+    float zero_angle() const noexcept { return _zero_angle; }
     virtual void debug() const noexcept {}
 
 protected:

@@ -3,7 +3,7 @@
 class Regulator // General control, to be inherited by others
 {
 public:
-    virtual float get(float error) {}
+    virtual float get(float error) { return 0; }
     virtual void debug() {}
 
 private:

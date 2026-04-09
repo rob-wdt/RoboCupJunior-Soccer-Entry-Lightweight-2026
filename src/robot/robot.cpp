@@ -1,8 +1,6 @@
-#include "config.h"
 #include "HardwareSerial.h"
+#include "config.h"
 #include "robot.h"
-#include "..\control\regulator.h"
-#include "..\control\exp.h"
 
 Robot::Robot(
     Gyro gyro,
@@ -20,7 +18,7 @@ Robot::Robot(
     Camera cam,
     bool debug = false)
     : _gyro{gyro},
-      _gyro_btn{start_btn},
+      _start_btn{start_btn},
       _set_btn{set_btn},
       _signal{signal_led},
       _ir{ir},
@@ -39,18 +37,8 @@ Robot::Robot(
 void Robot::init()
 {
     _ir.init();
-    if (_debug)
-    {
-        Serial.println("IR init complete");
-    }
-
     _gyro.init();
-    if (_debug)
-    {
-        Serial.println("Gyro init compete");
-    }
-    
-    _gyro_btn.init();
+    _start_btn.init();
     _set_btn.init();
     _signal.init();
     //_cam.init();
@@ -66,7 +54,7 @@ void Robot::signal()
 void Robot::read_sensors()
 {
     _gyro.read();
-    _gyro_btn.read();
+    _start_btn.read();
     _set_btn.read();
     _ir.read();
     _cam.read();
@@ -201,7 +189,7 @@ Gyro *Robot::gyro()
 
 Button *Robot::start_btn()
 {
-    return &_gyro_btn;
+    return &_start_btn;
 }
 
 Button *Robot::set_btn()
