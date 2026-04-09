@@ -1,4 +1,6 @@
+#pragma once
 #include "pins_arduino.h"
+
 class Button
 {
 public:

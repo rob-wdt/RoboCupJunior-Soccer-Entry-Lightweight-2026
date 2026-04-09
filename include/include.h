@@ -5,3 +5,5 @@
 //#include "MPU6050.h"
 #include "HTInfraredSeeker.h"
 #include "MPU6050_6Axis_MotionApps20.h"
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>

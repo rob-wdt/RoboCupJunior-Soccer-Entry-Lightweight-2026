@@ -1,3 +1,5 @@
+#pragma once
+
 //------------------SPEED-------------
 #define MIN_SPEED 55
 #define SPEED 0

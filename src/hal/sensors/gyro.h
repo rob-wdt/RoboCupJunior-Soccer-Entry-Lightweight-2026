@@ -1,29 +1,21 @@
 #pragma once
-#include <stdint.h>
-// #include "MPU6050.h"
-#include "include.h"
 
 class Gyro
 {
 public:
-    Gyro(uint8_t I2C_address = 0x68, bool debug = false);
-    void init();
-    void calibrate();
-    void read();
-    float yaw() const noexcept;
-    float zero_angle() const noexcept;
-    void set_zero_angle(float new_angle) noexcept;
-    void debug() const noexcept;
+    Gyro(int address, bool debug = false) : _address{address}, _debug{debug} {}
+    virtual void init() {}
+    virtual void calibrate() {}
+    virtual void read() {}
+    virtual float yaw() const noexcept {}
+    virtual void set_zero_angle(float new_angle) {}
+    virtual float zero_angle() const noexcept {}
+    virtual void debug() const noexcept {}
 
-private:
-    MPU6050 _mpu;
+protected:
+    int _address{};
+    float _yaw{};
     float _zero_angle{};
-    uint8_t _fifo_buffer[64];
-    uint16_t _packet_size;
-    Quaternion _q;
-    VectorFloat _gravity;
-    float _ypr[3];
-    float _yaw;
 
     bool _debug{};
 };

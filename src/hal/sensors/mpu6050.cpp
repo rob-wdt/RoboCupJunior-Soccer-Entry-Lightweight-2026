@@ -1,17 +1,18 @@
 #include "Arduino.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 #include "helper_3dmath.h"
-#include "gyro.h"
+#include "mpu6050.h"
 
-Gyro::Gyro(uint8_t I2C_address = 0x68, bool debug = false) : _mpu{I2C_address}, _debug{debug}, _zero_angle{} {}
+Mpu6050::Mpu6050(int address = 0x68, bool debug = false) : Gyro::Gyro{address, debug}, _mpu{address} {}
 
-void Gyro::init()
+void Mpu6050::init()
 {
     _mpu.initialize();
 
     if (!_mpu.testConnection())
     {
-        Serial.println("Gyroscope: NO CONNECTION");
+        Serial.println("Gyroscope: MPU6050: NO CONNECTION");
+        
     }
 
     _mpu.dmpInitialize();
@@ -21,9 +22,9 @@ void Gyro::init()
     _mpu.setDMPEnabled(true);
 }
 
-void Gyro::calibrate()
+void Mpu6050::calibrate()
 {
-    Serial.println("Gyroscope: CALIBRATING");
+    Serial.println("Gyroscope: MPU6050: CALIBRATING");
 
     _mpu.setXGyroOffset(0);
     _mpu.setYGyroOffset(0);
@@ -35,7 +36,7 @@ void Gyro::calibrate()
     _mpu.PrintActiveOffsets();
 }
 
-void Gyro::read()
+void Mpu6050::read()
 {
     if (_mpu.dmpGetCurrentFIFOPacket(_fifo_buffer))
     {
@@ -65,24 +66,24 @@ void Gyro::read()
     }
 }
 
-float Gyro::zero_angle() const noexcept
+float Mpu6050::zero_angle() const noexcept
 {
     return _zero_angle;
 }
 
-void Gyro::set_zero_angle(float new_angle) noexcept
+void Mpu6050::set_zero_angle(float new_angle) noexcept
 {
     _zero_angle = new_angle;
 }
 
-float Gyro::yaw() const noexcept
+float Mpu6050::yaw() const noexcept
 {
     return _yaw;
 }
 
-void Gyro::debug() const noexcept
+void Mpu6050::debug() const noexcept
 {
-    Serial.print("Gyro:\t");
+    Serial.print("Gyroscope:\tMPU6050:\t");
     Serial.print("Current yaw:\t");
     Serial.println(_yaw);
     Serial.println("==============================================");

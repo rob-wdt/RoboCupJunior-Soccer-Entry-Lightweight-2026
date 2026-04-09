@@ -4,9 +4,11 @@
 #include "config.h"
 #include ".\robot\robot.h"
 #include ".\control\exp.h"
+#include ".\hal\sensors\mpu6050.h"
+#include ".\hal\sensors\bno055.h"
 
 Robot robot{
-    Gyro{0x68, true},
+    Mpu6050{0x68, true},
     Button{A3},
     Button{A5},
     LED{47},
@@ -58,7 +60,7 @@ void setup()
     Serial.println(robot.gyro()->zero_angle());
     robot.signal();
 
-    //WAIT FOR BTN TO START THE PROGRAM
+    // WAIT FOR BTN TO START THE PROGRAM
     Serial.println("Press A3 btn to start the main code");
     robot.start_btn()->reset();
     while (!robot.start_btn()->is_pressed())
