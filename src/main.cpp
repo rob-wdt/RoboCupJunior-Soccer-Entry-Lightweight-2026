@@ -4,25 +4,22 @@
 #include "config.h"
 
 #include ".\robot\robot.h"
-#include ".\control\exponential\exp.h"
-#include ".\control\pdc\PDC.h"
-#include ".\hal\sensors\gyros\mpu6050\mpu6050.h"
-#include ".\hal\sensors\gyros\bno055\bno055.h"
+#include ".\robot\objects.h"
 
 Robot robot{
-    Bno055{0, 0x28, true},
-    Button{A3},
-    Button{A5},
-    LED{47},
-    IR{A14, MIN_SPEED, true},
-    Motor{60, M1_1, M1_2, 1, 1, 1, MIN_SPEED},
-    Motor{180, M2_1, M2_2, -1, 1, 1, MIN_SPEED},
-    Motor{60, M4_1, M4_2, -1, -1, 1, MIN_SPEED},
-    Regulator{},
-    PDC{0.05, 0.5, 0.00005},
-    Exp{0.45, 0.4},
-    Exp{0.35, 0.7},
-    Camera{},
+    objects::mpu,
+    objects::start_btn,
+    objects::set_btn,
+    objects::signal,
+    objects::ir_seeker,
+    objects::motor_1,
+    objects::motor_2,
+    objects::motor_3,
+    objects::controls::cam_cont,
+    objects::controls::gyro_cont,
+    objects::controls::angle_cont,
+    objects::controls::dist_cont,
+    objects::camera,
     true};
 
 void setup()
@@ -44,7 +41,7 @@ void setup()
         robot.start_btn()->read();
     }
     robot.start_btn()->reset();
-    robot.gyro()->calibrate();
+    //robot.gyro()->calibrate();
     Serial.println("Finish calibrating");
     robot.signal();
 
