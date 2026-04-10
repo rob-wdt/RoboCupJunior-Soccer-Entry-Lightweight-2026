@@ -7,12 +7,25 @@ Mpu6050::Mpu6050(int address = 0x68, bool debug = false) : Gyro::Gyro{address, d
 
 void Mpu6050::init()
 {
+    if (_debug)
+    {
+        Serial.println("Gyroscope: MPU6050: INIT");
+    }
+
     _mpu.initialize();
+
+    if (_debug)
+    {
+        Serial.println("Gyroscope: MPU6050: MPU INIT COMPLETE");
+    }
 
     if (!_mpu.testConnection())
     {
         Serial.println("Gyroscope: MPU6050: NO CONNECTION");
-        
+    }
+    else
+    {
+        Serial.println("Gyroscope: MPU6050: TEST CONNECTION SUCCESFUL");
     }
 
     _mpu.dmpInitialize();
