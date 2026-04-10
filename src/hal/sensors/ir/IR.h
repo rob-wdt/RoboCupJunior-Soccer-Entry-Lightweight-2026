@@ -4,12 +4,12 @@
 class IR
 {
 public:
-    IR(int pin, float min_strength, bool debug = false);
+    IR(int pin, int min_strength, bool debug = false);
     void init() noexcept;
     void read();
     float angle() const noexcept;
-    float strength() const noexcept;
-    float min_strength() const noexcept;
+    int min_strength() const noexcept;
+    float strength() const noexcept; // если больше 180, мяч у нас
     void debug() const noexcept;
 
 private:
@@ -17,8 +17,7 @@ private:
     int _pin;
     float _angle;
     float _strength;
-
-    float _min_strength;
+    int _min_strength;
 
     bool _debug{};
 };

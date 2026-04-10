@@ -1,6 +1,6 @@
 #include "IR.h"
 
-IR::IR(int pin, float min_strength, bool debug = false) : _pin{pin}, _min_strength{min_strength}, _debug{debug}, _angle{}, _strength{} {}
+IR::IR(int pin, int min_strength, bool debug = false) : _pin{pin}, _min_strength{min_strength}, _debug{debug}, _angle{}, _strength{} {}
 
 void IR::init() noexcept
 {
@@ -20,14 +20,14 @@ float IR::angle() const noexcept
     return _angle;
 }
 
+int IR::min_strength() const noexcept
+{
+    return _min_strength;
+}
+
 float IR::strength() const noexcept
 {
     return _strength;
-}
-
-float IR::min_strength() const noexcept
-{
-    return _min_strength;
 }
 
 void IR::debug() const noexcept

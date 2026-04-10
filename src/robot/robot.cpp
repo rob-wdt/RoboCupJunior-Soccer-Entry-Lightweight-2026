@@ -54,10 +54,15 @@ void Robot::signal()
 void Robot::read_sensors()
 {
     _gyro.read();
+
+    _start_btn.reset();
     _start_btn.read();
+    
+    _set_btn.reset();
     _set_btn.read();
+
     _ir.read();
-    _cam.read();
+    //_cam.read();
 }
 
 void Robot::set_angle()

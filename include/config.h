@@ -5,7 +5,7 @@
 
 //------------------SPEED-------------
 #define MIN_SPEED 55
-#define SPEED 80
+#define SPEED 60
 
 //-----------------MPU6050----------------
 #define MPU_ADDRESS 0x68
@@ -40,13 +40,15 @@
 #define M3_1 10
 #define M3_2 11
 #define M3_PLUSMINUS_ANGLE -1
-#define M3_PLUSMINUS_ANGULAR_SPEED -1
+#define M3_PLUSMINUS_ANGULAR_SPEED 1
 #define M3_PLUSMINUS_COS 1
 #define M3_DEBUG false
 
 //---------------IR-------------------
-#define IR_PIN A4
+//#define IR_PIN A4
+#define IR_PIN A14
 #define MIN_STRENGTH 50
+#define IR_DEBUG true
 
 //--------------CAMERA---------------
 #define CAM_DEBUG false
@@ -55,9 +57,9 @@
 //Camera:
 
 //Gyro:
-#define GYRO_CONT_KP 0.05
-#define GYRO_CONT_KD 0.5
-#define GYRO_CONT_KC 0.00005
+#define GYRO_CONT_KP 0.07
+#define GYRO_CONT_KD 0.3
+#define GYRO_CONT_KC 0.0001
 #define GYRO_CONT_DEBUG false
 
 //Angle:

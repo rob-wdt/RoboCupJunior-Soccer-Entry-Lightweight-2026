@@ -27,6 +27,7 @@ void setup()
     // 0. Initialization
     Serial.begin(115200);
     Wire.begin();
+    Wire.setClock(100000);
 
     Serial.println("Init");
     robot.init();
@@ -41,7 +42,7 @@ void setup()
         robot.start_btn()->read();
     }
     robot.start_btn()->reset();
-    //robot.gyro()->calibrate();
+    robot.gyro()->calibrate();
     Serial.println("Finish calibrating");
     robot.signal();
 
@@ -67,6 +68,8 @@ void setup()
         robot.start_btn()->read();
     }
     robot.start_btn()->reset();
+
+    delay(1000);
 }
 
 void loop()
@@ -122,4 +125,6 @@ void loop()
 
     robot.set_speed(SPEED);
     robot.move();
+
+    robot.ir_seeker()->debug();
 }
