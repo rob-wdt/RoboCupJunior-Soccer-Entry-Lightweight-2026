@@ -22,27 +22,27 @@
 
 namespace objects
 {
-    Mpu6050 mpu;
-    Bno055 bno;
+    Mpu6050 mpu{MPU_ADDRESS, MPU_DEBUG};
+    Bno055 bno{BNO_ID, BNO_ADDRESS, BNO_DEBUG};
 
-    Motor motor_1{60, M1_1, M1_2, 1, 1, 1, MIN_SPEED};
-    Motor motor_2{180, M2_1, M2_2, -1, 1, 1, MIN_SPEED};
-    Motor motor_3{60, M4_1, M4_2, -1, -1, 1, MIN_SPEED};
+    Motor motor_1{M1_ANGLE, M1_1, M1_2, M1_PLUSMINUS_ANGLE, M1_PLUSMINUS_ANGULAR_SPEED, M1_PLUSMINUS_COS, MIN_SPEED, M1_DEBUG};
+    Motor motor_2{M2_ANGLE, M2_1, M2_2, M2_PLUSMINUS_ANGLE, M2_PLUSMINUS_ANGULAR_SPEED, M2_PLUSMINUS_COS, MIN_SPEED, M2_DEBUG};
+    Motor motor_3{M3_ANGLE, M3_1, M3_2, M3_PLUSMINUS_ANGLE, M3_PLUSMINUS_ANGULAR_SPEED, M3_PLUSMINUS_COS, MIN_SPEED, M3_DEBUG};
 
-    IR ir_seeker{A4, MIN_STRENGTH};
+    IR ir_seeker{IR_PIN, MIN_STRENGTH};
 
-    Camera camera{};
+    Camera camera{CAM_DEBUG};
 
     namespace controls
     {
         Regulator cam_cont{};
-        PDC gyro_cont{0.05, 0.5, 0.00005};
-        Exp angle_cont{0.45, 0.4};
-        Exp dist_cont{0.35, 0.7};
+        PDC gyro_cont{GYRO_CONT_KP, GYRO_CONT_KD, GYRO_CONT_KC, GYRO_CONT_DEBUG};
+        Exp angle_cont{ANGLE_CONT_K1, ANGLE_CONT_K2, ANGLE_CONT_DEBUG};
+        Exp dist_cont{DIST_CONT_K1, DIST_CONT_K2, DIST_CONT_DEBUG};
     };
 
-    Button start_btn{A3};
-    Button set_btn{A5};
+    Button start_btn{START_BTN_PIN, START_BTN_DEBUG};
+    Button set_btn{SET_BTN_PIN, SET_BTN_DEBUG};
 
-    LED signal{47};
+    LED signal{SIGNAL_LED_PIN};
 };
