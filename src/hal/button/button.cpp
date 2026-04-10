@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "button.h"
 
-Button::Button(int pin = A3, bool debug = false) : _pin{pin}, _debug{debug}, _is_pressed{false} {}
+Button::Button(unsigned pin, bool debug = false) : _pin{pin}, _is_pressed{false}, _debug{debug} {}
 
 void Button::init() noexcept
 {
@@ -10,7 +10,7 @@ void Button::init() noexcept
 
 void Button::read() noexcept
 {
-    unsigned int _data{analogRead(_pin)};
+    int _data{analogRead(_pin)};
     if (_data > 200)
     {
         _is_pressed = true;
