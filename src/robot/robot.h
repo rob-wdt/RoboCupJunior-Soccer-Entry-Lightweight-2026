@@ -12,7 +12,7 @@ class Robot
 {
 public:
     Robot(
-        Gyro gyro,
+        Gyro &gyro,
         Button start_btn,
         Button set_btn,
         LED signal_led,
@@ -20,10 +20,10 @@ public:
         Motor m1,
         Motor m2,
         Motor m3,
-        Regulator cam_control,
-        Regulator gyro_control,
-        Regulator angle_control,
-        Regulator distance_control,
+        Regulator &cam_control,
+        Regulator &gyro_control,
+        Regulator &angle_control,
+        Regulator &distance_control,
         Camera cam,
         bool debug = false);
 
@@ -48,7 +48,7 @@ public:
     Camera *camera();
 
 private:
-    Gyro _gyro;
+    Gyro &_gyro;
     Button _start_btn;
     Button _set_btn;
     LED _signal;
@@ -56,10 +56,10 @@ private:
     Motor _m1;
     Motor _m2;
     Motor _m3;
-    Regulator _cam_cont;
-    Regulator _gyro_cont;
-    Regulator _angle_cont;
-    Regulator _distance_cont;
+    Regulator &_cam_cont;
+    Regulator &_gyro_cont;
+    Regulator &_angle_cont;
+    Regulator &_distance_cont;
     Camera _cam;
 
     float _angle{};

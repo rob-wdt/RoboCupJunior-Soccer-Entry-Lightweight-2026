@@ -3,7 +3,7 @@
 #include "robot.h"
 
 Robot::Robot(
-    Gyro gyro,
+    Gyro &gyro,
     Button start_btn,
     Button set_btn,
     LED signal_led,
@@ -11,10 +11,10 @@ Robot::Robot(
     Motor m1,
     Motor m2,
     Motor m3,
-    Regulator cam_control,
-    Regulator gyro_control,
-    Regulator angle_control,
-    Regulator distance_control,
+    Regulator &cam_control,
+    Regulator &gyro_control,
+    Regulator &angle_control,
+    Regulator &distance_control,
     Camera cam,
     bool debug = false)
     : _gyro{gyro},

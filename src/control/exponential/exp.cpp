@@ -9,3 +9,12 @@ float Exp::get(float error)
     float u{_k1 * pow(E, _k2 * error)};
     return u;
 }
+
+void Exp::debug()
+{
+    Serial.print("Exponential control:\tk1:\t");
+    Serial.print(_k1);
+    Serial.print("\tk2:\t");
+    Serial.print(_k2);
+    Serial.println("============================================");
+}
