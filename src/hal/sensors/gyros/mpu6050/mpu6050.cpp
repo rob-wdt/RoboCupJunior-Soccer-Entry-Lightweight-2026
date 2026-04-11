@@ -61,6 +61,7 @@ void Mpu6050::read()
 
         if (_debug)
         {
+            Serial.print("MPU6050:\t");
             Serial.print(_yaw);
             Serial.print(" = ");
             Serial.print(-_ypr[0] * RAD_TO_DEG);

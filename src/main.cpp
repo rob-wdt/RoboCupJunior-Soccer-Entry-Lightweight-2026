@@ -79,6 +79,7 @@ void loop()
 
     if (robot.set_btn()->is_pressed())
     {
+        robot.set_btn()->reset();
         robot.stop();
         delay(1000);
 
@@ -93,10 +94,13 @@ void loop()
         Serial.print("Zero angle set:\t");
         Serial.println(robot.gyro()->zero_angle());
         robot.signal();
+        delay(100);
     }
 
     if (robot.start_btn()->is_pressed())
-    {
+    {   
+        robot.start_btn()->reset();
+        robot.set_btn()->reset();
         robot.stop();
         delay(100);
 
@@ -121,10 +125,11 @@ void loop()
         Serial.print("Zero angle set:\t");
         Serial.println(robot.gyro()->zero_angle());
         robot.signal();
+        delay(100);
     }
 
     robot.set_speed(SPEED);
     robot.move();
 
-    robot.ir_seeker()->debug();
+    //robot.ir_seeker()->debug();
 }

@@ -6,10 +6,11 @@ PDC::PDC(float kp, float kd, float kc, bool debug = false) : _kp{kp}, _kd{kd}, _
 float PDC::get(float error)
 {
     _error = error;
-    float _u = _kp * _error + _kd * (_error - _prev_error) + _kc * pow(_error, 3);
+    float _u = _kp * _error + _kd * (_error - _prev_error) + (double)_kc * pow((double)_error, 3);
 
     if (_debug)
     {
+        Serial.print("PDC:\t");
         Serial.print(_u);
         Serial.print(" = ");
         Serial.print(_kp);
@@ -22,9 +23,9 @@ float PDC::get(float error)
         Serial.print(" - ");
         Serial.print(_prev_error);
         Serial.print(") + ");
-        Serial.print(_kc);
+        Serial.print((double)_kc);
         Serial.print(" * ");
-        Serial.println(pow(_error, 3));
+        Serial.println(pow((double)_error, 3));
     }
 
     _prev_error = _error;

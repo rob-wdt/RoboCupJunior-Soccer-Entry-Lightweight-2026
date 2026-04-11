@@ -57,7 +57,7 @@ void Robot::read_sensors()
 
     _start_btn.reset();
     _start_btn.read();
-    
+
     _set_btn.reset();
     _set_btn.read();
 
@@ -116,61 +116,105 @@ void Robot::set_angle()
     //     Serial.println(_prev_angle);
     // }
 
-    //---------------------------------FIRST WORKING VERSION---------------------------
-    // _angle = _ir.angle();
-
-    // if (_angle)
-    // {
-    //     if (_ir.strength() > _ir.min_strength()) // ЕСЛИ БЛИЗКО
-    //     {
-    //         if (_angle < 0)
-    //         {
-    //             _angle -= 90;
-    //         }
-    //         else
-    //         {
-    //             _angle += 90;
-    //         }
-    //         if (_angle > -150)
-    //             _angle -= 60;
-
-    //         else
-    //             _angle -= 30;
-    //     }
-    //     else if (_angle > 0)
-    //     {
-    //         if (_angle < 150)
-    //             _angle += 0;
-
-    //         else
-    //             _angle += 30;
-    //     }
-    // }
-
     _angle = _ir.angle();
 
-    float _angle_koef{_angle_cont.get(_ir.angle())};
-    float _dist_koef{_distance_cont.get(_ir.strength())};
-
-    float _res;
-    if (_ir.angle() > 0)
-    {  
-        _res = _angle_koef * _dist_koef;
-    }
-    else
+    if (_angle)
     {
-        _res = _angle_koef * _dist_koef;
+        if (abs(_angle) == 30)
+        {
+            if (_angle < 0)
+            {
+                _angle -= 5;
+            }
+            else if (_angle > 0)
+            {
+                _angle += 5;
+            }
+        }
+
+        else if (abs(_angle) == 60)
+        {
+            if (_angle < 0)
+            {
+                _angle -= 70;
+            }
+            else if (_angle > 0)
+            {
+                _angle += 70;
+            }
+        }
+
+        else if (abs(_angle) == 90)
+        {
+            if (_angle < 0)
+            {
+                _angle -= 40;
+            }
+            else if (_angle > 0)
+            {
+                _angle += 40;
+            }
+        }
+
+        else if (abs(_angle) == 120)
+        {
+            if (_angle < 0)
+            {
+                _angle -= 60;
+            }
+            else if (_angle > 0)
+            {
+                _angle += 60;
+            }
+        }
+
+        else if (abs(_angle) == 150)
+        {
+            if (_angle < 0)
+            {
+                _angle -= 60;
+            }
+            else if (_angle > 0)
+            {
+                _angle += 60;
+            }
+        }
     }
 
-    _angle += _res;
+    //----------------------ГОШИНА ФОРМУЛА-------------------
+    // _angle = _ir.angle();
+
+    // float _angle_koef{_angle_cont.get(_ir.angle())};
+    // float _dist_koef{_distance_cont.get(-_ir.strength())};
+
+    // float _res;
+    // if (_ir.angle() > 0)
+    // {
+    //     _res = _angle_koef * _dist_koef;
+    // }
+    // else
+    // {
+    //     _res = _angle_koef * _dist_koef;
+    // }
+
+    // _angle += _res;
+
+    // if (_debug)
+    // {
+    //     Serial.print("Angle:\t");
+    //     Serial.println(_angle);
+    // }
 }
 
 void Robot::set_speed(float linear_speed)
 {
     set_angle();
-    _m1.set_velocity(linear_speed, _angle, _gyro_cont.get(_gyro.yaw()));
-    _m2.set_velocity(linear_speed, _angle, _gyro_cont.get(_gyro.yaw()));
-    _m3.set_velocity(linear_speed, _angle, _gyro_cont.get(_gyro.yaw()));
+    //_angle = ANGLE;
+    float _angular_speed{_gyro_cont.get(_gyro.yaw())};
+    // float _angular_speed{};
+    _m1.set_velocity(linear_speed, _angle, _angular_speed);
+    _m2.set_velocity(linear_speed, _angle, _angular_speed);
+    _m3.set_velocity(linear_speed, _angle, _angular_speed);
 }
 
 void Robot::move()

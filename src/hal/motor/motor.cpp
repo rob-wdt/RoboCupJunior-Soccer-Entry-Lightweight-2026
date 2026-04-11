@@ -16,10 +16,25 @@ void Motor::set_velocity(float linear_speed, float angle, float angular_speed)
         angle -= 360;
     }
 
-    float _move_speed{_cos_coef * linear_speed * cosf(_location_angle / 2 * DEG_TO_RAD + _angle_coef * angle * DEG_TO_RAD)};
-    float _angular_speed{_angle_speed_coef * angular_speed}; 
+    float _move_speed{(float)_cos_coef * linear_speed * cos(_location_angle / 2 * DEG_TO_RAD + _angle_coef * angle * DEG_TO_RAD)};
+    float _angular_speed{(float)_angle_speed_coef * angular_speed};
 
     _rotation_speed = round(_move_speed + _angular_speed);
+
+    if (_debug)
+    {
+        Serial.print("Motor:\t");
+        Serial.print(_rotation_speed);
+        Serial.print(" = ");
+        Serial.print(_cos_coef * linear_speed);
+        Serial.print(" * ");
+        Serial.print("cos(");
+        Serial.print(_location_angle / 2);
+        Serial.print(" + ");
+        Serial.print((double)_angle_coef * angle);
+        Serial.print(") + ");
+        Serial.println(_angular_speed);
+    }
 
     if (_rotation_speed < 0)
     {
@@ -28,20 +43,6 @@ void Motor::set_velocity(float linear_speed, float angle, float angular_speed)
     else if (_rotation_speed > 0)
     {
         _rotation_speed = map(_rotation_speed, 0, 255, _min_speed, 255);
-    }
-
-    if (_debug)
-    {
-        Serial.print(_rotation_speed);
-        Serial.print(" = ");
-        Serial.print(linear_speed);
-        Serial.print(" * ");
-        Serial.print("cos(");
-        Serial.print(_location_angle / 2);
-        Serial.print(" + ");
-        Serial.print(_angle_coef * angle);
-        Serial.print(") + ");
-        Serial.print(angular_speed);
     }
 }
 
