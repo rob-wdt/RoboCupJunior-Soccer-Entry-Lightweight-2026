@@ -5,17 +5,17 @@
 
 //------------------SPEED-------------
 #define MIN_SPEED 55 // 0 - 255
-#define SPEED 225    // 0 - 255
+#define SPEED 80      // 0 - 255
 
 //----------------ROBOT---------------
-#define DEBUG true
+#define DEBUG false
 #if DEBUG == true
 #define ANGLE -60
 #endif
 
 //-----------------MPU6050----------------
 #define MPU_ADDRESS 0x68
-#define MPU_DEBUG true
+#define MPU_DEBUG false
 
 //----------------BNO055----------------
 #define BNO_ID 0
@@ -30,7 +30,7 @@
 #define M1_PLUSMINUS_ANGLE 1
 #define M1_PLUSMINUS_ANGULAR_SPEED 1
 #define M1_PLUSMINUS_COS 1
-#define M1_DEBUG true
+#define M1_DEBUG false
 
 // Motor 2:
 #define M2_ANGLE 180
@@ -39,7 +39,7 @@
 #define M2_PLUSMINUS_ANGLE -1
 #define M2_PLUSMINUS_ANGULAR_SPEED 1
 #define M2_PLUSMINUS_COS 1
-#define M2_DEBUG true
+#define M2_DEBUG false
 
 // Motor 3:
 #define M3_ANGLE 60
@@ -48,13 +48,14 @@
 #define M3_PLUSMINUS_ANGLE -1
 #define M3_PLUSMINUS_ANGULAR_SPEED 1
 #define M3_PLUSMINUS_COS -1
-#define M3_DEBUG true
+#define M3_DEBUG false
 
 //---------------IR-------------------
 // #define IR_PIN A4
 #define IR_PIN A14
 #define MIN_STRENGTH 30
-#define AV_STRENGTH 35 // Расстояние на котором надо объезжать под большим углом
+#define MAX_STRENGTH 255
+#define MED_STRENGTH 90 // Расстояние на котором надо объезжать под большим углом
 #define IR_DEBUG true
 
 //--------------CAMERA---------------
@@ -64,20 +65,20 @@
 // Camera:
 
 // Gyro:
-#define GYRO_CONT_KP 0.1
-#define GYRO_CONT_KD 0.05
-#define GYRO_CONT_KC (double)0.0001
-#define GYRO_CONT_DEBUG true
+#define GYRO_CONT_KP 0.25
+#define GYRO_CONT_KD 0         // 0.05
+#define GYRO_CONT_KC (double)0.0005 // 0.0001
+#define GYRO_CONT_DEBUG false
 
 // Angle:
 #define ANGLE_CONT_K1 0.45
 #define ANGLE_CONT_K2 0.4
-#define ANGLE_CONT_DEBUG true
+#define ANGLE_CONT_DEBUG false
 
 // Distance:
 #define DIST_CONT_K1 0.35
 #define DIST_CONT_K2 0.7
-#define DIST_CONT_DEBUG true
+#define DIST_CONT_DEBUG false
 
 //--------------BUTTON-------------
 // Start button:

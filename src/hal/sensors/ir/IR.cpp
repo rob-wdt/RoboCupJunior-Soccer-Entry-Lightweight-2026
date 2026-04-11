@@ -1,6 +1,6 @@
 #include "IR.h"
 
-IR::IR(int pin, int min_strength, int medium_strength, bool debug = false) : _pin{pin}, _min_strength{min_strength}, _med_strength{medium_strength}, _debug{debug}, _angle{}, _strength{} {}
+IR::IR(int pin, int min_strength, int max_strength, int medium_strength, bool debug = false) : _pin{pin}, _min_strength{min_strength}, _max_strength{max_strength}, _med_strength{medium_strength}, _debug{debug}, _angle{}, _strength{} {}
 
 void IR::init() noexcept
 {
@@ -12,11 +12,17 @@ void IR::read()
 {
     InfraredResult res{_IR.ReadAC()};
     _angle = (res.Direction - 5) * 30;
-    if (abs(_angle) <= 30)
-    {
-        _angle = 0;
-    }
+
     _strength = res.Strength;
+    if (_strength > _max_strength)
+    {
+        _strength = _max_strength;
+    }
+    else if (_strength < _min_strength)
+    {
+        _strength = _min_strength;
+    }
+    _strength = map(_strength, _min_strength, _max_strength, 0, 1);
 }
 
 float IR::angle() const noexcept
@@ -27,6 +33,11 @@ float IR::angle() const noexcept
 int IR::min_strength() const noexcept
 {
     return _min_strength;
+}
+
+int IR::max_strength() const noexcept
+{
+    return _max_strength;
 }
 
 int IR::med_strength() const noexcept
@@ -47,5 +58,5 @@ void IR::debug() const noexcept
     Serial.print("\tStrength:\t");
     Serial.println(_strength);
     Serial.println("==============================================");
-    delay(500);
+    delay(100);
 }

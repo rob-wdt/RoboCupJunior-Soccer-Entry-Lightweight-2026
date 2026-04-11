@@ -116,94 +116,56 @@ void Robot::set_angle()
     //     Serial.println(_prev_angle);
     // }
 
-    _angle = _ir.angle();
 
-    if (_angle)
-    {
-        if (abs(_angle) == 30)
-        {
-            if (_angle < 0)
-            {
-                _angle -= 5;
-            }
-            else if (_angle > 0)
-            {
-                _angle += 5;
-            }
-        }
+    //_angle = _ir.angle();
 
-        else if (abs(_angle) == 60)
-        {
-            if (_angle < 0)
-            {
-                _angle -= 70;
-            }
-            else if (_angle > 0)
-            {
-                _angle += 70;
-            }
-        }
-
-        else if (abs(_angle) == 90)
-        {
-            if (_angle < 0)
-            {
-                _angle -= 40;
-            }
-            else if (_angle > 0)
-            {
-                _angle += 40;
-            }
-        }
-
-        else if (abs(_angle) == 120)
-        {
-            if (_angle < 0)
-            {
-                _angle -= 60;
-            }
-            else if (_angle > 0)
-            {
-                _angle += 60;
-            }
-        }
-
-        else if (abs(_angle) == 150)
-        {
-            if (_angle < 0)
-            {
-                _angle -= 60;
-            }
-            else if (_angle > 0)
-            {
-                _angle += 60;
-            }
-        }
-    }
+    // if (abs(_angle) != 150)
+    // {
+    //     if (_ir.strength() > _ir.med_strength())
+    //     {
+    //         if (abs(_angle) > 30)
+    //         {
+    //             if (_angle)
+    //             {
+    //                 if (_angle < 0)
+    //                 {
+    //                     _angle -= 90;
+    //                 }
+    //                 else if (_angle > 0)
+    //                 {
+    //                     _angle += 90;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     //----------------------ГОШИНА ФОРМУЛА-------------------
-    // _angle = _ir.angle();
+    _angle = _ir.angle();
 
-    // float _angle_koef{_angle_cont.get(_ir.angle())};
-    // float _dist_koef{_distance_cont.get(-_ir.strength())};
+    if (_ir.strength() == 0)
+    {
+        float _angle_koef{_angle_cont.get(_ir.angle())};
+        float _dist_koef{_distance_cont.get(-_ir.strength())};
 
-    // float _res;
-    // if (_ir.angle() > 0)
-    // {
-    //     _res = _angle_koef * _dist_koef;
-    // }
-    // else
-    // {
-    //     _res = _angle_koef * _dist_koef;
-    // }
+        float _res;
+        if (_ir.angle() > 0)
+        {
+            _res = _angle_koef * _dist_koef;
+        }
+        else
+        {
+            _res = _angle_koef * _dist_koef;
+        }
 
-    // _angle += _res;
+        _angle += _res;
+    }
 
-    // if (_debug)
-    // {
-    //     Serial.print("Angle:\t");
-    //     Serial.println(_angle);
-    // }
+    if (_debug)
+    {
+        Serial.print("Angle:\t");
+        Serial.println(_angle);
+    }
 }
 
 void Robot::set_speed(float linear_speed)
