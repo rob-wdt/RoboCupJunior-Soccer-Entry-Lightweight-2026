@@ -3,7 +3,7 @@
 #include "include.h"
 #include "mpu6050.h"
 
-Mpu6050::Mpu6050(int address = 0x68, bool debug = false) : Gyro::Gyro{address, debug}, _mpu{address} {}
+Mpu6050::Mpu6050(uint8_t address = 0x68, bool debug = false) : Gyro::Gyro{address, debug}, _mpu{address} {}
 
 void Mpu6050::init()
 {

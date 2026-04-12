@@ -7,7 +7,7 @@
 class Mpu6050 : public Gyro
 {
 public:
-    Mpu6050(int address = 0x68, bool debug = false);
+    Mpu6050(uint8_t address = 0x68, bool debug = false);
     void init() override final;
     void calibrate() override final;
     void read() override final;
