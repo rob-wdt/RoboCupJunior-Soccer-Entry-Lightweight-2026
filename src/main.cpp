@@ -20,7 +20,7 @@ Robot robot{
     objects::controls::angle_cont,
     objects::controls::dist_cont,
     objects::camera,
-    true};
+    DEBUG};
 
 void setup()
 {

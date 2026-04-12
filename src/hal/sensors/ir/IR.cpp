@@ -16,13 +16,12 @@ void IR::read()
     _strength = res.Strength;
     if (_strength > _max_strength)
     {
-        _strength = _max_strength;
+        _strength = (float)_max_strength;
     }
     else if (_strength < _min_strength)
     {
-        _strength = _min_strength;
+        _strength = (float)_min_strength;
     }
-    _strength = map(_strength, _min_strength, _max_strength, 0, 1);
 }
 
 float IR::angle() const noexcept

@@ -143,7 +143,7 @@ void Robot::set_angle()
     //----------------------ГОШИНА ФОРМУЛА-------------------
     _angle = _ir.angle();
 
-    if (_ir.strength() == 0)
+    //if (_ir.strength() >= 0)
     {
         float _angle_koef{_angle_cont.get(_ir.angle())};
         float _dist_koef{_distance_cont.get(-_ir.strength())};
