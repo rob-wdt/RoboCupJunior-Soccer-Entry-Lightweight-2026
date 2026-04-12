@@ -257,6 +257,16 @@ Regulator *Robot::gyro_control()
     return &_gyro_cont;
 }
 
+Regulator *Robot::angle_control()
+{
+    return &_angle_cont;
+}
+
+Regulator *Robot::distance_control()
+{
+    return &_distance_cont;
+}
+
 Camera *Robot::camera()
 {
     return &_cam;

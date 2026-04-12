@@ -47,6 +47,8 @@ public:
     Motor *motor_3();
     Regulator *camera_control();
     Regulator *gyro_control();
+    Regulator *angle_control();
+    Regulator *distance_control();
     Camera *camera();
 
 private:

@@ -121,10 +121,10 @@ void loop()
     robot.camera()->debug();
 #elif DEBUG_MODE == 5
     robot.set_angle();
-    robot.set_speed();
+    robot.set_speed(SPEED);
     robot.move();
-    robot.angle_cont()->debug();
-    robot.angle_cont()->debug();
+    robot.angle_control()->debug();
+    robot.angle_control()->debug();
 #endif
 #endif
 }
