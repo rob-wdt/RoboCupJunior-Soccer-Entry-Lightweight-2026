@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "camera.h"
 
-Camera::Camera(bool debug = false) : _debug{debug} {}
+Camera::Camera(bool debug) : _debug{debug} {}
 
 void Camera::init()
 {

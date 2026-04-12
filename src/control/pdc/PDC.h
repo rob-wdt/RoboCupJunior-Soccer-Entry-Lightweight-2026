@@ -4,7 +4,7 @@
 class PDC : public Regulator
 {
 public:
-    PDC(float kp, float kd, float kc, bool debug = false);
+    PDC(float kp, float kd, float kc, bool debug);
     float get(float error) override final; // САМ ПДК РЕГУЛЯТОР
     void debug() override final;
 

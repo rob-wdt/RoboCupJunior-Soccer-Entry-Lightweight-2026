@@ -25,12 +25,14 @@ public:
         Regulator &angle_control,
         Regulator &distance_control,
         Camera cam,
-        bool debug = false);
+        bool debug);
 
     void init();
     void signal();
     void read_sensors();
+    void wait_for_btn(Button &btn, void (*to_do) ());
     void set_angle();
+    void set_angle(int new_angle);
     void set_speed(float linear_speed);
     void move();
     void stop();

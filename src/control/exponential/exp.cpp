@@ -2,7 +2,7 @@
 #include "config.h"
 #include "exp.h"
 
-Exp::Exp(float k1, float k2, bool debug = false) : _k1{k1}, _k2{k2}, _debug{debug} {}
+Exp::Exp(float k1, float k2, bool debug) : _k1{k1}, _k2{k2}, _debug{debug} {}
 
 float Exp::get(float error)
 {

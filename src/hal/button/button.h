@@ -4,7 +4,7 @@
 class Button
 {
 public:
-    Button(unsigned pin, bool debug = false);
+    Button(unsigned pin, bool debug);
     void init() noexcept;
     void read() noexcept;
     bool is_pressed() const noexcept;

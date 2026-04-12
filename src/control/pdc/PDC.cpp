@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "PDC.h"
 
-PDC::PDC(float kp, float kd, float kc, bool debug = false) : _kp{kp}, _kd{kd}, _kc{kc}, _debug{debug} {}
+PDC::PDC(float kp, float kd, float kc, bool debug) : _kp{kp}, _kd{kd}, _kc{kc}, _debug{debug} {}
 
 float PDC::get(float error)
 {

@@ -16,7 +16,7 @@ Robot::Robot(
     Regulator &angle_control,
     Regulator &distance_control,
     Camera cam,
-    bool debug = false)
+    bool debug)
     : _gyro{gyro},
       _start_btn{start_btn},
       _set_btn{set_btn},
@@ -63,6 +63,17 @@ void Robot::read_sensors()
 
     _ir.read();
     //_cam.read();
+}
+
+void Robot::wait_for_btn(Button &btn, void (*to_do)())
+{
+    btn.reset();
+    while (!btn.is_pressed())
+    {
+        btn.read();
+        to_do();
+    }
+    btn.reset();
 }
 
 void Robot::set_angle()
@@ -116,7 +127,6 @@ void Robot::set_angle()
     //     Serial.println(_prev_angle);
     // }
 
-
     //_angle = _ir.angle();
 
     // if (abs(_angle) != 150)
@@ -143,7 +153,7 @@ void Robot::set_angle()
     //----------------------ГОШИНА ФОРМУЛА-------------------
     _angle = _ir.angle();
 
-    //if (_ir.strength() >= 0)
+    // if (_ir.strength() >= 0)
     {
         float _angle_koef{_angle_cont.get(_ir.angle())};
         float _dist_koef{_distance_cont.get(-_ir.strength())};
@@ -168,9 +178,13 @@ void Robot::set_angle()
     }
 }
 
+void Robot::set_angle(int new_angle)
+{
+    _angle = new_angle;
+}
+
 void Robot::set_speed(float linear_speed)
 {
-    set_angle();
     //_angle = ANGLE;
     float _angular_speed{_gyro_cont.get(_gyro.yaw())};
     // float _angular_speed{};

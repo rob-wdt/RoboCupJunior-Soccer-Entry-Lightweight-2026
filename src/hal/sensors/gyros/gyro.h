@@ -3,7 +3,7 @@
 class Gyro
 {
 public:
-    Gyro(int address, bool debug = false) : _address{address}, _debug{debug} {}
+    Gyro(int address, bool debug) : _address{address}, _debug{debug} {}
     virtual void init() {}
     virtual void calibrate() {}
     virtual void read() {}

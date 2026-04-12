@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "button.h"
 
-Button::Button(unsigned pin, bool debug = false) : _pin{pin}, _is_pressed{false}, _debug{debug} {}
+Button::Button(unsigned pin, bool debug) : _pin{pin}, _is_pressed{false}, _debug{debug} {}
 
 void Button::init() noexcept
 {
