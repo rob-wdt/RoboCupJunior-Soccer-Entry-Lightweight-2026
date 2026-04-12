@@ -5,7 +5,7 @@
 
 //------------------SPEED-------------
 #define MIN_SPEED 55 // 0 - 255
-#define SPEED 80      // 0 - 255
+#define SPEED 0      // 0 - 255
 
 //----------------ROBOT---------------
 #define DEBUG false
@@ -66,7 +66,7 @@
 
 // Gyro:
 #define GYRO_CONT_KP 0.25
-#define GYRO_CONT_KD 0         // 0.05
+#define GYRO_CONT_KD 0.1           // 0.05
 #define GYRO_CONT_KC (double)0.0005 // 0.0001
 #define GYRO_CONT_DEBUG false
 
