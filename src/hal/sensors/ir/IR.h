@@ -17,11 +17,14 @@ public:
 private:
     InfraredSeeker _IR;
     int _pin;
-    float _angle;
-    float _strength;
+    double _angle;
+    double _prev_angle{_angle};
+    double _strength;
     const int _min_strength;
     const int _max_strength;
     const int _med_strength;
 
     bool _debug{};
+
+    void _defense();
 };

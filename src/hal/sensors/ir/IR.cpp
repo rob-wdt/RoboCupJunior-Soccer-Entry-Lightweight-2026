@@ -16,12 +16,15 @@ void IR::read()
     _strength = res.Strength;
     if (_strength > _max_strength)
     {
-        _strength = (float)_max_strength;
+        _strength = (double)_max_strength;
     }
     else if (_strength < _min_strength)
     {
-        _strength = (float)_min_strength;
+        _strength = (double)_min_strength;
     }
+
+    _defense();
+    _prev_angle = _angle;
 }
 
 float IR::angle() const noexcept
@@ -58,4 +61,17 @@ void IR::debug() const noexcept
     Serial.println(_strength);
     Serial.println("==============================================");
     delay(100);
+}
+
+void IR::_defense()
+{
+    if (abs(_angle) - abs(_prev_angle) >= 60)
+    {
+        _angle = _prev_angle;
+    }
+
+    if (abs(_angle) <= 60 && _strength - _min_strength <= 30)   //иногда случаются глюки, и он не видя мяч, показывает 60 или 30 градусов
+    {
+        _angle = -150;
+    }
 }
