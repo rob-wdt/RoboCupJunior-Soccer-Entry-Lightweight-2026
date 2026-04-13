@@ -4,10 +4,10 @@
 #define E 2.71828
 
 //----------------ROBOT---------------
-#define DEBUG false
+#define DEBUG true
 
 #if DEBUG == true
-#define DEBUG_MODE 0
+#define DEBUG_MODE 1
 /*
 0 - Debug gyro (align on zero_angle)
 1 - Debug IR (print out the angle and strength)
@@ -60,9 +60,9 @@
 #define M1_PLUSMINUS_COS 1
 
 #if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3)
-#define M1_DEBUG false
-#else
 #define M1_DEBUG true
+#else
+#define M1_DEBUG false
 #endif
 
 // Motor 2:
@@ -74,9 +74,9 @@
 #define M2_PLUSMINUS_COS 1
 
 #if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3)
-#define M2_DEBUG false
-#else
 #define M2_DEBUG true
+#else
+#define M2_DEBUG false
 #endif
 
 // Motor 3:
@@ -88,9 +88,9 @@
 #define M3_PLUSMINUS_COS -1
 
 #if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3)
-#define M3_DEBUG false
-#else
 #define M3_DEBUG true
+#else
+#define M3_DEBUG false
 #endif
 
 //---------------IR-------------------
@@ -129,7 +129,7 @@
 
 // Angle:
 #define ANGLE_CONT_K1 0.45
-#define ANGLE_CONT_K2 0.4
+#define ANGLE_CONT_K2 0.03
 
 #if DEBUG == true && DEBUG_MODE == 5
 #define ANGLE_CONT_DEBUG true

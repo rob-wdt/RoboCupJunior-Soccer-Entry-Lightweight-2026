@@ -74,101 +74,81 @@ void Robot::wait_for_btn(Button &btn, void (*to_do)())
         to_do();
     }
     btn.reset();
+    delay(100);
 }
 
 void Robot::set_angle()
 {
-    // _prev_angle = _angle;
-
-    // if (_ir.strength() > 0)
-    // {
-    //     if (abs(_ir.angle()) < 30)
-    //     {
-    //         _angle = _ir.angle();
-    //     }
-
-    //     else if (abs(_ir.angle()) >= 30 && abs(_ir.angle()) < 150)
-    //     {
-    //         if (_ir.angle() > 0)
-    //         {
-    //             _angle = _ir.angle() + 90;
-    //         }
-
-    //         else if (_ir.angle() < 0)
-    //         {
-    //             _angle = _ir.angle() - 90;
-    //         }
-    //     }
-    // }
-
-    // else if (_ir.strength() <= 0)
-    // {
-    //     if (abs(_ir.angle()) >= 150)
-    //     {
-    //         if (_prev_angle < 0)
-    //         {
-    //             _angle = _prev_angle - 90;
-    //             Serial.println("-");
-    //         }
-
-    //         else if (_prev_angle > 0)
-    //         {
-    //             Serial.println("-");
-    //             _angle = _prev_angle + 90;
-    //         }
-    //     }
-    // }
-
-    // if (_debug)
-    // {
-    //     Serial.println();
-    //     Serial.print(_angle);
-    //     Serial.print('\t');
-    //     Serial.println(_prev_angle);
-    // }
-
-    //_angle = _ir.angle();
-
-    // if (abs(_angle) != 150)
-    // {
-    //     if (_ir.strength() > _ir.med_strength())
-    //     {
-    //         if (abs(_angle) > 30)
-    //         {
-    //             if (_angle)
-    //             {
-    //                 if (_angle < 0)
-    //                 {
-    //                     _angle -= 90;
-    //                 }
-    //                 else if (_angle > 0)
-    //                 {
-    //                     _angle += 90;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    //----------------------ГОШИНА ФОРМУЛА-------------------
-    _angle = _ir.angle();
+    // //----------------------ГОШИНА ФОРМУЛА-------------------
+    // _angle = _ir.angle();
 
     // if (_ir.strength() >= 0)
+    // {
+    //     float _angle_koef{_angle_cont.get(_ir.angle())};
+    //     float _dist_koef{_distance_cont.get(-_ir.strength())};
+
+    //     float _res;
+    //     if (_ir.angle() > 0)
+    //     {
+    //         _res = _angle_koef * _dist_koef;
+    //     }
+    //     else
+    //     {
+    //         _res = _angle_koef * _dist_koef;
+    //     }
+
+    //     _angle += _res;
+    // }
+
+    // //---------------------ОБЪЕЗД ПО КРУГУ-------------
+    // _angle = _ir.angle();
+
+    // if (abs(_angle) < 120)
+    // {
+    //     if (_angle < 0)
+    //     {
+    //         _angle -= 90;
+    //     }
+    //     else if (_angle > 0)
+    //     {
+    //         _angle += 90;
+    //     }
+    // }
+    // else
+    // {
+    //     if (_angle < 0)
+    //     {
+    //         _angle = -90;
+    //     }
+    //     else
+    //     {
+    //         _angle = 90;
+    //     }
+    // }
+
+    //------------------------ВСЕГДА СТАРАЕМСЯ ДЕРЖАТЬ МЯЧ СПЕРЕДИ----------------------
+    _angle = _ir.angle();
+    if (abs(_angle) < 90) // если мяч спереди
     {
-        float _angle_koef{_angle_cont.get(_ir.angle())};
-        float _dist_koef{_distance_cont.get(-_ir.strength())};
-
-        float _res;
-        if (_ir.angle() > 0)
+        if (_angle < 0)
         {
-            _res = _angle_koef * _dist_koef;
+            _angle = -90;
         }
-        else
+        else if (_angle > 0)
         {
-            _res = _angle_koef * _dist_koef;
+            _angle = 90;
         }
-
-        _angle += _res;
+    }
+    else if (abs(_angle) >= 90)
+    {
+        if (_angle < 0)
+        {
+            _angle = -180;
+        }
+        else if (_angle > 0)
+        {
+            _angle = 180;
+        }
     }
 
     if (_debug)
