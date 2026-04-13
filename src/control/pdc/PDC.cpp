@@ -1,12 +1,12 @@
 #include "Arduino.h"
 #include "PDC.h"
 
-PDC::PDC(float kp, float kd, float kc, bool debug) : _kp{kp}, _kd{kd}, _kc{kc}, _debug{debug} {}
+PDC::PDC(double kp, double kd, double kc, bool debug) : _kp{kp}, _kd{kd}, _kc{kc}, _debug{debug} {}
 
-float PDC::get(float error)
+double PDC::get(double error)
 {
     _error = error;
-    float _u = _kp * _error + _kd * (_error - _prev_error) + (double)_kc * pow((double)_error, 3);
+    double _u = _kp * _error + _kd * (_error - _prev_error) + _kc * pow(_error, 3);
 
     if (_debug)
     {
@@ -23,7 +23,7 @@ float PDC::get(float error)
         Serial.print(" - ");
         Serial.print(_prev_error);
         Serial.print(") + ");
-        Serial.print((double)_kc);
+        Serial.print(_kc);
         Serial.print(" * ");
         Serial.println(pow((double)_error, 3));
     }

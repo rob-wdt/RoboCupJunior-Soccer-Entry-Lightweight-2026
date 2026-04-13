@@ -2,11 +2,11 @@
 #include "config.h"
 #include "exp.h"
 
-Exp::Exp(float k1, float k2, bool debug) : _k1{k1}, _k2{k2}, _debug{debug} {}
+Exp::Exp(double k1, double k2, bool debug) : _k1{k1}, _k2{k2}, _debug{debug} {}
 
-float Exp::get(float error)
+double Exp::get(double error)
 {
-    float _u{_k1 * pow(E, _k2 * error)};
+    double _u{_k1 * pow(E, _k2 * error)};
 
     if(_debug)
     {
@@ -32,6 +32,6 @@ void Exp::debug()
     Serial.print("Exponential control:\tk1:\t");
     Serial.print(_k1);
     Serial.print("\tk2:\t");
-    Serial.print(_k2);
+    Serial.println(_k2);
     Serial.println("============================================");
 }

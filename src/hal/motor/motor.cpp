@@ -2,9 +2,9 @@
 #include "motor.h"
 #include "config.h"
 
-Motor::Motor(int location_angle, int pin_1, int pin_2, int angle_coef, int angle_speed_coef, int cos_coef, int min_speed, bool debug) : _location_angle{location_angle}, _pin_1{pin_1}, _pin_2{pin_2}, _angle_coef{angle_coef}, _angle_speed_coef{angle_speed_coef}, _cos_coef{cos_coef}, _min_speed{min_speed}, _debug{debug}, _rotation_speed{} {}
+Motor::Motor(int location_angle, int pin_1, int pin_2, int angle_coef, int angle_speed_coef, int cos_coef, double min_speed, bool debug) : _location_angle{location_angle}, _pin_1{pin_1}, _pin_2{pin_2}, _angle_coef{angle_coef}, _angle_speed_coef{angle_speed_coef}, _cos_coef{cos_coef}, _min_speed{min_speed}, _debug{debug}, _rotation_speed{} {}
 
-void Motor::set_velocity(float linear_speed, float angle, float angular_speed)
+void Motor::set_velocity(double linear_speed, double angle, double angular_speed)
 {
     if (angle < -180)
     {
@@ -16,8 +16,8 @@ void Motor::set_velocity(float linear_speed, float angle, float angular_speed)
         angle -= 360;
     }
 
-    float _move_speed{(float)_cos_coef * linear_speed * cos(_location_angle / 2 * DEG_TO_RAD + _angle_coef * angle * DEG_TO_RAD)};
-    float _angular_speed{(float)_angle_speed_coef * angular_speed};
+    float _move_speed{(double)_cos_coef * linear_speed * cos(_location_angle / 2 * DEG_TO_RAD + _angle_coef * angle * DEG_TO_RAD)};
+    float _angular_speed{(double)_angle_speed_coef * angular_speed};
 
     _rotation_speed = round(_move_speed + _angular_speed);
 
@@ -60,7 +60,7 @@ void Motor::run()
     }
 }
 
-void Motor::run(int speed)
+void Motor::run(double speed)
 {
     if (speed > 0)
     {

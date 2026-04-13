@@ -4,13 +4,13 @@
 class Exp : public Regulator
 {
 public:
-    Exp(float k1, float k2, bool debug);
-    float get(float error) override final;
+    Exp(double k1, double k2, bool debug);
+    double get(double error) override final;
     void debug() override final;
 
 private:
-    float _k1;
-    float _k2;
+    double _k1;
+    double _k2;
 
     bool _debug;
 };

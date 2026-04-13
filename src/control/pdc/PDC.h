@@ -4,16 +4,16 @@
 class PDC : public Regulator
 {
 public:
-    PDC(float kp, float kd, float kc, bool debug);
-    float get(float error) override final; // САМ ПДК РЕГУЛЯТОР
+    PDC(double kp, double kd, double kc, bool debug);
+    double get(double error) override final; // САМ ПДК РЕГУЛЯТОР
     void debug() override final;
 
 private:
-    float _kp;
-    float _kd;
-    float _kc;
-    float _error;
-    float _prev_error{};
+    double _kp;
+    double _kd;
+    double _kc;
+    double _error;
+    double _prev_error{};
 
     bool _debug{};
 };
