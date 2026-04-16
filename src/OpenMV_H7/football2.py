@@ -14,7 +14,7 @@ BLUE_THRESHOLD = ()
 CAM_CENTER = sensor.width() // 2
 
 # ---------------------VARIABLES----------------------
-uart= pyb.UART(3, 115200)
+uart = pyb.UART(3, 115200)
 
 
 # --------------------FUNCTIONS-----------------------
