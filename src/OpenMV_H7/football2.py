@@ -1,52 +1,40 @@
 import sensor
 import pyb
 
-# -----------------------CONSTS--------------------
-GATES = "YELLOW"
-
-GAIN = 1
-WHITE = (0, -3, 0)
-EXPOSURE = 7_000
-
-YELLOW_THRESHOLD = ()
-BLUE_THRESHOLD = ()
-
-CAM_CENTER = sensor.width() // 2
-
-# ---------------------VARIABLES----------------------
-uart = pyb.UART(3, 115200)
-
 
 # --------------------FUNCTIONS-----------------------
 
-def setup_sensor():
+def setup_sensor(_pixformat, _framesize, _gain, _whitebal, _exposure):
     sensor.reset()
-    sensor.set_pixformat(sensor.RGB565)
-    sensor.set_framesize(sensor.QQVGA)
+    sensor.set_pixformat(_pixformat)
+    sensor.set_framesize(_framesize)
     sensor.set_auto_gain(True)
     sensor.set_auto_whitebal(True)
     sensor.set_auto_exposure(True)
 
     sensor.skip_frames(time=100)
 
-    sensor.set_pixformat(sensor.RGB565)
-    sensor.set_framesize(sensor.QQVGA)
-    sensor.set_auto_gain(False, gain_db=GAIN)
-    sensor.set_auto_whitebal(False, rgb_gain_db=WHITE)
-    sensor.set_auto_exposure(False, exposure_us=EXPOSURE)
+    sensor.set_pixformat(_pixformat)
+    sensor.set_framesize(_framesize)
+    sensor.set_auto_gain(False, gain_db=_gain)
+    sensor.set_auto_whitebal(False, rgb_gain_db=_whitebal)
+    sensor.set_auto_exposure(False, exposure_us=_exposure)
 
     sensor.skip_frames(time=100)
 
 
-def find_gates(_img, _threshold, _cam_center, _area=0, _prev_area=0):
-    # Detecting yellow gates
+def find_gates(_img, _threshold, _cam_center, _area=0, _prev_area=0, _error=0):
+    # Detecting gates
     for i in _img.find_blobs(_threshold):
-        _area = i[2] * i[3]
+        _area = i.h() * i.w()
         if _area >= _prev_area:
             _prev_area = _area
 
             # Fill the error variable
             _error = i.cx() - _cam_center
+
+            # Draw rectangle
+            draw(_img, "RECTANGLE", i.x(), i.y(), i.x() + i.w(), i.y() + i.h())
 
     return _error
 
@@ -65,16 +53,44 @@ def send(_UART, _data):
     _UART.writechar(_data)
 
 
+def draw(_img, _what, _x_min, _y_min, _x_max, _y_max):
+    if _what == "CROSS":
+        _x = _x_min
+        _y = _y_min
+        _img.draw_cross(_x, _y, (0, 0, 0), size=10)
+    elif _what == "RECTANGLE":
+        _img.draw_rectangle(_x_min, _y_min, _x_max - _x_min, _y_max - _y_min, (0, 0, 0))
+
+
+# -----------------------CONSTS--------------------
+GATES = "BLUE"
+
+PIXFORMAT = sensor.RGB565
+FRAMESIZE = sensor.QVGA
+GAIN = 1
+WHITE = (-3, -3, 0)
+EXPOSURE = 7_000
+
+YELLOW_THRESHOLD = [(40, 75, -40, -15, 40, 90)]
+BLUE_THRESHOLD = [(0, 70, -40, 0, -50, -10)]
+
+CAM_CENTER = (sensor.width() // 2, sensor.height() // 2)
+
+# ---------------------VARIABLES----------------------
+uart = pyb.UART(3, 115200)
+
+
 # -----------------------MAIN CODE-----------------------
-setup_sensor()
+setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE, EXPOSURE)
 
 while True:
     img = sensor.snapshot()
+    draw(img, "CROSS", CAM_CENTER[0], CAM_CENTER[1], CAM_CENTER[0], CAM_CENTER[1])
 
     if GATES == "BLUE":
-        error = find_gates(img, BLUE_THRESHOLD, CAM_CENTER)
+        error = find_gates(img, BLUE_THRESHOLD, CAM_CENTER[0])
 
     elif GATES == "YELLOW":
-        error = find_gates(img, YELLOW_THRESHOLD, CAM_CENTER)
+        error = find_gates(img, YELLOW_THRESHOLD, CAM_CENTER[1])
 
     # send(uart, error)
