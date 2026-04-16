@@ -1,100 +1,80 @@
-import sensor, image, time
-from pyb import UART
-import json
-import gc
+import sensor
+import pyb
 
-# Инициализация UART
-uart = UART(3, 115200)
-uart.init(115200, bits=8, parity=None, stop=0)
+# -----------------------CONSTS--------------------
+GATES = "YELLOW"
+
+GAIN = 1
+WHITE = (0, -3, 0)
+EXPOSURE = 7_000
+
+YELLOW_THRESHOLD = ()
+BLUE_THRESHOLD = ()
+
+CAM_CENTER = sensor.width() // 2
+
+# ---------------------VARIABLES----------------------
+uart= pyb.UART(3, 115200)
 
 
-def CamSetup():
-    import sensor, time
+# --------------------FUNCTIONS-----------------------
 
-    # Сброс
+def setup_sensor():
     sensor.reset()
-
-    # Настройка размера буфера ДО других настроек
-    sensor.set_framesize(sensor.QQVGA80)  # 160x120 или 320x240
     sensor.set_pixformat(sensor.RGB565)
+    sensor.set_framesize(sensor.QQVGA)
+    sensor.set_auto_gain(True)
+    sensor.set_auto_whitebal(True)
+    sensor.set_auto_exposure(True)
 
-    # Установка буфера кадров (попробуйте 2 или 3)
-    sensor.set_framebuffers(2)  # Изменено с 1 на 2
+    sensor.skip_frames(time=100)
 
-    # Ручные настройки
-    sensor.set_auto_exposure(False)
-    sensor.set_auto_whitebal(False)
-    sensor.set_auto_gain(False)  # Если проблема - закомментируйте
+    sensor.set_pixformat(sensor.RGB565)
+    sensor.set_framesize(sensor.QQVGA)
+    sensor.set_auto_gain(False, gain_db=GAIN)
+    sensor.set_auto_whitebal(False, rgb_gain_db=WHITE)
+    sensor.set_auto_exposure(False, exposure_us=EXPOSURE)
 
-    sensor.set_exposure_us(15000)
-    sensor.set_gainceiling(8)
-    sensor.set_brightness(0)
-    sensor.set_contrast(0)
-    sensor.set_saturation(0)
-
-    # ВАЖНО: пропустить кадры для стабилизации
-    for i in range(50):  # Пропускаем 50 кадров
-        sensor.snapshot()
-        time.sleep_ms(10)
-
-    gc.collect()
-
-    print("Camera manual mode initialized")
-    print("Resolution: {}x{}".format(sensor.width(), sensor.height()))
+    sensor.skip_frames(time=100)
 
 
-def GetGates():
-    green_threshold = (0, 0, 0, 0, 0, 0)  # ЗАМЕНИТЕ на реальные значения!
+def find_gates(_img, _threshold, _cam_center, _area=0, _prev_area=0):
+    # Detecting yellow gates
+    for i in _img.find_blobs(_threshold):
+        _area = i[2] * i[3]
+        if _area >= _prev_area:
+            _prev_area = _area
 
-    try:
-        # Ищем пятна зеленого цвета
-        blobs = img.find_blobs([green_threshold], pixels_threshold=100,
-                               area_threshold=100, merge=True, margin=10)
+            # Fill the error variable
+            _error = i.cx() - _cam_center
 
-        if blobs:
-            blobs.sort(key=lambda b: b.area(), reverse=True)
-            gate = blobs[0]
-            gate_center_x = gate.cx()
-            CamError = getError(gate_center_x)
-            SendMessage(CamError)
-    except Exception as e:
-        print("Error in GetGates:", e)
+    return _error
 
 
-def getError(gate_center_x):
-    CamError = gate_center_x - (sensor.width() // 2)
+def protect_value(_val, _min, _max):
+    if _val < _min:
+        _val = _min
+    elif _val > _max:
+        _val = _max
 
-    # Для отладки
-    print("CamError: {}".format(CamError))
-
-    return CamError
-
-
-def SendMessage(CamError):
-    # Формируем сообщение
-    #message = "CAM_ERROR:{}\n".format(CamError)
-    message = CamError
-
-    # Отправляем через UART
-    #uart.write(message)
-    uart.writechar(message)
-
-    # Для отладки
-    print("Sent: {}".format(message.strip()))
+    return _val
 
 
-def test_connection():
-    data = 0
-    while data != b'\xff':
-        uart.write(b'\xff')
-        data = uart.read()
-        print(data)
-    print("Test connection succeed")
+def send(_UART, _data):
+    _data = protect_value(_data, 0, 255)
+    _UART.writechar(_data)
 
 
-test_connection()
-# Основной цикл
+# -----------------------MAIN CODE-----------------------
+setup_sensor()
+
 while True:
     img = sensor.snapshot()
-    GetGates()
-    time.sleep_ms(50)
+
+    if GATES == "BLUE":
+        error = find_gates(img, BLUE_THRESHOLD, CAM_CENTER)
+
+    elif GATES == "YELLOW":
+        error = find_gates(img, YELLOW_THRESHOLD, CAM_CENTER)
+
+    # send(uart, error)
