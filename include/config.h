@@ -4,16 +4,16 @@
 #define E 2.71828
 
 //----------------ROBOT---------------
-#define DEBUG true
+#define DEBUG 1
 
 #if DEBUG == true
-#define DEBUG_MODE 5
+#define DEBUG_MODE 4
 /*
 0 - Debug gyro (align on zero_angle)
 1 - Debug IR (print out the angle and strength)
 2 - Check motors
 3 - Drive on an angle (0, 60, 90 ...)
-4 - Debug camera
+4 - Debug camera control
 5 - Debug exp coef
 */
 
@@ -25,7 +25,7 @@
 //------------------SPEED-------------
 #define MIN_SPEED 55 // 0 - 255
 
-#if DEBUG == true && DEBUG_MODE == 0
+#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4)
 #define SPEED 0 // 0 - 255
 #else
 #define SPEED 80
@@ -94,7 +94,6 @@
 #endif
 
 //---------------IR-------------------
-// #define IR_PIN A4
 #define IR_PIN A14
 #define MIN_STRENGTH 30
 #define MAX_STRENGTH 255
@@ -115,6 +114,15 @@
 
 //-------------CONTROL------------
 // Camera:
+#define CAM_CONT_KP 0
+#define CAM_CONT_KD 0
+#define CAM_CONT_KC 0
+
+#if DEbug == true && DEBUG_MODE == 4
+#define CAM_CONT_DEBUG true
+#else
+#define CAM_CONT_DEBUG false
+#endif
 
 // Gyro:
 #define GYRO_CONT_KP 0.25

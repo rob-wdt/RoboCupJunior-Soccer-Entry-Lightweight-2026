@@ -41,7 +41,7 @@ void Robot::init()
     _start_btn.init();
     _set_btn.init();
     _signal.init();
-    //_cam.init();
+    _cam.init();
 }
 
 void Robot::signal()
@@ -62,7 +62,7 @@ void Robot::read_sensors()
     _set_btn.read();
 
     _ir.read();
-    //_cam.read();
+    _cam.read();
 }
 
 void Robot::wait_for_btn(Button &btn, void (*to_do)())
@@ -128,6 +128,7 @@ void Robot::set_angle()
 
     //------------------------ВСЕГДА СТАРАЕМСЯ ДЕРЖАТЬ МЯЧ СПЕРЕДИ----------------------
     _angle = _ir.angle();
+    
     if (abs(_angle) < 90) // если мяч спереди
     {
         if (_angle < 0)
@@ -165,9 +166,16 @@ void Robot::set_angle(int new_angle)
 
 void Robot::set_speed(float linear_speed)
 {
-    //_angle = ANGLE;
-    float _angular_speed{_gyro_cont.get(_gyro.yaw())};
-    // float _angular_speed{};
+    double _angular_speed;
+    if (true) // ЕСЛИ ВИДИМ ВОРОТА
+    {
+        _angular_speed = _cam_cont.get(_cam.error());
+    }
+    else if (false) // ЕСЛИ НЕ ВИДИМ
+    {
+        _angular_speed = _gyro_cont.get(_gyro.yaw());
+    }
+
     _m1.set_velocity(linear_speed, _angle, _angular_speed);
     _m2.set_velocity(linear_speed, _angle, _angular_speed);
     _m3.set_velocity(linear_speed, _angle, _angular_speed);
