@@ -6,7 +6,8 @@ public:
     Camera(bool debug);
     void init();
     void read();
-    float error(); // разница между центральным пикселем камеры и центральным пикселем ворот
+    int error(); // разница между центральным пикселем камеры и центральным пикселем ворот
+    bool sees_gates();
     void debug();
 
 private:

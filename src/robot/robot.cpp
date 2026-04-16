@@ -128,7 +128,7 @@ void Robot::set_angle()
 
     //------------------------ВСЕГДА СТАРАЕМСЯ ДЕРЖАТЬ МЯЧ СПЕРЕДИ----------------------
     _angle = _ir.angle();
-    
+
     if (abs(_angle) < 90) // если мяч спереди
     {
         if (_angle < 0)
@@ -167,11 +167,11 @@ void Robot::set_angle(int new_angle)
 void Robot::set_speed(float linear_speed)
 {
     double _angular_speed;
-    if (true) // ЕСЛИ ВИДИМ ВОРОТА
+    if (_cam.sees_gates()) // ЕСЛИ ВИДИМ ВОРОТА
     {
         _angular_speed = _cam_cont.get(_cam.error());
     }
-    else if (false) // ЕСЛИ НЕ ВИДИМ
+    else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ
     {
         _angular_speed = _gyro_cont.get(_gyro.yaw());
     }

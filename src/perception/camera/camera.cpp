@@ -18,7 +18,7 @@ void Camera::init()
     {
         _val = Serial1.read();
 
-        if(_debug)
+        if (_debug)
         {
             Serial.println("Camera: WAIT FOR SIGNAL");
         }
@@ -39,9 +39,32 @@ void Camera::read()
     }
 }
 
-float Camera::error()
+int Camera::error()
 {
     return _error;
+}
+
+bool Camera::sees_gates()
+{
+    if (_error < 255) // видим ворота
+    {
+        if (_debug)
+        {
+            Serial.println("Camera:\tDETECTED GATES");
+        }
+
+        return true;
+    }
+
+    else if (_error == 255) // невидим ворота
+    {
+        if (_debug)
+        {
+            Serial.println("Camera:\tNOT DETECTED GATES");
+        }
+
+        return false;
+    }
 }
 
 void Camera::debug()

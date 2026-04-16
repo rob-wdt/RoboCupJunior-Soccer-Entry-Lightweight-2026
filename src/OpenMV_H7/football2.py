@@ -53,7 +53,11 @@ def to_borders(_val, _min, _max):
 
 
 def send(_UART, _data):
-    _data = protect_value(_data, 0, 255)
+    if _data is not None:
+        _data = to_borders(_data, 0, 254)
+    else:
+        _data = 255
+
     _UART.writechar(_data)
 
 
