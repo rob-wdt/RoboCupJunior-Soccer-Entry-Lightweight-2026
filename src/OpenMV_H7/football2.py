@@ -23,23 +23,27 @@ def setup_sensor(_pixformat, _framesize, _gain, _whitebal, _exposure):
     sensor.skip_frames(time=100)
 
 
-def find_gates(_img, _threshold, _cam_center, _area=0, _prev_area=0, _error=0):
-    # Detecting gates
-    for i in _img.find_blobs(_threshold):
-        _area = i.h() * i.w()
-        if _area >= _prev_area:
-            _prev_area = _area
+def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
+    _blobs = _img.find_blobs(_threshold)
+    if len(_blobs):
+        # Detecting gates
+        for i in _img.find_blobs(_threshold):
+            _area = i.h() * i.w()
+            if _area >= _prev_area:
+                _prev_area = _area
 
-            # Fill the error variable
-            _error = i.cx() - _cam_center
+                # Get x coordinate of the gates
+                _gates_x = i.cx()
 
-            # Draw rectangle
-            draw(_img, "RECTANGLE", i.x(), i.y(), i.x() + i.w(), i.y() + i.h())
+                # Draw rectangle
+                draw(_img, "RECTANGLE", i.x(), i.y(), i.x() + i.w(), i.y() + i.h())
+    else:
+        _gates_x = None
 
-    return _error
+    return _gates_x
 
 
-def protect_value(_val, _min, _max):
+def to_borders(_val, _min, _max):
     if _val < _min:
         _val = _min
     elif _val > _max:
@@ -88,9 +92,9 @@ while True:
     draw(img, "CROSS", CAM_CENTER[0], CAM_CENTER[1], CAM_CENTER[0], CAM_CENTER[1])
 
     if GATES == "BLUE":
-        error = find_gates(img, BLUE_THRESHOLD, CAM_CENTER[0])
+        error = find_gates(img, BLUE_THRESHOLD) - CAM_CENTER[0]
 
     elif GATES == "YELLOW":
-        error = find_gates(img, YELLOW_THRESHOLD, CAM_CENTER[1])
+        error = find_gates(img, YELLOW_THRESHOLD) - CAM_CENTER[0]
 
     # send(uart, error)
