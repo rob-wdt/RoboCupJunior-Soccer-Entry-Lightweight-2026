@@ -34,9 +34,15 @@ void Camera::init()
 
 void Camera::read()
 {
-    if (Serial1.available() == 1)
+    if (Serial1.available())
     {
         _error = Serial1.read();
+
+        if (_debug)
+        {
+            Serial.print("Camera:\tREAD ERROR:\t");
+            Serial.println(_error);
+        }
     }
 }
 
@@ -57,7 +63,7 @@ bool Camera::sees_gates()
         return true;
     }
 
-    else if (_error == 255) // невидим ворота
+    else // невидим ворота
     {
         if (_debug)
         {
@@ -74,4 +80,5 @@ void Camera::debug()
     Serial.print("Error:\t");
     Serial.println(_error);
     Serial.println("==============================================");
+    // delay(500);
 }

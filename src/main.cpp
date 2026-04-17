@@ -35,7 +35,7 @@ void setup()
     robot.signal();
 
 // 1. GYRO CALIBRATE
-#if DEBUG == false || DEBUG_MODE != 1
+#if DEBUG == false || (DEBUG_MODE != 1 && DEBUG_MODE != 4)
     Serial.println("Press A3 btn to start calibrating");
     robot.wait_for_btn(*(robot.start_btn()), []() {});
     robot.gyro()->calibrate();

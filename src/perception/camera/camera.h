@@ -11,7 +11,7 @@ public:
     void debug();
 
 private:
-    float _error;
+    int _error;
 
     bool _debug{};
 };
