@@ -36,7 +36,8 @@ def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
                 _gates_x = i.cx()
 
                 # Draw rectangle
-                draw(_img, "RECTANGLE", i.x(), i.y(), i.x() + i.w(), i.y() + i.h())
+                draw(_img, "RECTANGLE", i.x(), i.y(),
+                     i.x() + i.w(), i.y() + i.h())
     else:
         _gates_x = None
 
@@ -52,19 +53,24 @@ def to_borders(_val, _min, _max):
     return _val
 
 
-def send(_UART, _data):
-    if _data is not None:
-        _data = to_borders(_data, 0, 254)
+def protect_val(_val):
+    if _val is not None:
+        _val = to_borders(_val, 0, 254)
     else:
-        _data = 255
+        _val = 255
+    return _val
 
+
+def send(_UART, _data):
     _UART.writechar(_data)
+    print(f"Sent data:\t{_data}")
 
 
 def test_connection(_UART, _val=0):
     while _val != b'\xff':
-        _UART.writechar(b'\xff')
+        _UART.writechar(255)
         _val = _UART.read()
+        print(_val)
     print("TEST CONNECTION SUCCEED")
 
 
@@ -74,11 +80,12 @@ def draw(_img, _what, _x_min, _y_min, _x_max, _y_max):
         _y = _y_min
         _img.draw_cross(_x, _y, (0, 0, 0), size=10)
     elif _what == "RECTANGLE":
-        _img.draw_rectangle(_x_min, _y_min, _x_max - _x_min, _y_max - _y_min, (0, 0, 0))
+        _img.draw_rectangle(_x_min, _y_min, _x_max - _x_min,
+                            _y_max - _y_min, (0, 0, 0))
 
 
 # -----------------------CONSTS--------------------
-GATES = "BLUE"
+GATES = "YELLOW"
 
 PIXFORMAT = sensor.RGB565
 FRAMESIZE = sensor.QVGA
@@ -98,15 +105,22 @@ uart = pyb.UART(3, 115200)
 
 # -----------------------MAIN CODE-----------------------
 setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE, EXPOSURE)
+test_connection(uart)
 
 while True:
     img = sensor.snapshot()
-    draw(img, "CROSS", CAM_CENTER[0], CAM_CENTER[1], CAM_CENTER[0], CAM_CENTER[1])
+    draw(img, "CROSS", CAM_CENTER[0],
+         CAM_CENTER[1], CAM_CENTER[0], CAM_CENTER[1])
 
     if GATES == "BLUE":
-        error = find_gates(img, BLUE_THRESHOLD) - CAM_CENTER[0]
-
+        gates_x = find_gates(img, BLUE_THRESHOLD)
     elif GATES == "YELLOW":
-        error = find_gates(img, YELLOW_THRESHOLD) - CAM_CENTER[0]
+        gates_x = find_gates(img, YELLOW_THRESHOLD)
 
-    # send(uart, error)
+    gates_x = protect_val(gates_x)
+    error = gates_x
+    if gates_x < 255:
+        error -= CAM_CENTER[0]
+    # print(error)
+
+    send(uart, error)
