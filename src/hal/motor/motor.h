@@ -3,7 +3,16 @@
 class Motor
 {
 public:
-    Motor(int location_angle, int pin_1, int pin_2, int angle_coef, int angle_speed_coef, int cos_coef, double min_speed, bool debug);
+    Motor(
+        int location_angle,
+        int pin_1,
+        int pin_2,
+        int direction,
+        int angle_coef,
+        int angle_speed_coef,
+        int cos_coef,
+        double min_speed,
+        bool debug);
     void set_velocity(double linear_speed, double angle, double angular_speed);
     void run();
     void run(double speed);
@@ -14,6 +23,7 @@ private:
     int _location_angle;
     int _pin_1;
     int _pin_2;
+    int _direction;
     int _angle_coef;
     int _angle_speed_coef;
     int _cos_coef;

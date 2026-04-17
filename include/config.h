@@ -55,6 +55,7 @@
 #define M1_ANGLE 60
 #define M1_1 8
 #define M1_2 9
+#define M1_DIRECTION 1
 #define M1_PLUSMINUS_ANGLE 1
 #define M1_PLUSMINUS_ANGULAR_SPEED 1
 #define M1_PLUSMINUS_COS 1
@@ -69,6 +70,7 @@
 #define M2_ANGLE 180
 #define M2_1 4
 #define M2_2 5
+#define M2_DIRECTION 1
 #define M2_PLUSMINUS_ANGLE -1
 #define M2_PLUSMINUS_ANGULAR_SPEED 1
 #define M2_PLUSMINUS_COS 1
@@ -83,6 +85,7 @@
 #define M3_ANGLE 60
 #define M3_1 10
 #define M3_2 11
+#define M3_DIRECTION 1
 #define M3_PLUSMINUS_ANGLE -1
 #define M3_PLUSMINUS_ANGULAR_SPEED 1
 #define M3_PLUSMINUS_COS -1

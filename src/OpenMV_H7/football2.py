@@ -86,6 +86,7 @@ CAM_CENTER = (sensor.width() // 2, sensor.height() // 2)
 
 # ---------------------VARIABLES----------------------
 uart = pyb.UART(3, 115200)
+# TX - P4, RX - P5
 
 
 # -----------------------MAIN CODE-----------------------

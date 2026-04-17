@@ -25,9 +25,37 @@ namespace objects
     Mpu6050 mpu{MPU_ADDRESS, MPU_DEBUG};
     Bno055 bno{BNO_ID, BNO_ADDRESS, BNO_DEBUG};
 
-    Motor motor_1{M1_ANGLE, M1_1, M1_2, M1_PLUSMINUS_ANGLE, M1_PLUSMINUS_ANGULAR_SPEED, M1_PLUSMINUS_COS, MIN_SPEED, M1_DEBUG};
-    Motor motor_2{M2_ANGLE, M2_1, M2_2, M2_PLUSMINUS_ANGLE, M2_PLUSMINUS_ANGULAR_SPEED, M2_PLUSMINUS_COS, MIN_SPEED, M2_DEBUG};
-    Motor motor_3{M3_ANGLE, M3_1, M3_2, M3_PLUSMINUS_ANGLE, M3_PLUSMINUS_ANGULAR_SPEED, M3_PLUSMINUS_COS, MIN_SPEED, M3_DEBUG};
+    Motor motor_1{
+        M1_ANGLE,
+        M1_1,
+        M1_2,
+        M1_DIRECTION,
+        M1_PLUSMINUS_ANGLE,
+        M1_PLUSMINUS_ANGULAR_SPEED,
+        M1_PLUSMINUS_COS,
+        MIN_SPEED,
+        M1_DEBUG};
+
+    Motor motor_2{
+        M2_ANGLE,
+        M2_1, M2_2,
+        M2_DIRECTION,
+        M2_PLUSMINUS_ANGLE,
+        M2_PLUSMINUS_ANGULAR_SPEED,
+        M2_PLUSMINUS_COS,
+        MIN_SPEED,
+        M2_DEBUG};
+
+    Motor motor_3{
+        M3_ANGLE,
+        M3_1,
+        M3_2,
+        M3_DIRECTION,
+        M3_PLUSMINUS_ANGLE,
+        M3_PLUSMINUS_ANGULAR_SPEED,
+        M3_PLUSMINUS_COS,
+        MIN_SPEED,
+        M3_DEBUG};
 
     IR ir_seeker{IR_PIN, MIN_STRENGTH, MAX_STRENGTH, MED_STRENGTH, IR_DEBUG};
 
