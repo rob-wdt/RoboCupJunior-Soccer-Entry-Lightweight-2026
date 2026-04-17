@@ -13,6 +13,7 @@ void Camera::init()
 
     Serial1.begin(115200);
 
+    // Test connection
     int _val{};
     while (_val != 0xFF)
     {

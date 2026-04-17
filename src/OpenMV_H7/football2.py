@@ -61,6 +61,13 @@ def send(_UART, _data):
     _UART.writechar(_data)
 
 
+def test_connection(_UART, _val=0):
+    while _val != b'\xff':
+        _UART.writechar(b'\xff')
+        _val = _UART.read()
+    print("TEST CONNECTION SUCCEED")
+
+
 def draw(_img, _what, _x_min, _y_min, _x_max, _y_max):
     if _what == "CROSS":
         _x = _x_min
