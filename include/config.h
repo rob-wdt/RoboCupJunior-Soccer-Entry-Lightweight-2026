@@ -7,7 +7,7 @@
 #define DEBUG 1
 
 #if DEBUG == true
-#define DEBUG_MODE 4
+#define DEBUG_MODE 0
 /*
 0 - Debug gyro (align on zero_angle)
 1 - Debug IR (print out the angle and strength)

@@ -41,7 +41,7 @@ void Robot::init()
     _start_btn.init();
     _set_btn.init();
     _signal.init();
-    _cam.init();
+    //_cam.init();
 }
 
 void Robot::signal()
@@ -171,7 +171,8 @@ void Robot::set_speed(float linear_speed)
     {
         _angular_speed = _cam_cont.get(_cam.error());
     }
-    else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ
+    // else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ
+    else if (true)
     {
         _angular_speed = _gyro_cont.get(_gyro.yaw());
     }
