@@ -34,6 +34,10 @@ def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
 
                 # Get x coordinate of the gates
                 _gates_x = i.cx()
+                _x = i.x()
+                _y = i.y()
+                _w = i.w()
+                _h = i.h()
 
         # Draw rectangle
         draw(_img, "RECTANGLE", _x, _y,
