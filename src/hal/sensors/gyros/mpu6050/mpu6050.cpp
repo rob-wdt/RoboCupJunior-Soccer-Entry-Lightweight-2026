@@ -57,7 +57,7 @@ void Mpu6050::read()
         _mpu.dmpGetGravity(&_gravity, &_q);
         _mpu.dmpGetYawPitchRoll(_ypr, &_q, &_gravity);
 
-        _yaw = -_ypr[0] * RAD_TO_DEG - _zero_angle;
+        _yaw = _ypr[0] * RAD_TO_DEG - _zero_angle;
 
         if (_debug)
         {

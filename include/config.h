@@ -70,7 +70,7 @@
 #define M2_ANGLE 180
 #define M2_1 4
 #define M2_2 5
-#define M2_DIRECTION 1
+#define M2_DIRECTION -1
 #define M2_PLUSMINUS_ANGLE -1
 #define M2_PLUSMINUS_ANGULAR_SPEED 1
 #define M2_PLUSMINUS_COS 1
@@ -128,9 +128,9 @@
 #endif
 
 // Gyro:
-#define GYRO_CONT_KP 0.25
-#define GYRO_CONT_KD 0.1            // 0.05
-#define GYRO_CONT_KC (double)0.0005 // 0.0001
+#define GYRO_CONT_KP 0.1
+#define GYRO_CONT_KD 0         // 0.1
+#define GYRO_CONT_KC (double)0 // 0.0005
 
 #if DEBUG == true && DEBUG_MODE == 0
 #define GYRO_CONT_DEBUG true
