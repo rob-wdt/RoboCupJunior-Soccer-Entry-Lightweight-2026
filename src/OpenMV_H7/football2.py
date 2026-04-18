@@ -35,9 +35,9 @@ def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
                 # Get x coordinate of the gates
                 _gates_x = i.cx()
 
-                # Draw rectangle
-                draw(_img, "RECTANGLE", i.x(), i.y(),
-                     i.x() + i.w(), i.y() + i.h())
+        # Draw rectangle
+        draw(_img, "RECTANGLE", _x, _y,
+             _x + _w, _y + _h)
     else:
         _gates_x = None
 
@@ -91,7 +91,7 @@ PIXFORMAT = sensor.RGB565
 FRAMESIZE = sensor.QVGA
 GAIN = 1
 WHITE = (-3, -3, 0)
-EXPOSURE = 7_000
+EXPOSURE = 15_000
 
 YELLOW_THRESHOLD = [(40, 75, -40, -15, 40, 90)]
 BLUE_THRESHOLD = [(0, 70, -40, 0, -50, -10)]
@@ -105,7 +105,7 @@ uart = pyb.UART(3, 115200)
 
 # -----------------------MAIN CODE-----------------------
 setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE, EXPOSURE)
-test_connection(uart)
+#test_connection(uart)
 
 while True:
     img = sensor.snapshot()
