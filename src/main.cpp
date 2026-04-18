@@ -35,16 +35,16 @@ void setup()
     robot.signal();
 
 // 1. GYRO CALIBRATE
-#if DEBUG == false || (DEBUG_MODE != 1 && DEBUG_MODE != 4)
+#if DEBUG == false || (DEBUG_MODE != 1 && DEBUG_MODE != 4 && DEBUG_MODE != 2 && DEBUG_MODE != 6 && DEBUG_MODE != 7)
     Serial.println("Press A3 btn to start calibrating");
-    robot.wait_for_btn(*(robot.start_btn()), []() {});
+    robot.wait_for_btn(robot.start_btn(), []() {});
     robot.gyro()->calibrate();
     Serial.println("Finish calibrating");
     robot.signal();
 
     // 2. SET ZERO_ANGLE
     Serial.println("Press A5 btn to set zero angle");
-    robot.wait_for_btn(*(robot.set_btn()), []()
+    robot.wait_for_btn(robot.set_btn(), []()
                        { robot.gyro()->read(); });
     robot.gyro()->set_zero_angle(robot.gyro()->yaw());
     Serial.print("Zero angle set:\t");
@@ -54,7 +54,7 @@ void setup()
 
     // WAIT FOR BTN TO START THE PROGRAM
     Serial.println("Press A3 btn to start the main code");
-    robot.wait_for_btn(*(robot.start_btn()), []() {});
+    robot.wait_for_btn(robot.start_btn(), []() {});
 
     delay(1000);
 }
@@ -67,10 +67,10 @@ void loop()
     if (robot.set_btn()->is_pressed())
     {
         robot.stop();
-        delay(100);
+        delay(500);
 
         Serial.println("Press A5 btn to set zero angle");
-        robot.wait_for_btn(*(robot.set_btn()), []()
+        robot.wait_for_btn(robot.set_btn(), []()
                            { robot.gyro()->read(); });
         robot.gyro()->set_zero_angle(robot.gyro()->yaw());
         Serial.print("Zero angle set:\t");
@@ -85,13 +85,13 @@ void loop()
         delay(100);
 
         Serial.println("Press A3 btn to start calibrating");
-        robot.wait_for_btn(*(robot.start_btn()), []() {});
+        robot.wait_for_btn(robot.start_btn(), []() {});
         robot.gyro()->calibrate();
         Serial.println("Finish calibrating");
         robot.signal();
 
         Serial.println("Press A5 btn to set zero angle");
-        robot.wait_for_btn(*(robot.set_btn()), []()
+        robot.wait_for_btn(robot.set_btn(), []()
                            { robot.gyro()->read(); });
         robot.gyro()->set_zero_angle(robot.gyro()->yaw());
         Serial.print("Zero angle set:\t");
@@ -112,6 +112,7 @@ void loop()
 #elif DEBUG_MODE == 1
     robot.ir_seeker()->debug();
 #elif DEBUG_MODE == 2
+    robot.set_speed(SPEED);
     robot.move();
 #elif DEBUG_MODE == 3
     robot.set_angle(ANGLE);
@@ -128,6 +129,10 @@ void loop()
     robot.move();
     robot.angle_control()->debug();
     robot.angle_control()->debug();
+#elif DEBUG_MODE == 6
+    // robot.start_btn()->debug();
+#elif DEBUG_MODE == 7
+    // robot.set_btn()->debug();
 #endif
 #endif
 }

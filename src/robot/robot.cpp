@@ -65,15 +65,15 @@ void Robot::read_sensors()
     _cam.read();
 }
 
-void Robot::wait_for_btn(Button &btn, void (*to_do)())
+void Robot::wait_for_btn(Button *btn, void (*to_do)())
 {
-    btn.reset();
-    while (!btn.is_pressed())
+    btn->reset();
+    while (!btn->is_pressed())
     {
-        btn.read();
+        btn->read();
         to_do();
     }
-    btn.reset();
+    btn->reset();
     delay(100);
 }
 
@@ -167,7 +167,8 @@ void Robot::set_angle(int new_angle)
 void Robot::set_speed(float linear_speed)
 {
     double _angular_speed;
-    if (_cam.sees_gates()) // ЕСЛИ ВИДИМ ВОРОТА
+    // if (_cam.sees_gates()) // ЕСЛИ ВИДИМ ВОРОТА
+    if (false)
     {
         _angular_speed = _cam_cont.get(_cam.error());
     }

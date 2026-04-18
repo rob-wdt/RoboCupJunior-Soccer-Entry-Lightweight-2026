@@ -19,6 +19,16 @@ void Button::read() noexcept
     {
         _is_pressed = false;
     }
+
+    if (_debug)
+    {
+        Serial.print("Button \'");
+        Serial.print(_pin);
+        Serial.print("\':\t");
+        Serial.print("Pressed:\t");
+        Serial.println(_is_pressed);
+        Serial.println("==============================================");
+    }
 }
 
 bool Button::is_pressed() const noexcept
@@ -39,5 +49,5 @@ void Button::debug() const noexcept
     Serial.print("Pressed:\t");
     Serial.println(_is_pressed);
     Serial.println("==============================================");
-    delay(1000);
+    // delay(1000);
 }

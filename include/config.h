@@ -15,6 +15,8 @@
 3 - Drive on an angle (0, 60, 90 ...)
 4 - Debug camera control
 5 - Debug exp coef
+6 - A3 Button debug
+7 - A5 Button debug
 */
 
 #if DEBUG_MODE == 3
@@ -25,7 +27,7 @@
 //------------------SPEED-------------
 #define MIN_SPEED 55 // 0 - 255
 
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4)
+#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4 || DEBUG_MODE == 6)
 #define SPEED 0 // 0 - 255
 #else
 #define SPEED 80
@@ -34,7 +36,7 @@
 //-----------------MPU6050----------------
 #define MPU_ADDRESS 0x68
 
-#if DEBUG == true && DEBUG_MODE == 0
+#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 6 || DEBUG_MODE == 7)
 #define MPU_DEBUG true
 #else
 #define MPU_DEBUG false
@@ -55,7 +57,7 @@
 #define M1_ANGLE 60
 #define M1_1 8
 #define M1_2 9
-#define M1_DIRECTION 1
+#define M1_DIRECTION -1
 #define M1_PLUSMINUS_ANGLE 1
 #define M1_PLUSMINUS_ANGULAR_SPEED 1
 #define M1_PLUSMINUS_COS 1
@@ -161,11 +163,21 @@
 //--------------BUTTON-------------
 // Start button:
 #define START_BTN_PIN A3
+
+#if DEBUG == true && DEBUG_MODE == 6
+#define START_BTN_DEBUG true
+#else
 #define START_BTN_DEBUG false
+#endif
 
 // Set button:
 #define SET_BTN_PIN A5
+
+#if DEBUG == true && DEBUG_MODE == 7
+#define SET_BTN_DEBUG true
+#else
 #define SET_BTN_DEBUG false
+#endif
 
 //--------------LED---------------
 #define SIGNAL_LED_PIN 47
