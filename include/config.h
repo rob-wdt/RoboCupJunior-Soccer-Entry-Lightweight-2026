@@ -7,16 +7,17 @@
 #define DEBUG 1
 
 #if DEBUG == true
-#define DEBUG_MODE 0
+#define DEBUG_MODE 8
 /*
 0 - Debug gyro (align on zero_angle)
 1 - Debug IR (print out the angle and strength)
 2 - Check motors
 3 - Drive on an angle (0, 60, 90 ...)
-4 - Debug camera control
+4 - Debug camera
 5 - Debug exp coef
 6 - A3 Button debug
 7 - A5 Button debug
+8 - Debug camera align control
 */
 
 #if DEBUG_MODE == 3
@@ -25,12 +26,12 @@
 #endif
 
 //------------------SPEED-------------
-#define MIN_SPEED 55 // 0 - 255
+#define MIN_SPEED 40 // 0 - 255
 
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4 || DEBUG_MODE == 6)
-#define SPEED 0 // 0 - 255
+#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4 || DEBUG_MODE == 6 || DEBUG_MODE == 8)
+#define SPEED 0
 #else
-#define SPEED 80
+#define SPEED 80 // 0 - 255
 #endif
 
 //-----------------MPU6050----------------
@@ -62,7 +63,7 @@
 #define M1_PLUSMINUS_ANGULAR_SPEED 1
 #define M1_PLUSMINUS_COS 1
 
-#if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3)
+#if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3 || DEBUG_MODE == 8)
 #define M1_DEBUG true
 #else
 #define M1_DEBUG false
@@ -77,7 +78,7 @@
 #define M2_PLUSMINUS_ANGULAR_SPEED 1
 #define M2_PLUSMINUS_COS 1
 
-#if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3)
+#if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3 || DEBUG_MODE == 8)
 #define M2_DEBUG true
 #else
 #define M2_DEBUG false
@@ -92,7 +93,7 @@
 #define M3_PLUSMINUS_ANGULAR_SPEED 1
 #define M3_PLUSMINUS_COS -1
 
-#if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3)
+#if DEBUG == true && (DEBUG_MODE == 2 || DEBUG_MODE == 3 || DEBUG_MODE == 8)
 #define M3_DEBUG true
 #else
 #define M3_DEBUG false
@@ -111,7 +112,7 @@
 #endif
 
 //--------------CAMERA---------------
-#if DEBUG == true && DEBUG_MODE == 4
+#if DEBUG == true && (DEBUG_MODE == 4 || DEBUG_MODE == 8)
 #define CAM_DEBUG true
 #else
 #define CAM_DEBUG false
@@ -119,18 +120,18 @@
 
 //-------------CONTROL------------
 // Camera:
-#define CAM_CONT_KP 0
+#define CAM_CONT_KP 0.06
 #define CAM_CONT_KD 0
 #define CAM_CONT_KC 0
 
-#if DEbug == true && DEBUG_MODE == 4
+#if DEBUG == true && DEBUG_MODE == 8
 #define CAM_CONT_DEBUG true
 #else
 #define CAM_CONT_DEBUG false
 #endif
 
 // Gyro:
-#define GYRO_CONT_KP 0.1
+#define GYRO_CONT_KP 0.8
 #define GYRO_CONT_KD 0         // 0.1
 #define GYRO_CONT_KC (double)0 // 0.0005
 

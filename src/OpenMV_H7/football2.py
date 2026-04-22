@@ -48,23 +48,6 @@ def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
     return _gates_x
 
 
-def to_borders(_val, _min, _max):
-    if _val < _min:
-        _val = _min
-    elif _val > _max:
-        _val = _max
-
-    return _val
-
-
-def protect_val(_val):
-    if _val is not None:
-        _val = to_borders(_val, 0, 254)
-    else:
-        _val = 255
-    return _val
-
-
 def send(_UART, _data):
     _UART.writechar(_data)
     print(f"Sent data:\t{_data}")
@@ -93,11 +76,11 @@ GATES = "BLUE"
 
 PIXFORMAT = sensor.RGB565
 FRAMESIZE = sensor.QVGA
-GAIN = 1
-WHITE = (-3, -3, 0)
-EXPOSURE = 15_000
+GAIN = 10
+WHITE = (-3, -4, -1)
+EXPOSURE = 7_000
 
-YELLOW_THRESHOLD = [(40, 75, -40, -15, 40, 90)]
+YELLOW_THRESHOLD = [(50, 100, -29, 96, 45, 127)]
 BLUE_THRESHOLD = [(0, 70, -40, 0, -50, -10)]
 
 CAM_CENTER = (sensor.width() // 2, sensor.height() // 2)
@@ -109,7 +92,7 @@ uart = pyb.UART(3, 115200)
 
 # -----------------------MAIN CODE-----------------------
 setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE, EXPOSURE)
-#test_connection(uart)
+# test_connection(uart)
 
 while True:
     img = sensor.snapshot()

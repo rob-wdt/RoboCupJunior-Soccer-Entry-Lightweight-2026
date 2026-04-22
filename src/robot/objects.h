@@ -63,7 +63,7 @@ namespace objects
 
     namespace controls
     {
-        Regulator cam_cont{};
+        PDC cam_cont{CAM_CONT_KP, CAM_CONT_KD, CAM_CONT_KC, CAM_CONT_DEBUG};
         PDC gyro_cont{GYRO_CONT_KP, GYRO_CONT_KD, GYRO_CONT_KC, GYRO_CONT_DEBUG};
         Exp angle_cont{ANGLE_CONT_K1, ANGLE_CONT_K2, ANGLE_CONT_DEBUG};
         Exp dist_cont{DIST_CONT_K1, DIST_CONT_K2, DIST_CONT_DEBUG};

@@ -119,9 +119,6 @@ void loop()
     robot.set_speed(SPEED);
     robot.move();
 #elif DEBUG_MODE == 4
-    robot.set_angle();
-    robot.set_speed(SPEED);
-    robot.move();
     robot.camera()->debug();
 #elif DEBUG_MODE == 5
     robot.set_angle();
@@ -133,6 +130,11 @@ void loop()
     // robot.start_btn()->debug();
 #elif DEBUG_MODE == 7
     // robot.set_btn()->debug();
+#elif DEBUG_MODE == 8
+    robot.set_angle();
+    robot.set_speed(SPEED);
+    robot.move();
+    robot.camera_control()->debug();
 #endif
 #endif
 }

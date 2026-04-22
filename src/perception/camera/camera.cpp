@@ -13,23 +13,23 @@ void Camera::init()
 
     Serial1.begin(115200);
 
-    // Test connection
-    int _val{};
-    while (_val != 0xFF)
-    {
-        _val = Serial1.read();
+    // // Test connection
+    // int _val{};
+    // while (_val != 0xFF)
+    // {
+    //     _val = Serial1.read();
 
-        if (_debug)
-        {
-            Serial.println("Camera: WAIT FOR SIGNAL");
-        }
-    }
-    for (int i{}; i < 10; i++)
-    {
-        Serial1.write(0xFF);
-        delay(100);
-    }
-    Serial.println("Camera: TEST CONNECTION SUCCEED");
+    //     if (_debug)
+    //     {
+    //         // Serial.println("Camera: WAIT FOR SIGNAL");
+    //     }
+    // }
+    // for (int i{}; i < 10; i++)
+    // {
+    //     Serial1.write(0xFF);
+    //     delay(100);
+    // }
+    // Serial.println("Camera: TEST CONNECTION SUCCEED");
 }
 
 void Camera::read()
@@ -46,31 +46,28 @@ void Camera::read()
     }
 }
 
-int Camera::error()
+signed char Camera::error()
 {
     return _error;
 }
 
 bool Camera::sees_gates()
 {
-    if (_error < 255) // видим ворота
+    if (abs(_error) == 127) // не видим ворота
     {
         if (_debug)
         {
-            Serial.println("Camera:\tDETECTED GATES");
+            Serial.println("Camera: NOT DETECTED GATES");
         }
-
-        return true;
-    }
-
-    else // невидим ворота
-    {
-        if (_debug)
-        {
-            Serial.println("Camera:\tNOT DETECTED GATES");
-        }
-
         return false;
+    }
+    else
+    {
+        if (_debug)
+        {
+            Serial.println("Camera: DETECTED GATES");
+        }
+        return true;
     }
 }
 

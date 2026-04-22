@@ -39,6 +39,15 @@ void Motor::set_velocity(double linear_speed, double angle, double angular_speed
 
     _rotation_speed = _direction * round(_move_speed + _angular_speed);
 
+    if (_rotation_speed < 0)
+    {
+        _rotation_speed = map(_rotation_speed, -255, 0, -255, -_min_speed);
+    }
+    else if (_rotation_speed > 0)
+    {
+        _rotation_speed = map(_rotation_speed, 0, 255, _min_speed, 255);
+    }
+
     if (_debug)
     {
         Serial.print("Motor:\t");
@@ -52,15 +61,6 @@ void Motor::set_velocity(double linear_speed, double angle, double angular_speed
         Serial.print((double)_angle_coef * angle);
         Serial.print(") + ");
         Serial.println(_angular_speed);
-    }
-
-    if (_rotation_speed < 0)
-    {
-        _rotation_speed = map(_rotation_speed, -255, 0, -255, -_min_speed);
-    }
-    else if (_rotation_speed > 0)
-    {
-        _rotation_speed = map(_rotation_speed, 0, 255, _min_speed, 255);
     }
 }
 

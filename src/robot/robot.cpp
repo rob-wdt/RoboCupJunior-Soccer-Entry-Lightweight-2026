@@ -41,7 +41,7 @@ void Robot::init()
     _start_btn.init();
     _set_btn.init();
     _signal.init();
-    //_cam.init();
+    _cam.init();
 }
 
 void Robot::signal()
@@ -167,13 +167,11 @@ void Robot::set_angle(int new_angle)
 void Robot::set_speed(float linear_speed)
 {
     double _angular_speed;
-    // if (_cam.sees_gates()) // ЕСЛИ ВИДИМ ВОРОТА
-    if (false)
+    if (_cam.sees_gates()) // ЕСЛИ ВИДИМ ВОРОТА
     {
         _angular_speed = _cam_cont.get(_cam.error());
     }
-    // else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ
-    else if (true)
+    else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ
     {
         _angular_speed = _gyro_cont.get(_gyro.yaw());
     }
