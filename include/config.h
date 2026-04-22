@@ -34,6 +34,11 @@
 #define SPEED 80 // 0 - 255
 #endif
 
+#define GYRO_TYPE 1
+// 0 - MPU6050
+// 1 - BNO055
+
+#if GYRO_TYPE == 0
 //-----------------MPU6050----------------
 #define MPU_ADDRESS 0x68
 
@@ -43,14 +48,17 @@
 #define MPU_DEBUG false
 #endif
 
+#else
 //----------------BNO055----------------
 #define BNO_ID 0
-#define BNO_ADDRESS 0x28
+#define BNO_ADDRESS 0x29
 
 #if DEBUG == true && DEBUG_MODE == 0
 #define BNO_DEBUG true
 #else
 #define BNO_DEBUG false
+#endif
+
 #endif
 
 //-----------------MOTORS-------------
