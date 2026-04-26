@@ -67,32 +67,23 @@ void Motor::set_velocity(double linear_speed, double angle, double angular_speed
     }
 }
 
-void Motor::run()
-{
-    if (_rotation_speed > 0)
-    {
-        digitalWrite(_pin_1, LOW);
-        analogWrite(_pin_2, min(_rotation_speed, 255));
-    }
-    else
-    {
-        digitalWrite(_pin_2, LOW);
-        analogWrite(_pin_1, min(-_rotation_speed, 255));
-    }
-}
-
 void Motor::run(double speed)
 {
     if (speed > 0)
     {
-        digitalWrite(_pin_1, LOW);
-        analogWrite(_pin_2, min(speed, 255));
+        digitalWrite(_pin_1, HIGH);
+        analogWrite(_pin_2, min(255 - speed, 255));
     }
     else
     {
-        digitalWrite(_pin_2, LOW);
-        analogWrite(_pin_1, min(-speed, 255));
+        digitalWrite(_pin_2, HIGH);
+        analogWrite(_pin_1, min(255 + speed, 255));
     }
+}
+
+void Motor::run()
+{
+    run(_rotation_speed);
 }
 
 void Motor::stop()

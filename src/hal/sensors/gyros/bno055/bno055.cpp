@@ -21,12 +21,12 @@ void Bno055::init(LED signal_led)
 
 void Bno055::calibrate(LED signal_led)
 {
-    uint8_t _system, _gyro, _accel, _mag = 0;
-    _bno.getCalibration(&_system, &_gyro, &_accel, &_mag);
+    uint8_t _system{}, _gyro{}, _accel{}, _mag{};
 
     int _timer{millis()};
     while (_gyro != 3)
     {
+        _bno.getCalibration(&_system, &_gyro, &_accel, &_mag);
         Serial.print("Gyroscope: BNO055: Calibration state: Gyro:\t");
         Serial.println(_gyro);
 

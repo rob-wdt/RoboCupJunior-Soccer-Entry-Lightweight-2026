@@ -48,7 +48,7 @@
 #endif
 
 //----------------BNO055----------------
-#define BNO_ID 0
+#define BNO_ID 55
 #define BNO_ADDRESS 0x29
 
 #if DEBUG == true && DEBUG_MODE == 0
@@ -62,7 +62,7 @@
 #define M1_ANGLE 60
 #define M1_1 8
 #define M1_2 9
-#define M1_DIRECTION -1
+#define M1_DIRECTION 1
 #define M1_PLUSMINUS_ANGLE 1
 #define M1_PLUSMINUS_ANGULAR_SPEED 1
 #define M1_PLUSMINUS_COS 1
@@ -92,7 +92,7 @@
 #define M3_ANGLE 60
 #define M3_1 10
 #define M3_2 11
-#define M3_DIRECTION 1
+#define M3_DIRECTION -1
 #define M3_PLUSMINUS_ANGLE -1
 #define M3_PLUSMINUS_ANGULAR_SPEED 1
 #define M3_PLUSMINUS_COS -1
@@ -124,9 +124,9 @@
 
 //-------------CONTROL------------
 // Camera:
-#define CAM_CONT_KP 0.06
+#define CAM_CONT_KP 0.2
 #define CAM_CONT_KD 0
-#define CAM_CONT_KC 0
+#define CAM_CONT_KC 0.000015
 
 #if DEBUG == true && DEBUG_MODE == 8
 #define CAM_CONT_DEBUG true
@@ -135,7 +135,7 @@
 #endif
 
 // Gyro:
-#define GYRO_CONT_KP 0.8
+#define GYRO_CONT_KP 0.1
 #define GYRO_CONT_KD 0         // 0.1
 #define GYRO_CONT_KC (double)0 // 0.0005
 
