@@ -86,7 +86,7 @@ BLUE_THRESHOLD = [(0, 70, -40, 0, -50, -10)]
 CAM_CENTER = (sensor.width() // 2, sensor.height() // 2)
 
 # ---------------------VARIABLES----------------------
-uart = pyb.UART(3, 115200)
+uart = pyb.UART(3, 230400)
 # TX - P4, RX - P5
 
 
@@ -104,10 +104,14 @@ while True:
     elif GATES == "YELLOW":
         gates_x = find_gates(img, YELLOW_THRESHOLD)
 
-    gates_x = protect_val(gates_x)
-    error = gates_x
-    if gates_x < 255:
-        error -= CAM_CENTER[0]
-    # print(error)
+    if gates_x is None:
+        send(uart, 127)
+        continue
+    elif gates_x is not None:
+        error = 1 * (gates_x - CAM_CENTER[0])
+        if error < -127:
+            error = -127
+        elif error > 126:
+            error = 126
 
-    send(uart, error)
+        send(uart, error)

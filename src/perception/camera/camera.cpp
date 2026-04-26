@@ -11,7 +11,7 @@ void Camera::init()
         Serial.println("Camera: INIT BEGIN");
     }
 
-    Serial1.begin(115200);
+    Serial1.begin(230400);
 
     // // Test connection
     // if (_debug)
