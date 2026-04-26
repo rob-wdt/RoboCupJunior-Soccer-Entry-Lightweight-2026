@@ -35,10 +35,10 @@ void setup()
     robot.signal();
 
 // 1. GYRO CALIBRATE
-#if DEBUG == false || (DEBUG_MODE != 1 && DEBUG_MODE != 4 && DEBUG_MODE != 2 && DEBUG_MODE != 6 && DEBUG_MODE != 7)
+#if DEBUG == false || (DEBUG_MODE == 0 || DEBUG_MODE == 5)
     Serial.println("Press A3 btn to start calibrating");
     robot.wait_for_btn(robot.start_btn(), []() {});
-    robot.gyro()->calibrate();
+    robot.gyro()->calibrate(*(robot.signal_led()));
     Serial.println("Finish calibrating");
     robot.signal();
 
@@ -90,7 +90,7 @@ void loop()
 
         Serial.println("Press A3 btn to start calibrating");
         robot.wait_for_btn(robot.start_btn(), []() {});
-        robot.gyro()->calibrate();
+        robot.gyro()->calibrate(*(robot.signal_led()));
         Serial.println("Finish calibrating");
         robot.signal();
 

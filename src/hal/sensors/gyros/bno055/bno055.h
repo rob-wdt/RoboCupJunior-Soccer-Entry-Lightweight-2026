@@ -6,9 +6,9 @@
 class Bno055 : public Gyro
 {
 public:
-    Bno055(int id = 0, uint8_t address = 0x28, bool debug = false);
-    void init() override final;
-    void calibrate() override final;
+    Bno055(int id, uint8_t address = 0x28, bool debug = false);
+    void init(LED signal_led) override final;
+    void calibrate(LED signal_led) override final;
     void read() override final;
     void debug() const noexcept override final;
 

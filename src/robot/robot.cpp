@@ -173,6 +173,7 @@ void Robot::set_speed(float linear_speed)
     }
     else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ
     {
+        _signal.on();
         _angular_speed = _gyro_cont.get(_gyro.yaw());
     }
 

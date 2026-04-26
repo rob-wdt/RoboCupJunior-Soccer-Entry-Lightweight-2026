@@ -8,8 +8,8 @@ class Mpu6050 : public Gyro
 {
 public:
     Mpu6050(uint8_t address = 0x68, bool debug = false);
-    void init() override final;
-    void calibrate() override final;
+    void init(LED signal_led) override final;
+    void calibrate(LED signal_led) override final;
     void read() override final;
     void debug() const noexcept override final;
 

@@ -5,7 +5,7 @@
 
 Mpu6050::Mpu6050(uint8_t address = 0x68, bool debug = false) : Gyro::Gyro{address, debug}, _mpu{address} {}
 
-void Mpu6050::init()
+void Mpu6050::init(LED signal_led)
 {
     if (_debug)
     {
@@ -35,7 +35,7 @@ void Mpu6050::init()
     _mpu.setDMPEnabled(true);
 }
 
-void Mpu6050::calibrate()
+void Mpu6050::calibrate(LED signal_led)
 {
     Serial.println("Gyroscope: MPU6050: CALIBRATING");
 
