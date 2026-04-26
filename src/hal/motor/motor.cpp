@@ -22,31 +22,34 @@ Motor::Motor(
                   _debug{debug},
                   _rotation_speed{} {}
 
+int Motor::_protect_speed(int speed, int min_speed)
+{
+    if (speed < 0)
+    {
+        if (speed > min_speed)
+        {
+            speed = min_speed;
+        }
+    }
+    else if (speed > 0)
+    {
+        if (speed < min_speed)
+        {
+            speed = min_speed;
+        }
+    }
+
+    return speed;
+}
+
 void Motor::set_velocity(double linear_speed, double angle, double angular_speed)
 {
-    if (angle < -180)
-    {
-        angle += 360;
-    }
-
-    else if (angle > 180)
-    {
-        angle -= 360;
-    }
-
     float _move_speed{(double)_cos_coef * linear_speed * cos(_location_angle / 2 * DEG_TO_RAD + _angle_coef * angle * DEG_TO_RAD)};
     float _angular_speed{(double)_angle_speed_coef * angular_speed};
 
     _rotation_speed = _direction * round(_move_speed + _angular_speed);
 
-    if (_rotation_speed < 0)
-    {
-        _rotation_speed = map(_rotation_speed, -255, 0, -255, -_min_speed);
-    }
-    else if (_rotation_speed > 0)
-    {
-        _rotation_speed = map(_rotation_speed, 0, 255, _min_speed, 255);
-    }
+    _rotation_speed = _protect_speed(_rotation_speed, _min_speed);
 
     if (_debug)
     {

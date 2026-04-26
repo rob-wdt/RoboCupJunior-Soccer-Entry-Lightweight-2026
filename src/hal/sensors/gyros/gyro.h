@@ -21,4 +21,18 @@ protected:
     float _zero_angle{};
 
     bool _debug{};
+
+    float _protect_angle(float angle)
+    {
+        if (angle < -180)
+        {
+            angle += 360;
+        }
+        else if (angle > 180)
+        {
+            angle -= 360;
+        }
+
+        return angle;
+    }
 };

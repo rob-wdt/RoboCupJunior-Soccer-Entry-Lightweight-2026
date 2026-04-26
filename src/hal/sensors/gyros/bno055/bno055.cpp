@@ -45,15 +45,18 @@ void Bno055::calibrate(LED signal_led)
 void Bno055::read()
 {
     _bno.getEvent(&_event);
-    _yaw = _event.orientation.z - _zero_angle;
+    _yaw = _event.orientation.x - _zero_angle; // у bno055 (по крайней мере у этого) оси расположены по другому, поэтому берем x, а не z
 
-    if (_yaw < -180)
+    _yaw = _protect_angle(_yaw);
+
+    if (_debug)
     {
-        _yaw += 360;
-    }
-    else if (_yaw > 180)
-    {
-        _yaw -= 360;
+        Serial.print("Gyroscope:\tBNO055:\t");
+        Serial.print(_yaw);
+        Serial.print(" = ");
+        Serial.print(_protect_angle(_event.orientation.x));
+        Serial.print(" - ");
+        Serial.println(_zero_angle);
     }
 }
 

@@ -31,4 +31,6 @@ private:
     double _min_speed;
 
     bool _debug{};
+
+    int _protect_speed(int speed, int min_speed);
 };

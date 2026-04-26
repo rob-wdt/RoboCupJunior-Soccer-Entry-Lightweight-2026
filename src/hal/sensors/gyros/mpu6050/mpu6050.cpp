@@ -59,6 +59,8 @@ void Mpu6050::read()
 
         _yaw = _ypr[0] * RAD_TO_DEG - _zero_angle;
 
+        _yaw = _protect_angle(_yaw);
+
         if (_debug)
         {
             Serial.print("MPU6050:\t");
@@ -67,15 +69,6 @@ void Mpu6050::read()
             Serial.print(-_ypr[0] * RAD_TO_DEG);
             Serial.print(" - ");
             Serial.println(_zero_angle);
-        }
-
-        if (_yaw < -180)
-        {
-            _yaw += 360;
-        }
-        else if (_yaw > 180)
-        {
-            _yaw -= 360;
         }
     }
 }
