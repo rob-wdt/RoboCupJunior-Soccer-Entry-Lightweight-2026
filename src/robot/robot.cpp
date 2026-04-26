@@ -36,8 +36,12 @@ Robot::Robot(
 
 void Robot::init()
 {
+
+#if DEBUG_MODE != 8 && DEBUG_MODE != 2 && DEBUG_MODE != 3
     _ir.init();
-    _gyro.init();
+    _gyro.init(_signal);
+#endif
+
     _start_btn.init();
     _set_btn.init();
     _signal.init();
@@ -53,7 +57,10 @@ void Robot::signal()
 
 void Robot::read_sensors()
 {
+#if DEBUG_MODE != 8 && DEBUG_MODE != 2 && DEBUG_MODE != 3
     _gyro.read();
+    _ir.read();
+#endif
 
     _start_btn.reset();
     _start_btn.read();
@@ -61,7 +68,6 @@ void Robot::read_sensors()
     _set_btn.reset();
     _set_btn.read();
 
-    _ir.read();
     _cam.read();
 }
 
@@ -169,6 +175,7 @@ void Robot::set_speed(float linear_speed)
     double _angular_speed;
     if (_cam.sees_gates()) // ЕСЛИ ВИДИМ ВОРОТА
     {
+        _signal.off();
         _angular_speed = _cam_cont.get(_cam.error());
     }
     else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ

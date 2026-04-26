@@ -14,22 +14,25 @@ void Camera::init()
     Serial1.begin(115200);
 
     // // Test connection
-    // int _val{};
-    // while (_val != 0xFF)
+    // if (_debug)
     // {
-    //     _val = Serial1.read();
-
-    //     if (_debug)
+    //     int _val{};
+    //     while (_val != 0xFF)
     //     {
-    //         // Serial.println("Camera: WAIT FOR SIGNAL");
+    //         _val = Serial1.read();
+
+    //         if (_debug)
+    //         {
+    //             Serial.println("Camera: WAIT FOR SIGNAL");
+    //         }
     //     }
+    //     for (int i{}; i < 10; i++)
+    //     {
+    //         Serial1.write(0xFF);
+    //         delay(100);
+    //     }
+    //     Serial.println("Camera: TEST CONNECTION SUCCEED");
     // }
-    // for (int i{}; i < 10; i++)
-    // {
-    //     Serial1.write(0xFF);
-    //     delay(100);
-    // }
-    // Serial.println("Camera: TEST CONNECTION SUCCEED");
 }
 
 void Camera::read()

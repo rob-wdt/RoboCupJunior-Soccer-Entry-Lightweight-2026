@@ -13,19 +13,11 @@ double PDC::get(double error)
         Serial.print("PDC:\t");
         Serial.print(_u);
         Serial.print(" = ");
-        Serial.print(_kp);
-        Serial.print(" * ");
-        Serial.print(_error);
+        Serial.print(_kp * error);
         Serial.print(" + ");
-        Serial.print(_kd);
-        Serial.print(" * ( ");
-        Serial.print(_error);
-        Serial.print(" - ");
-        Serial.print(_prev_error);
-        Serial.print(") + ");
-        Serial.print(_kc);
-        Serial.print(" * ");
-        Serial.println(pow((double)_error, 3));
+        Serial.print(_kd * (error - _prev_error));
+        Serial.print(" + ");
+        Serial.println((double)(_kc * pow((double)_error, 3)), 10);
     }
 
     _prev_error = _error;

@@ -42,7 +42,6 @@ void setup()
     Serial.println("Finish calibrating");
     robot.signal();
 
-#if GYRO_TYPE == 0
     // 2. SET ZERO_ANGLE
     Serial.println("Press A5 btn to set zero angle");
     robot.wait_for_btn(robot.set_btn(), []()
@@ -51,7 +50,6 @@ void setup()
     Serial.print("Zero angle set:\t");
     Serial.println(robot.gyro()->zero_angle());
     robot.signal();
-#endif
 #endif
 
     // WAIT FOR BTN TO START THE PROGRAM
@@ -66,7 +64,6 @@ void loop()
     // 3. READING
     robot.read_sensors();
 
-#if GYRO_TYPE == 0
     if (robot.set_btn()->is_pressed())
     {
         robot.stop();
@@ -81,7 +78,6 @@ void loop()
         robot.signal();
         delay(100);
     }
-#endif
 
     if (robot.start_btn()->is_pressed())
     {
@@ -94,7 +90,6 @@ void loop()
         Serial.println("Finish calibrating");
         robot.signal();
 
-#if GYRO_TYPE == 0
         Serial.println("Press A5 btn to set zero angle");
         robot.wait_for_btn(robot.set_btn(), []()
                            { robot.gyro()->read(); });
@@ -103,7 +98,6 @@ void loop()
         Serial.println(robot.gyro()->zero_angle());
         robot.signal();
         delay(100);
-#endif
     }
 
 #if DEBUG == false
@@ -112,13 +106,15 @@ void loop()
     robot.move();
 #else
 #if DEBUG_MODE == 0
-    robot.set_angle();
+    // robot.set_angle();
     robot.set_speed(SPEED);
     robot.move();
 #elif DEBUG_MODE == 1
     robot.ir_seeker()->debug();
 #elif DEBUG_MODE == 2
-    robot.set_speed(SPEED);
+    robot.motor_1()->run(255);
+    robot.motor_2()->run(255);
+    robot.motor_3()->run(255);
     robot.move();
 #elif DEBUG_MODE == 3
     robot.set_angle(ANGLE);
