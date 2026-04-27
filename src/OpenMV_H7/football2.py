@@ -72,7 +72,7 @@ def draw(_img, _what, _x_min, _y_min, _x_max, _y_max):
 
 
 # -----------------------CONSTS--------------------
-GATES = "BLUE"
+GATES = "YELLOW"
 
 PIXFORMAT = sensor.RGB565
 FRAMESIZE = sensor.QVGA

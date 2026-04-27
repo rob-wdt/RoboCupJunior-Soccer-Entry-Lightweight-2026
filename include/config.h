@@ -4,7 +4,7 @@
 #define E 2.71828
 
 //----------------ROBOT---------------
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG == true
 #define DEBUG_MODE 8
@@ -31,7 +31,7 @@
 #if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4 || DEBUG_MODE == 6 || DEBUG_MODE == 8)
 #define SPEED 0
 #else
-#define SPEED 100 // 0 - 255
+#define SPEED 150 // 0 - 255
 #endif
 
 #define GYRO_TYPE 1
@@ -124,7 +124,7 @@
 
 //-------------CONTROL------------
 // Camera:
-#define CAM_CONT_KP 0.2
+#define CAM_CONT_KP 1.5
 #define CAM_CONT_KD 0
 #define CAM_CONT_KC 0.000015
 
@@ -135,7 +135,7 @@
 #endif
 
 // Gyro:
-#define GYRO_CONT_KP 0.1
+#define GYRO_CONT_KP 1.5
 #define GYRO_CONT_KD 0         // 0.1
 #define GYRO_CONT_KC (double)0 // 0.0005
 
