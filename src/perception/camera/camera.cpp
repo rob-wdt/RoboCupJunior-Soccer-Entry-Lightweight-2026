@@ -56,7 +56,7 @@ signed char Camera::error()
 
 bool Camera::sees_gates()
 {
-    if (abs(_error) == 127) // не видим ворота
+    if (abs(_error) == 0) // не видим ворота
     {
         if (_debug)
         {

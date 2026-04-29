@@ -105,13 +105,13 @@ while True:
         gates_x = find_gates(img, YELLOW_THRESHOLD)
 
     if gates_x is None:
-        send(uart, 127)
+        send(uart, 0)
         continue
     elif gates_x is not None:
         error = 1 * (gates_x - CAM_CENTER[0])
         if error < -127:
             error = -127
-        elif error > 126:
-            error = 126
+        elif error > 127:
+            error = 127
 
         send(uart, error)
