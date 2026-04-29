@@ -6,7 +6,6 @@
 //----------------ROBOT---------------
 #define DEBUG 0
 
-#if DEBUG == true
 #define DEBUG_MODE 8
 /*
 0 - Debug gyro (align on zero_angle)
@@ -20,23 +19,28 @@
 8 - Debug camera align control
 */
 
+#if DEBUG_MODE == 1
 #if DEBUG_MODE == 3
 #define ANGLE 0
 #endif
 #endif
 
-//------------------SPEED-------------
-#define MIN_SPEED 40 // 0 - 255
-
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4 || DEBUG_MODE == 6 || DEBUG_MODE == 8)
-#define SPEED 0
-#else
-#define SPEED 150 // 0 - 255
-#endif
+#define GAME_MODE 0
+// 0 - Normal mode
+// 1 - Only cam
+// 2 - Only gyro
 
 #define GYRO_TYPE 1
 // 0 - MPU6050
 // 1 - BNO055
+
+//------------------SPEED-------------
+#define MIN_SPEED 40 // 0 - 255
+#define SPEED 150    // 0 - 255
+
+#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4 || DEBUG_MODE == 6 || DEBUG_MODE == 8)
+#define SPEED 0
+#endif
 
 //-----------------MPU6050----------------
 #define MPU_ADDRESS 0x68

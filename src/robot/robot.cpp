@@ -16,7 +16,9 @@ Robot::Robot(
     Regulator &angle_control,
     Regulator &distance_control,
     Camera cam,
-    bool debug)
+    bool debug,
+    int debug_mode,
+    int game_mode)
     : _gyro{gyro},
       _start_btn{start_btn},
       _set_btn{set_btn},
@@ -30,17 +32,21 @@ Robot::Robot(
       _angle_cont{angle_control},
       _distance_cont{distance_control},
       _cam{cam},
-      _debug{debug}
-{
-}
+      _debug{debug},
+      _debug_mode{debug_mode},
+      _game_mode{game_mode} {}
 
 void Robot::init()
 {
 
 #if DEBUG_MODE != 8 && DEBUG_MODE != 2 && DEBUG_MODE != 3
-    _ir.init();
-    _gyro.init(_signal);
+
 #endif
+    if (_debug && (_debug_mode != 2 && _debug_mode != 3 && _debug_mode != 8))
+    {
+        _ir.init();
+        _gyro.init(_signal);
+    }
 
     _start_btn.init();
     _set_btn.init();
@@ -57,10 +63,11 @@ void Robot::signal()
 
 void Robot::read_sensors()
 {
-#if DEBUG_MODE != 8 && DEBUG_MODE != 2 && DEBUG_MODE != 3
-    _gyro.read();
-    _ir.read();
-#endif
+    if (_debug && (_debug_mode != 2 && _debug_mode != 3 && _debug_mode != 8))
+    {
+        _gyro.read();
+        _ir.read();
+    }
 
     _start_btn.reset();
     _start_btn.read();
@@ -173,14 +180,23 @@ void Robot::set_angle(int new_angle)
 void Robot::set_speed(float linear_speed)
 {
     double _angular_speed;
-    if (_cam.sees_gates()) // ЕСЛИ ВИДИМ ВОРОТА
-    // if (true)
+    bool _cond{};
+
+    if (_game_mode == 0 || _game_mode == 1)
+    {
+        _cond = _cam.sees_gates();
+    }
+    else if (_game_mode == 2)
+    {
+        _cond = false;
+    }
+
+    if (_cond) // ЕСЛИ ВИДИМ ВОРОТА
     {
         _signal.off();
         _angular_speed = _cam_cont.get(_cam.error());
     }
-    // else if (!_cam.sees_gates()) // ЕСЛИ НЕ ВИДИМ
-    else 
+    else // ЕСЛИ НЕ ВИДИМ
     {
         _signal.on();
         _angular_speed = _gyro_cont.get(_gyro.yaw());
