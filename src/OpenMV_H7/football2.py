@@ -4,7 +4,7 @@ import pyb
 
 # --------------------FUNCTIONS-----------------------
 
-def setup_sensor(_pixformat, _framesize, _gain, _whitebal, _exposure):
+def setup_sensor(_pixformat, _framesize, _gain, _whitebal, _exposure, frame_width, frame_height):
     sensor.reset()
     sensor.set_pixformat(_pixformat)
     sensor.set_framesize(_framesize)
@@ -19,6 +19,8 @@ def setup_sensor(_pixformat, _framesize, _gain, _whitebal, _exposure):
     sensor.set_auto_gain(False, gain_db=_gain)
     sensor.set_auto_whitebal(False, rgb_gain_db=_whitebal)
     sensor.set_auto_exposure(False, exposure_us=_exposure)
+
+    sensor.set_windowing((frame_width, frame_height))
 
     sensor.skip_frames(time=100)
 
@@ -80,6 +82,10 @@ GAIN = 10
 WHITE = (-3, -4, -1)
 EXPOSURE = 7_000
 
+if FRAMESIZE == sensor.QVGA:
+    FRAME_WIDTH = 320
+FRAME_HEIGHT = 60
+
 YELLOW_THRESHOLD = [(50, 100, -29, 96, 45, 127)]
 BLUE_THRESHOLD = [(0, 70, -40, 0, -50, -10)]
 
@@ -91,7 +97,7 @@ uart = pyb.UART(3, 230400)
 
 
 # -----------------------MAIN CODE-----------------------
-setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE, EXPOSURE)
+setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE, EXPOSURE, FRAME_WIDTH, FRAME_HEIGHT)
 # test_connection(uart)
 
 while True:
