@@ -20,7 +20,6 @@ Robot robot{
     objects::controls::angle_cont,
     objects::controls::dist_cont,
     objects::camera,
-    DEBUG,
     DEBUG_MODE,
     GAME_MODE};
 
@@ -37,7 +36,7 @@ void setup()
     robot.signal();
 
 // 1. GYRO CALIBRATE
-#if DEBUG == false || (DEBUG_MODE == 0 || DEBUG_MODE == 5)
+#if DEBUG_MODE == 0 || DEBUG_MODE == 1 || DEBUG_MODE == 6
     Serial.println("Press A3 btn to start calibrating");
     robot.wait_for_btn(robot.start_btn(), []() {});
     robot.gyro()->calibrate(*(robot.signal_led()));
@@ -102,43 +101,41 @@ void loop()
         delay(100);
     }
 
-#if DEBUG == false
+#if DEBUG_MODE == 0
     robot.set_angle();
     robot.set_speed(SPEED);
     robot.move();
-#else
-#if DEBUG_MODE == 0
+#elif DEBUG_MODE == 1
     // robot.set_angle();
     robot.set_speed(SPEED);
     robot.move();
-#elif DEBUG_MODE == 1
-    robot.ir_seeker()->debug();
 #elif DEBUG_MODE == 2
+    robot.ir_seeker()->debug();
+#elif DEBUG_MODE == 3
     robot.motor_1()->run(255);
     robot.motor_2()->run(255);
     robot.motor_3()->run(255);
     robot.move();
-#elif DEBUG_MODE == 3
+#elif DEBUG_MODE == 4
     robot.set_angle(ANGLE);
     robot.set_speed(SPEED);
     robot.move();
-#elif DEBUG_MODE == 4
-    robot.camera()->debug();
 #elif DEBUG_MODE == 5
+    robot.camera()->debug();
+#elif DEBUG_MODE == 6
     robot.set_angle();
     robot.set_speed(SPEED);
     robot.move();
     robot.angle_control()->debug();
     robot.angle_control()->debug();
-#elif DEBUG_MODE == 6
-    // robot.start_btn()->debug();
 #elif DEBUG_MODE == 7
-    // robot.set_btn()->debug();
+    // robot.start_btn()->debug();
 #elif DEBUG_MODE == 8
+    // robot.set_btn()->debug();
+#elif DEBUG_MODE == 9
     robot.set_angle();
     robot.set_speed(SPEED);
     robot.move();
     robot.camera_control()->debug();
-#endif
 #endif
 }

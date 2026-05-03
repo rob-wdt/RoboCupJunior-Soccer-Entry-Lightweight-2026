@@ -25,7 +25,6 @@ public:
         Regulator &angle_control,
         Regulator &distance_control,
         Camera cam,
-        bool debug,
         int debug_mode,
         int game_mode);
 
@@ -71,7 +70,6 @@ private:
     float _angle{};
     // float _prev_angle{};
 
-    bool _debug{};
     int _debug_mode{};
     int _game_mode{};
 };

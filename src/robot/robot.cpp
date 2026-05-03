@@ -16,7 +16,6 @@ Robot::Robot(
     Regulator &angle_control,
     Regulator &distance_control,
     Camera cam,
-    bool debug,
     int debug_mode,
     int game_mode)
     : _gyro{gyro},
@@ -32,17 +31,12 @@ Robot::Robot(
       _angle_cont{angle_control},
       _distance_cont{distance_control},
       _cam{cam},
-      _debug{debug},
       _debug_mode{debug_mode},
       _game_mode{game_mode} {}
 
 void Robot::init()
 {
-
-#if DEBUG_MODE != 8 && DEBUG_MODE != 2 && DEBUG_MODE != 3
-
-#endif
-    if (_debug && (_debug_mode != 2 && _debug_mode != 3 && _debug_mode != 8))
+    if (_debug_mode != 3 && _debug_mode != 4 && _debug_mode != 9)
     {
         _ir.init();
         _gyro.init(_signal);
@@ -63,7 +57,7 @@ void Robot::signal()
 
 void Robot::read_sensors()
 {
-    if (_debug && (_debug_mode != 2 && _debug_mode != 3 && _debug_mode != 8))
+    if (_debug_mode != 3 && _debug_mode != 4 && _debug_mode != 9)
     {
         _gyro.read();
         _ir.read();
@@ -165,7 +159,7 @@ void Robot::set_angle()
         }
     }
 
-    if (_debug)
+    if (_debug_mode != 0)
     {
         Serial.print("Angle:\t");
         Serial.println(_angle);

@@ -3,26 +3,26 @@
 //---------------MATH-----------------
 #define E 2.71828
 
+//------------------------------------UI------------------------------
 //----------------ROBOT---------------
-#define DEBUG 0
 
-#define DEBUG_MODE 8
+#define DEBUG_MODE 0
 /*
-0 - Debug gyro (align on zero_angle)
-1 - Debug IR (print out the angle and strength)
-2 - Check motors
-3 - Drive on an angle (0, 60, 90 ...)
-4 - Debug camera
-5 - Debug exp coef
-6 - A3 Button debug
-7 - A5 Button debug
-8 - Debug camera align control
+0 - Normal mode
+1 - Debug gyro (align on zero_angle)
+2 - Debug IR (print out the angle and strength)
+3 - Check motors
+4 - Drive on an angle (0, 60, 90 ...)
+5 - Debug camera
+6 - Debug exp coef
+7 - A3 Button debug
+8 - A5 Button debug
+9 - Debug camera align control
 */
 
-#if DEBUG_MODE == 1
-#if DEBUG_MODE == 3
-#define ANGLE 0
-#endif
+//-------------ANGLE--------------
+#if DEBUG_MODE == 4
+#define ANGLE 90
 #endif
 
 #define GAME_MODE 0
@@ -38,14 +38,16 @@
 #define MIN_SPEED 40 // 0 - 255
 #define SPEED 150    // 0 - 255
 
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 4 || DEBUG_MODE == 6 || DEBUG_MODE == 8)
+#if DEBUG_MODE == 1 || DEBUG_MODE == 5 || DEBUG_MODE == 7 || DEBUG_MODE == 9
 #define SPEED 0
 #endif
+
+//-----------------------------------------------------------------------------------------------
 
 //-----------------MPU6050----------------
 #define MPU_ADDRESS 0x68
 
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 6 || DEBUG_MODE == 7)
+#if DEBUG_MODE == 1 || DEBUG_MODE == 7 || DEBUG_MODE == 8
 #define MPU_DEBUG true
 #else
 #define MPU_DEBUG false
@@ -55,7 +57,7 @@
 #define BNO_ID 55
 #define BNO_ADDRESS 0x29
 
-#if DEBUG == true && DEBUG_MODE == 0
+#if DEBUG_MODE == 1
 #define BNO_DEBUG true
 #else
 #define BNO_DEBUG false
@@ -71,7 +73,7 @@
 #define M1_PLUSMINUS_ANGULAR_SPEED 1
 #define M1_PLUSMINUS_COS 1
 
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 2 || DEBUG_MODE == 3 || DEBUG_MODE == 8)
+#if DEBUG_MODE == 1 || DEBUG_MODE == 3 || DEBUG_MODE == 4 || DEBUG_MODE == 9
 #define M1_DEBUG true
 #else
 #define M1_DEBUG false
@@ -86,7 +88,7 @@
 #define M2_PLUSMINUS_ANGULAR_SPEED 1
 #define M2_PLUSMINUS_COS 1
 
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 2 || DEBUG_MODE == 3 || DEBUG_MODE == 8)
+#if DEBUG_MODE == 1 || DEBUG_MODE == 3 || DEBUG_MODE == 4 || DEBUG_MODE == 9
 #define M2_DEBUG true
 #else
 #define M2_DEBUG false
@@ -101,7 +103,7 @@
 #define M3_PLUSMINUS_ANGULAR_SPEED 1
 #define M3_PLUSMINUS_COS -1
 
-#if DEBUG == true && (DEBUG_MODE == 0 || DEBUG_MODE == 2 || DEBUG_MODE == 3 || DEBUG_MODE == 8)
+#if DEBUG_MODE == 1 || DEBUG_MODE == 3 || DEBUG_MODE == 4 || DEBUG_MODE == 9
 #define M3_DEBUG true
 #else
 #define M3_DEBUG false
@@ -113,14 +115,14 @@
 #define MAX_STRENGTH 255
 #define MED_STRENGTH 90 // Расстояние на котором надо объезжать под большим углом
 
-#if DEBUG == true && DEBUG_MODE == 1
+#if DEBUG_MODE == 2
 #define IR_DEBUG true
 #else
 #define IR_DEBUG false
 #endif
 
 //--------------CAMERA---------------
-#if DEBUG == true && (DEBUG_MODE == 4 || DEBUG_MODE == 8)
+#if DEBUG_MODE == 5 || DEBUG_MODE == 9
 #define CAM_DEBUG true
 #else
 #define CAM_DEBUG false
@@ -132,7 +134,7 @@
 #define CAM_CONT_KD 0
 #define CAM_CONT_KC 0.000015
 
-#if DEBUG == true && DEBUG_MODE == 8
+#if DEBUG_MODE == 9
 #define CAM_CONT_DEBUG true
 #else
 #define CAM_CONT_DEBUG false
@@ -143,7 +145,7 @@
 #define GYRO_CONT_KD 0         // 0.1
 #define GYRO_CONT_KC (double)0 // 0.0005
 
-#if DEBUG == true && DEBUG_MODE == 0
+#if DEBUG_MODE == 1
 #define GYRO_CONT_DEBUG true
 #else
 #define GYRO_CONT_DEBUG false
@@ -153,7 +155,7 @@
 #define ANGLE_CONT_K1 0.45
 #define ANGLE_CONT_K2 0.03
 
-#if DEBUG == true && DEBUG_MODE == 5
+#if DEBUG_MODE == 6
 #define ANGLE_CONT_DEBUG true
 #else
 #define ANGLE_CONT_DEBUG false
@@ -163,7 +165,7 @@
 #define DIST_CONT_K1 0.35
 #define DIST_CONT_K2 0.7
 
-#if DEBUG == true && DEBUG_MODE == 5
+#if DEBUG_MODE == 6
 #define DIST_CONT_DEBUG true
 #else
 #define DIST_CONT_DEBUG false
@@ -173,7 +175,7 @@
 // Start button:
 #define START_BTN_PIN A3
 
-#if DEBUG == true && DEBUG_MODE == 6
+#if DEBUG_MODE == 7
 #define START_BTN_DEBUG true
 #else
 #define START_BTN_DEBUG false
@@ -182,7 +184,7 @@
 // Set button:
 #define SET_BTN_PIN A5
 
-#if DEBUG == true && DEBUG_MODE == 7
+#if DEBUG_MODE == 8
 #define SET_BTN_DEBUG true
 #else
 #define SET_BTN_DEBUG false
