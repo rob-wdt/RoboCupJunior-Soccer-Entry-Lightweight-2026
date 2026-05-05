@@ -6,9 +6,9 @@
 //------------------------------------UI------------------------------
 //----------------ROBOT---------------
 
-#define DEBUG_MODE 0
+#define DEBUG_MODE 2
 /*
-0 - Normal mode
+0 - Normal mode with no debug
 1 - Debug gyro (align on zero_angle)
 2 - Debug IR (print out the angle and strength)
 3 - Check motors
@@ -25,7 +25,7 @@
 #define ANGLE 90
 #endif
 
-#define GAME_MODE 0
+#define GAME_MODE 1
 // 0 - Normal mode
 // 1 - Only cam
 // 2 - Only gyro
@@ -130,9 +130,9 @@
 
 //-------------CONTROL------------
 // Camera:
-#define CAM_CONT_KP 1.5
+#define CAM_CONT_KP 0.1
 #define CAM_CONT_KD 0
-#define CAM_CONT_KC 0.000015
+#define CAM_CONT_KC 0
 
 #if DEBUG_MODE == 9
 #define CAM_CONT_DEBUG true

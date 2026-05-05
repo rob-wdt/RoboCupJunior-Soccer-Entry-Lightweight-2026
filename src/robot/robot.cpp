@@ -36,7 +36,7 @@ Robot::Robot(
 
 void Robot::init()
 {
-    if (_debug_mode != 3 && _debug_mode != 4 && _debug_mode != 9)
+    if (_game_mode != 1 && _debug_mode != 3 && _debug_mode != 4 && _debug_mode != 5 && _debug_mode != 9)
     {
         _ir.init();
         _gyro.init(_signal);
@@ -57,7 +57,7 @@ void Robot::signal()
 
 void Robot::read_sensors()
 {
-    if (_debug_mode != 3 && _debug_mode != 4 && _debug_mode != 9)
+    if (_game_mode != 1 && _debug_mode != 3 && _debug_mode != 4 && _debug_mode != 5 && _debug_mode != 9)
     {
         _gyro.read();
         _ir.read();
@@ -193,7 +193,13 @@ void Robot::set_speed(float linear_speed)
     else // ЕСЛИ НЕ ВИДИМ
     {
         _signal.on();
+        
         _angular_speed = _gyro_cont.get(_gyro.yaw());
+        
+        if (_game_mode == 1)
+        {
+            _angular_speed = _cam_cont.get(_cam.error());
+        }
     }
 
     _m1.set_velocity(linear_speed, _angle, _angular_speed);

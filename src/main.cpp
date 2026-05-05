@@ -36,7 +36,7 @@ void setup()
     robot.signal();
 
 // 1. GYRO CALIBRATE
-#if DEBUG_MODE == 0 || DEBUG_MODE == 1 || DEBUG_MODE == 6
+#if (DEBUG_MODE == 0 || DEBUG_MODE == 1 || DEBUG_MODE == 6) && GAME_MODE != 1
     Serial.println("Press A3 btn to start calibrating");
     robot.wait_for_btn(robot.start_btn(), []() {});
     robot.gyro()->calibrate(*(robot.signal_led()));
@@ -121,6 +121,7 @@ void loop()
     robot.set_speed(SPEED);
     robot.move();
 #elif DEBUG_MODE == 5
+    robot.set_speed(SPEED);
     robot.camera()->debug();
 #elif DEBUG_MODE == 6
     robot.set_angle();
