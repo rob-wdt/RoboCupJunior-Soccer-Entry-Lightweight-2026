@@ -36,7 +36,7 @@
 
 //------------------SPEED-------------
 #define MIN_SPEED 40 // 0 - 255
-#define SPEED 150    // 0 - 255
+#define SPEED 180    // 0 - 255
 
 #if DEBUG_MODE == 1 || DEBUG_MODE == 5 || DEBUG_MODE == 7 || DEBUG_MODE == 9
 #define SPEED 0
@@ -141,7 +141,7 @@
 #endif
 
 // Gyro:
-#define GYRO_CONT_KP 1.5
+#define GYRO_CONT_KP 2.0
 #define GYRO_CONT_KD 0         // 0.1
 #define GYRO_CONT_KC (double)0 // 0.0005
 

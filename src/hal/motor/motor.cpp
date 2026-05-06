@@ -47,6 +47,11 @@ void Motor::set_velocity(double linear_speed, double angle, double angular_speed
     float _move_speed{(double)_cos_coef * linear_speed * cos(_location_angle / 2 * DEG_TO_RAD + _angle_coef * angle * DEG_TO_RAD)};
     float _angular_speed{(double)_angle_speed_coef * angular_speed};
 
+    if (_move_speed + _angular_speed > 255)
+    {
+        _move_speed = 255 - _angular_speed;
+    }
+
     _rotation_speed = _direction * round(_move_speed + _angular_speed);
 
     _rotation_speed = _protect_speed(_rotation_speed, _min_speed);
