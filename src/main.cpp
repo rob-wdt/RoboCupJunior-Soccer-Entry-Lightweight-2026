@@ -7,7 +7,7 @@
 #include ".\robot\objects.h"
 
 Robot robot{
-    objects::bno,
+    objects::gyro,
     objects::start_btn,
     objects::set_btn,
     objects::signal,

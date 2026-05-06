@@ -6,7 +6,7 @@
 //------------------------------------UI------------------------------
 //----------------ROBOT---------------
 
-#define DEBUG_MODE 2
+#define DEBUG_MODE 0
 /*
 0 - Normal mode with no debug
 1 - Debug gyro (align on zero_angle)
@@ -25,12 +25,12 @@
 #define ANGLE 90
 #endif
 
-#define GAME_MODE 1
-// 0 - Normal mode
-// 1 - Only cam
-// 2 - Only gyro
+#define GAME_MODE 2
+// 0 - Normal mode (both cam and gyro)
+// 1 - Cam only
+// 2 - Gyro only
 
-#define GYRO_TYPE 1
+#define GYRO_TYPE 0
 // 0 - MPU6050
 // 1 - BNO055
 

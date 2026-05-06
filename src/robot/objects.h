@@ -22,8 +22,11 @@
 
 namespace objects
 {
-    Mpu6050 mpu{MPU_ADDRESS, MPU_DEBUG};
-    Bno055 bno{BNO_ID, BNO_ADDRESS, BNO_DEBUG};
+#if GYRO_TYPE == 0
+    Mpu6050 gyro{MPU_ADDRESS, MPU_DEBUG};
+#elif GYRO_TYPE = 1
+    Bno055 gyro{BNO_ID, BNO_ADDRESS, BNO_DEBUG};
+#endif
 
     Motor motor_1{
         M1_ANGLE,
