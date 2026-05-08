@@ -42,8 +42,7 @@ def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
                 _h = i.h()
 
         # Draw rectangle
-        draw(_img, "RECTANGLE", _x, _y,
-             _x + _w, _y + _h)
+        draw(_img, "RECTANGLE", _x, _y, _x + _w, _y + _h)
     else:
         _gates_x = None
 
@@ -74,22 +73,23 @@ def draw(_img, _what, _x_min, _y_min, _x_max, _y_max):
 
 
 # -----------------------CONSTS--------------------
-GATES = "YELLOW"
+GATES = "BLUE"
 
 PIXFORMAT = sensor.RGB565
 FRAMESIZE = sensor.QVGA
-GAIN = 10
-WHITE = (-3, -4, -1)
-EXPOSURE = 7_000
+GAIN = 30
+WHITE = (70, 70, 70)
+EXPOSURE = 50_000
 
+FRAME_WIDTH = sensor.width()
 if FRAMESIZE == sensor.QVGA:
     FRAME_WIDTH = 320
 FRAME_HEIGHT = 60
 
-YELLOW_THRESHOLD = [(50, 100, -29, 96, 45, 127)]
-BLUE_THRESHOLD = [(0, 70, -40, 0, -50, -10)]
+YELLOW_THRESHOLD = [(0, 100, -20, 127, 32, 127)]
+BLUE_THRESHOLD = [(0, 100, -128, -33, -128, 18)]
 
-CAM_CENTER = (sensor.width() // 2, sensor.height() // 2)
+CAM_CENTER = (FRAME_WIDTH // 2, FRAME_HEIGHT // 2)
 
 # ---------------------VARIABLES----------------------
 uart = pyb.UART(3, 230400)
@@ -97,13 +97,13 @@ uart = pyb.UART(3, 230400)
 
 
 # -----------------------MAIN CODE-----------------------
-setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE, EXPOSURE, FRAME_WIDTH, FRAME_HEIGHT)
+setup_sensor(PIXFORMAT, FRAMESIZE, GAIN, WHITE,
+             EXPOSURE, FRAME_WIDTH, FRAME_HEIGHT)
 # test_connection(uart)
 
 while True:
     img = sensor.snapshot()
-    draw(img, "CROSS", CAM_CENTER[0],
-         CAM_CENTER[1], CAM_CENTER[0], CAM_CENTER[1])
+    # draw(img, "CROSS", CAM_CENTER[0], CAM_CENTER[1], CAM_CENTER[0], CAM_CENTER[1])
 
     if GATES == "BLUE":
         gates_x = find_gates(img, BLUE_THRESHOLD)
