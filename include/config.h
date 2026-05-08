@@ -111,7 +111,7 @@
 
 //---------------IR-------------------
 #define IR_PIN A14
-#define MIN_STRENGTH 30
+#define MIN_STRENGTH 0
 #define MAX_STRENGTH 255
 #define MED_STRENGTH 90 // Расстояние на котором надо объезжать под большим углом
 

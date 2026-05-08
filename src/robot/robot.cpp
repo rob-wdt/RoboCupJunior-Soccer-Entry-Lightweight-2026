@@ -147,7 +147,7 @@ void Robot::set_angle()
             _angle = 90;
         }
     }
-    else if (abs(_angle) >= 90)
+    else if (abs(_angle) >= 90 || _ir.strength() == 0)
     {
         if (_angle < 0)
         {

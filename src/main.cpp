@@ -56,8 +56,7 @@ void setup()
     // WAIT FOR BTN TO START THE PROGRAM
     Serial.println("Press A3 btn to start the main code");
     robot.wait_for_btn(robot.start_btn(), []() {});
-
-    delay(1000);
+    delay(500);
 }
 
 void loop()
@@ -77,7 +76,11 @@ void loop()
         Serial.print("Zero angle set:\t");
         Serial.println(robot.gyro()->zero_angle());
         robot.signal();
-        delay(100);
+
+        // WAIT FOR BTN TO START THE PROGRAM
+        Serial.println("Press A3 btn to start the main code");
+        robot.wait_for_btn(robot.start_btn(), []() {});
+        delay(500);
     }
 
     if (robot.start_btn()->is_pressed())
@@ -98,7 +101,11 @@ void loop()
         Serial.print("Zero angle set:\t");
         Serial.println(robot.gyro()->zero_angle());
         robot.signal();
-        delay(100);
+
+        // WAIT FOR BTN TO START THE PROGRAM
+        Serial.println("Press A3 btn to start the main code");
+        robot.wait_for_btn(robot.start_btn(), []() {});
+        delay(500);
     }
 
 #if DEBUG_MODE == 0
