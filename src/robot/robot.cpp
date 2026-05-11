@@ -38,9 +38,10 @@ void Robot::init()
 {
     if (_game_mode != 1 && _debug_mode != 3 && _debug_mode != 4 && _debug_mode != 5 && _debug_mode != 9)
     {
-        _ir.init();
         _gyro.init(_signal);
     }
+
+    _ir.init();
 
     _start_btn.init();
     _set_btn.init();
@@ -60,8 +61,9 @@ void Robot::read_sensors()
     if (_game_mode != 1 && _debug_mode != 3 && _debug_mode != 4 && _debug_mode != 5 && _debug_mode != 9)
     {
         _gyro.read();
-        _ir.read();
     }
+
+    _ir.read();
 
     _start_btn.reset();
     _start_btn.read();
@@ -133,10 +135,15 @@ void Robot::set_angle()
     //     }
     // }
 
+    // if (_ir.object_is_far())
+    // {
+    //     _angle = _ir.angle();
+    // }
+
     //------------------------ВСЕГДА СТАРАЕМСЯ ДЕРЖАТЬ МЯЧ СПЕРЕДИ----------------------
     _angle = _ir.angle();
 
-    if (abs(_angle) < 90) // если мяч спереди
+    if (!_ir.object_is_behind()) // если мяч спереди
     {
         if (_angle < 0)
         {
@@ -147,7 +154,7 @@ void Robot::set_angle()
             _angle = 90;
         }
     }
-    else if (abs(_angle) >= 90 || _ir.strength() == 0)
+    else if (_ir.object_is_behind() || _ir.strength() == 0)
     {
         if (_angle < 0)
         {
@@ -157,6 +164,11 @@ void Robot::set_angle()
         {
             _angle = 180;
         }
+    }
+
+    if (_ir.object_is_far())
+    {
+        _angle = _ir.angle();
     }
 
     if (_debug_mode != 0)
@@ -174,32 +186,37 @@ void Robot::set_angle(int new_angle)
 void Robot::set_speed(float linear_speed)
 {
     double _angular_speed;
-    bool _cond{};
 
-    if (_game_mode == 0 || _game_mode == 1)
+    if (_game_mode == 0)
     {
-        _cond = _cam.sees_gates();
-    }
-    else if (_game_mode == 2)
-    {
-        _cond = false;
-    }
-
-    if (_cond) // ЕСЛИ ВИДИМ ВОРОТА
-    {
-        _signal.off();
-        _angular_speed = _cam_cont.get(_cam.error());
-    }
-    else // ЕСЛИ НЕ ВИДИМ
-    {
-        _signal.on();
-        
-        _angular_speed = _gyro_cont.get(_gyro.yaw());
-        
-        if (_game_mode == 1)
+        if (!_cam.sees_gates())
+        {
+            _angular_speed = _gyro_cont.get(_gyro.yaw());
+        }
+        else
         {
             _angular_speed = _cam_cont.get(_cam.error());
         }
+    }
+
+    else if (_game_mode == 1)
+    {
+        if (_cam.sees_gates())
+        {
+            _signal.off();
+        }
+        else
+        {
+            _signal.on();
+        }
+
+        _angular_speed = _cam_cont.get(_cam.error());
+    }
+
+    else if (_game_mode == 2)
+    {
+        _signal.on();
+        _angular_speed = _gyro_cont.get(_gyro.yaw());
     }
 
     _m1.set_velocity(linear_speed, _angle, _angular_speed);

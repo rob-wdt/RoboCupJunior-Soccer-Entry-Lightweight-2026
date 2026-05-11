@@ -13,5 +13,7 @@ public:
 private:
     signed char _error;
 
+    const double _k_error{0.9};
+
     bool _debug{};
 };

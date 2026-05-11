@@ -16,13 +16,13 @@ def setup_sensor(_pixformat, _framesize, _gain, _whitebal, _exposure, frame_widt
 
     sensor.set_pixformat(_pixformat)
     sensor.set_framesize(_framesize)
-    sensor.set_auto_gain(False, gain_db=_gain)
+    # sensor.set_auto_gain(False, gain_db=_gain)
     sensor.set_auto_whitebal(False, rgb_gain_db=_whitebal)
-    sensor.set_auto_exposure(False, exposure_us=_exposure)
+    # sensor.set_auto_exposure(False, exposure_us=_exposure)
 
     sensor.set_windowing((frame_width, frame_height))
 
-    sensor.skip_frames(time=100)
+    # sensor.skip_frames(time=100)
 
 
 def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
@@ -73,20 +73,20 @@ def draw(_img, _what, _x_min, _y_min, _x_max, _y_max):
 
 
 # -----------------------CONSTS--------------------
-GATES = "BLUE"
+GATES = "YELLOW"
 
 PIXFORMAT = sensor.RGB565
 FRAMESIZE = sensor.QVGA
-GAIN = 30
-WHITE = (70, 70, 70)
-EXPOSURE = 50_000
+GAIN = 1
+WHITE = (70, 65, 67)
+EXPOSURE = 1000
 
 FRAME_WIDTH = sensor.width()
 if FRAMESIZE == sensor.QVGA:
     FRAME_WIDTH = 320
 FRAME_HEIGHT = 60
 
-YELLOW_THRESHOLD = [(0, 100, -20, 127, 32, 127)]
+YELLOW_THRESHOLD = [(0, 100, -42, 127, 44, 127)]
 BLUE_THRESHOLD = [(0, 100, -128, -33, -128, 18)]
 
 CAM_CENTER = (FRAME_WIDTH // 2, FRAME_HEIGHT // 2)

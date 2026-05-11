@@ -47,6 +47,8 @@ void Camera::read()
             Serial.println(_error);
         }
     }
+
+    _error *= _k_error;
 }
 
 signed char Camera::error()

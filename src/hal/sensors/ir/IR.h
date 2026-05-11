@@ -7,10 +7,9 @@ public:
     IR(int pin, int min_strength, int max_strength, int medium_strength, bool debug = false);
     void init() noexcept;
     void read();
+    bool object_is_far() const noexcept;
+    bool object_is_behind() const noexcept;
     float angle() const noexcept;
-    int min_strength() const noexcept;
-    int max_strength() const noexcept;
-    int med_strength() const noexcept;
     float strength() const noexcept; // если больше 180, мяч у нас
     void debug() const noexcept;
 

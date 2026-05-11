@@ -25,7 +25,7 @@
 #define ANGLE 90
 #endif
 
-#define GAME_MODE 2
+#define GAME_MODE 0
 // 0 - Normal mode (both cam and gyro)
 // 1 - Cam only
 // 2 - Gyro only
@@ -111,7 +111,7 @@
 
 //---------------IR-------------------
 #define IR_PIN A14
-#define MIN_STRENGTH 0
+#define MIN_STRENGTH 30
 #define MAX_STRENGTH 255
 #define MED_STRENGTH 90 // Расстояние на котором надо объезжать под большим углом
 
