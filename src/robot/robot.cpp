@@ -143,7 +143,7 @@ void Robot::set_angle()
     //------------------------ВСЕГДА СТАРАЕМСЯ ДЕРЖАТЬ МЯЧ СПЕРЕДИ----------------------
     _angle = _ir.angle();
 
-    if (!_ir.object_is_behind()) // если мяч спереди
+    if (!_ir.object_is_behind() && _ir.angle() != 0)
     {
         if (_angle < 0)
         {
@@ -154,19 +154,11 @@ void Robot::set_angle()
             _angle = 90;
         }
     }
-    else if (_ir.object_is_behind() || _ir.strength() == 0)
+    else if (_ir.object_is_behind())
     {
-        if (_angle < 0)
-        {
-            _angle = -180;
-        }
-        else if (_angle > 0)
-        {
-            _angle = 180;
-        }
+        _angle = 180;
     }
-
-    if (_ir.object_is_far())
+    else
     {
         _angle = _ir.angle();
     }
@@ -189,13 +181,16 @@ void Robot::set_speed(float linear_speed)
 
     if (_game_mode == 0)
     {
-        if (!_cam.sees_gates())
+        double _gyro_angl_speed{_gyro_cont.get(_gyro.yaw())};
+        double _cam_angl_speed{_cam_cont.get(_cam.error())};
+
+        if (abs(_cam_angl_speed) + 10 < _gyro_angl_speed - 10)  // ищем меньшую ошибку
         {
-            _angular_speed = _gyro_cont.get(_gyro.yaw());
+            _angular_speed = _cam_angl_speed;
         }
         else
         {
-            _angular_speed = _cam_cont.get(_cam.error());
+            _angular_speed = _gyro_angl_speed;
         }
     }
 

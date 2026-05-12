@@ -50,12 +50,12 @@ void IR::read()
 
 bool IR::object_is_far() const noexcept
 {
-    if (_strength < _med_strength)
+    if (_strength < _max_strength)
     {
         return true;
     }
 
-    else if (_strength >= _med_strength)
+    else if (_strength >= _max_strength)
     {
         return false;
     }
