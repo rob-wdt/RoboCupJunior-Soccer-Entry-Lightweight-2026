@@ -25,7 +25,7 @@
 #define ANGLE 90
 #endif
 
-#define GAME_MODE 2
+#define GAME_MODE 0
 // 0 - Normal mode (both cam and gyro)
 // 1 - Cam only
 // 2 - Gyro only
@@ -36,7 +36,7 @@
 
 //------------------SPEED-------------
 #define MIN_SPEED 40 // 0 - 255
-#define SPEED 180    // 0 - 255
+#define SPEED 190    // 0 - 255
 
 #if DEBUG_MODE == 1 || DEBUG_MODE == 5 || DEBUG_MODE == 7 || DEBUG_MODE == 9
 #define SPEED 0
@@ -130,7 +130,7 @@
 
 //-------------CONTROL------------
 // Camera:
-#define CAM_CONT_KP 0.1
+#define CAM_CONT_KP 0.15
 #define CAM_CONT_KD 0
 #define CAM_CONT_KC 0
 

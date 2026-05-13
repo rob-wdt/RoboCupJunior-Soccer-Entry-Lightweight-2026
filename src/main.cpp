@@ -56,7 +56,7 @@ void setup()
     // WAIT FOR BTN TO START THE PROGRAM
     Serial.println("Press A3 btn to start the main code");
     robot.wait_for_btn(robot.start_btn(), []() {});
-    delay(500);
+    delay(200);
 }
 
 void loop()
@@ -80,7 +80,7 @@ void loop()
         // WAIT FOR BTN TO START THE PROGRAM
         Serial.println("Press A3 btn to start the main code");
         robot.wait_for_btn(robot.start_btn(), []() {});
-        delay(500);
+        delay(200);
     }
 
     if (robot.start_btn()->is_pressed())
@@ -105,7 +105,7 @@ void loop()
         // WAIT FOR BTN TO START THE PROGRAM
         Serial.println("Press A3 btn to start the main code");
         robot.wait_for_btn(robot.start_btn(), []() {});
-        delay(500);
+        delay(200);
     }
 
 #if DEBUG_MODE == 0
