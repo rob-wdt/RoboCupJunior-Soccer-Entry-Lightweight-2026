@@ -72,6 +72,8 @@ void Robot::read_sensors()
     _set_btn.read();
 
     _cam.read();
+
+    update_state();
 }
 
 void Robot::wait_for_btn(Button *btn, void (*to_do)())
@@ -84,6 +86,19 @@ void Robot::wait_for_btn(Button *btn, void (*to_do)())
     }
     btn->reset();
     delay(100);
+}
+
+void Robot::update_state()
+{
+    if (!_ir.object_is_far())
+    {
+        _state = 1; // мяч у нас
+    }
+
+    else
+    {
+        _state = 0;
+    }
 }
 
 void Robot::set_angle()
@@ -141,26 +156,34 @@ void Robot::set_angle()
     // }
 
     //------------------------ВСЕГДА СТАРАЕМСЯ ДЕРЖАТЬ МЯЧ СПЕРЕДИ----------------------
-    _angle = _ir.angle();
-
-    if (!_ir.object_is_behind() && _ir.angle() != 0)
-    {
-        if (_angle < 0)
-        {
-            _angle = -90;
-        }
-        else if (_angle > 0)
-        {
-            _angle = 90;
-        }
-    }
-    else if (_ir.object_is_behind())
-    {
-        _angle = 180;
-    }
-    else
+    if (_state == 0)
     {
         _angle = _ir.angle();
+
+        if (!_ir.object_is_behind() && _ir.angle() != 0)
+        {
+            if (_angle < 0)
+            {
+                _angle = -120;
+            }
+            else if (_angle > 0)
+            {
+                _angle = 120;
+            }
+        }
+        else if (_ir.object_is_behind())
+        {
+            _angle = 180;
+        }
+        else
+        {
+            _angle = _ir.angle();
+        }
+    }
+
+    else if (_state == 1)
+    {
+        _angle = 0;
     }
 
     if (_debug_mode != 0)
@@ -181,17 +204,11 @@ void Robot::set_speed(float linear_speed)
 
     if (_game_mode == 0)
     {
-        double _gyro_angl_speed{_gyro_cont.get(_gyro.yaw())};
-        double _cam_angl_speed{_cam_cont.get(_cam.error())};
-
-        if (abs(_cam_angl_speed) + 10 < _gyro_angl_speed - 10)  // ищем меньшую ошибку
-        {
-            _angular_speed = _cam_angl_speed;
-        }
-        else
-        {
-            _angular_speed = _gyro_angl_speed;
-        }
+        double _cam_error{_cam.error()};
+        _angular_speed = _cam_cont.get(_cam_error);
+        _m1.set_velocity(linear_speed, _angle, _angular_speed);
+        _m2.set_velocity(linear_speed, _angle, _angular_speed);
+        _m3.set_velocity(linear_speed, _angle, _angular_speed);
     }
 
     else if (_game_mode == 1)
@@ -206,17 +223,21 @@ void Robot::set_speed(float linear_speed)
         }
 
         _angular_speed = _cam_cont.get(_cam.error());
+
+        _m1.set_velocity(linear_speed, _angle, _angular_speed);
+        _m2.set_velocity(linear_speed, _angle, _angular_speed);
+        _m3.set_velocity(linear_speed, _angle, _angular_speed);
     }
 
     else if (_game_mode == 2)
     {
         _signal.on();
         _angular_speed = _gyro_cont.get(_gyro.yaw());
-    }
 
-    _m1.set_velocity(linear_speed, _angle, _angular_speed);
-    _m2.set_velocity(linear_speed, _angle, _angular_speed);
-    _m3.set_velocity(linear_speed, _angle, _angular_speed);
+        _m1.set_velocity(linear_speed, _angle, _angular_speed);
+        _m2.set_velocity(linear_speed, _angle, _angular_speed);
+        _m3.set_velocity(linear_speed, _angle, _angular_speed);
+    }
 }
 
 void Robot::move()

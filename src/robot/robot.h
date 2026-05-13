@@ -32,6 +32,7 @@ public:
     void signal();
     void read_sensors();
     void wait_for_btn(Button *btn, void (*to_do)());
+    void update_state();
     void set_angle();
     void set_angle(int new_angle);
     void set_speed(float linear_speed);
@@ -67,6 +68,8 @@ private:
     Regulator &_distance_cont;
     Camera _cam;
 
+    unsigned char _state{};
+    
     float _angle{};
     // float _prev_angle{};
 

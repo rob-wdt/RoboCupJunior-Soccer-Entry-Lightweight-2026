@@ -35,7 +35,7 @@ def find_gates(_img, _threshold, _area=0, _prev_area=0, _gates_x=0):
                 _prev_area = _area
 
                 # Get x coordinate of the gates
-                _gates_x = i.cx()
+                _gates_x = i.cy()
                 _x = i.x()
                 _y = i.y()
                 _w = i.w()
@@ -81,15 +81,15 @@ GAIN = 1
 WHITE = (70, 65, 67)
 EXPOSURE = 1000
 
-FRAME_WIDTH = sensor.width()
+FRAME_WIDTH = sensor.height()
 if FRAMESIZE == sensor.QVGA:
-    FRAME_WIDTH = 320
-FRAME_HEIGHT = 60
+    FRAME_WIDTH = 60
+FRAME_HEIGHT = 320
 
 YELLOW_THRESHOLD = [(0, 100, -42, 127, 44, 127)]
 BLUE_THRESHOLD = [(0, 100, -128, -33, -128, 18)]
 
-CAM_CENTER = (FRAME_WIDTH // 2, FRAME_HEIGHT // 2)
+CAM_CENTER = (FRAME_HEIGHT // 2, FRAME_WIDTH // 2)
 
 # ---------------------VARIABLES----------------------
 uart = pyb.UART(3, 230400)
@@ -120,4 +120,4 @@ while True:
         elif error > 127:
             error = 127
 
-        send(uart, error)
+        send(uart, -error)
